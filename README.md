@@ -1,6 +1,6 @@
-# my_app
+# Lemon_Maze
 
-A new Flutter project.
+Projet en Cours (non fini)
 
 ## Getting Started
 
