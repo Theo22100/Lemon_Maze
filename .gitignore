@@ -44,4 +44,7 @@ app.*.map.json
 
 #IPv4
 /lib/modules/http.dart
+/lib/modules/config.env
+#Database
+/server/config/default.json
 

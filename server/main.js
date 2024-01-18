@@ -1,9 +1,12 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
+const cors = require("cors");  // Ajout de la ligne pour utiliser le middleware CORS
+const config = require('config');
 
 let db = null;
 const app = express();
 
+app.use(cors());  // Utilisation du middleware CORS
 app.use(express.json());
 
 
@@ -36,12 +39,12 @@ async function main() {
   try {
     // Créer une connexion à la base de données MySQL
     db = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "root",
-      database: "lemonmaze",
-      charset: "utf8mb4_general_ci",
-      port: 3309,
+      host: config.get('db.host'),
+      user: config.get('db.user'),
+      password: config.get('db.password'),
+      database: config.get('db.database'),
+      charset: config.get('db.charset'),
+      port: config.get('db.port'),
     });
 
     // Tester si la connexion est réussie

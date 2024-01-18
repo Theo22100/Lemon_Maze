@@ -37,6 +37,7 @@ class MainPageState extends State<MainPage> {
           users.add(User(in_user['id'].toString(), in_user['name']));
         });
       });
+      print(users)
     }
   }
 
