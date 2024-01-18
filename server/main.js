@@ -12,9 +12,7 @@ app.post('/create-user', async(req, res, next)=>{
     const name = req.body.name;
     await db.query("INSERT INTO users (name) VALUES (?);", [name]);
     res.json({ status: "OK" });
-    console.log("user reussi");
   } catch (error) {
-    console.log("user pas reussi");
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -28,6 +26,10 @@ app.get('/users', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the API!' });
 });
 
 async function main() {
@@ -50,12 +52,11 @@ async function main() {
     app.listen(8000);
     console.log("Serveur démarré sur le port 8000");
   } catch (error) {
-    // En cas d'erreur, afficher un message dans la console, renvoyer une réponse d'erreur
-    // et définir le statut HTTP sur 500 (Internal Server Error)
+    // En cas d'erreur
     console.log("Échec de la connexion à la base de données");
     console.error(error);
 
-    // Arrêter le processus (facultatif, dépend de votre scénario)
+    // Arrêter le processus
     process.exit(1);
   }
 }
