@@ -30,17 +30,35 @@ app.get('/users', async (req, res) => {
   }
 });
 
-async function main(){
-  db = await mysql.createConnection({
-    host:"localhost",
-    user: "root",
-    password: "root",
-    database: "lemonmaze",
-    charset: "utf8mb4_general_ci",
-    port: 3309,
-  });
+async function main() {
+  try {
+    // Créer une connexion à la base de données MySQL
+    db = await mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "root",
+      database: "lemonmaze",
+      charset: "utf8mb4_general_ci",
+      port: 3309,
+    });
 
-  app.listen(8000);
+    // Tester si la connexion est réussie
+    await db.query("SELECT 1");
+    console.log("Connexion à la base de données réussie");
+
+    // Démarrer le serveur
+    app.listen(8000);
+    console.log("Serveur démarré sur le port 8000");
+  } catch (error) {
+    // En cas d'erreur, afficher un message dans la console, renvoyer une réponse d'erreur
+    // et définir le statut HTTP sur 500 (Internal Server Error)
+    console.log("Échec de la connexion à la base de données");
+    console.error(error);
+
+    // Arrêter le processus (facultatif, dépend de votre scénario)
+    process.exit(1);
+  }
 }
 
+// Appeler la fonction principale pour démarrer le serveur
 main();
