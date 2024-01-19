@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");  // Pour connecter les différents domaines
 const config = require('config');
+const crypto = require('crypto');
 
 let db = null;
 const app = express();
@@ -13,20 +14,28 @@ app.post('/login', async (req, res) => {
   try {
     const pseudo = req.body.pseudo;
     const password = req.body.password;
+    console.log(pseudo);
+    console.log(password);
 
     // Recherchez l'utilisateur dans la base de données par pseudo
     const user = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
+    console.log(user);
 
     if (user.length === 0) {
       res.status(401).json({ error: "Utilisateur non trouvé." });
       return;
+    }else{
+      console.log("on a réussi")
     }
 
     // Comparez le mot de passe haché stocké avec le mot de passe fourni
     const hashedPassword = hashPassword(password);
     if (user[0].password !== hashedPassword) {
       res.status(401).json({ error: "Mot de passe incorrect." });
+      console.log("mauvais mdp")
       return;
+    }else{
+      console.log("bon mdp")
     }
 
     res.json({ status: "OK" });

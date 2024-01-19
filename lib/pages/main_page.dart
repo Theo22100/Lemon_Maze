@@ -5,6 +5,8 @@ import 'package:my_app/pages/register_page.dart';
 
 // Classe représentant la page principale
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return MainPageState();
@@ -38,16 +40,16 @@ class MainPageState extends State<MainPage> {
       // Si la requête est réussie, mettre à jour l'état pour refléter la nouvelle liste d'utilisateurs
       setState(() {
         users.clear();
-        var in_users = result.data as List<dynamic>;
-        in_users.forEach((in_user) {
+        var inUsers = result.data as List<dynamic>;
+        for (var inUser in inUsers) {
           users.add(User(
-              in_user['id'].toString(),
-              in_user['pseudo'],
-              in_user['mail'],
-              in_user['name'],
-              in_user['surname'],
-              in_user['password']));
-        });
+              inUser['id'].toString(),
+              inUser['pseudo'],
+              inUser['mail'],
+              inUser['name'],
+              inUser['surname'],
+              inUser['password']));
+        }
 
         print("Users updated: $users");
       });
@@ -62,29 +64,29 @@ class MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Users"),
+        title: const Text("Users"),
         actions: <Widget>[
           // Bouton de rafraîchissement des utilisateurs
           IconButton(
-            icon: Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh),
             onPressed: refreshUsers,
           ),
           // Bouton d'ajout d'utilisateur
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               // Naviguer vers la page d'ajout d'utilisateur
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return AddUserPage();
+                return const AddUserPage();
               }));
             },
           ),
           IconButton(
-            icon: Icon(Icons.login),
+            icon: const Icon(Icons.login),
             onPressed: () {
               // Naviguer vers la page d'ajout d'utilisateur
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return LoginPage();
+                return const LoginPage();
               }));
             },
           ),
@@ -97,11 +99,11 @@ class MainPageState extends State<MainPage> {
         child: ListView.separated(
           itemCount: users.length,
           itemBuilder: (context, i) => ListTile(
-            leading: Icon(Icons.person),
+            leading: const Icon(Icons.person),
             title: Text(
                 "${users[i].pseudo} ${users[i].mail} ${users[i].name} ${users[i].surname} ${users[i].password}"),
           ),
-          separatorBuilder: (context, i) => Divider(),
+          separatorBuilder: (context, i) => const Divider(),
         ),
       ),
     );
@@ -110,7 +112,7 @@ class MainPageState extends State<MainPage> {
 
 // Fonction Flutter
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: MainPage(),
   ));
 }

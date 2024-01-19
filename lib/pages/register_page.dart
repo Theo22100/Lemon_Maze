@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 
 class AddUserPage extends StatefulWidget {
+  const AddUserPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return AddUserPageState();
@@ -63,33 +65,33 @@ class AddUserPageState extends State<AddUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Inscription"),
+        title: const Text("Inscription"),
       ),
       body: Column(
         children: <Widget>[
           TextField(
             controller: pseudoController,
-            decoration: InputDecoration(hintText: "Pseudo"),
+            decoration: const InputDecoration(hintText: "Pseudo"),
           ),
           TextField(
             controller: mailController,
-            decoration: InputDecoration(hintText: "Mail"),
+            decoration: const InputDecoration(hintText: "Mail"),
           ),
           TextField(
             controller: surnameController,
-            decoration: InputDecoration(hintText: "Prénom"),
+            decoration: const InputDecoration(hintText: "Prénom"),
           ),
           TextField(
             controller: nameController,
-            decoration: InputDecoration(hintText: "Nom"),
+            decoration: const InputDecoration(hintText: "Nom"),
           ),
           TextField(
             controller: passwordController,
-            decoration: InputDecoration(hintText: "Mot de passe"),
+            decoration: const InputDecoration(hintText: "Mot de passe"),
           ),
           TextButton(
-            child: Text("Créer"),
             onPressed: createUser,
+            child: const Text("Créer"),
           ),
           Text(response),
         ],

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/main_page.dart';
 
 class App extends StatelessWidget {
+  const App({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Flutter NodeJS",
       home: MainPage(),
     );
@@ -12,5 +14,5 @@ class App extends StatelessWidget {
 }
 
 void main() {
-  runApp(App());
+  runApp(const App());
 }
