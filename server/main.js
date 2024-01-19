@@ -1,25 +1,82 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
-const cors = require("cors");  // Ajout de la ligne pour utiliser le middleware CORS
+const cors = require("cors");  // Pour connecter les différents domaines
 const config = require('config');
 
 let db = null;
 const app = express();
 
-app.use(cors());  // Utilisation du middleware CORS
+app.use(cors());  
 app.use(express.json());
 
-
-app.post('/create-user', async(req, res, next)=>{
+app.post('/login', async (req, res) => {
   try {
-    const name = req.body.name;
-    await db.query("INSERT INTO users (name) VALUES (?);", [name]);
+    const pseudo = req.body.pseudo;
+    const password = req.body.password;
+
+    // Recherchez l'utilisateur dans la base de données par pseudo
+    const user = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
+
+    if (user.length === 0) {
+      res.status(401).json({ error: "Utilisateur non trouvé." });
+      return;
+    }
+
+    // Comparez le mot de passe haché stocké avec le mot de passe fourni
+    const hashedPassword = hashPassword(password);
+    if (user[0].password !== hashedPassword) {
+      res.status(401).json({ error: "Mot de passe incorrect." });
+      return;
+    }
+
     res.json({ status: "OK" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Fonction pour hasher le mot de passe
+function hashPassword(password) {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  return hash.digest('hex');
+}
+
+
+app.post('/create-user', async (req, res, next) => {
+  try {
+    const { pseudo, mail, name, surname, password } = req.body;
+
+    if (!pseudo) {
+      return res.status(400).json({ error: "Pseudo is required" });
+    }
+    if (!surname) {
+      return res.status(400).json({ error: "Mail is required" });
+    }
+    if (!name) {
+      return res.status(400).json({ error: "Name is required" });
+    }
+
+    if (!surname) {
+      return res.status(400).json({ error: "Surname is required" });
+    }
+
+    if (!surname) {
+      return res.status(400).json({ error: "Password is required" });
+    }
+
+    await db.query("INSERT INTO users (pseudo, mail, name, surname, password) VALUES (?, ?, ?, ?, ?);", [pseudo, mail, name, surname, password]);
+
+    res.json({ status: "OK" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
 app.get('/users', async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM users;");
@@ -32,7 +89,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the API!' });
+  res.json({ message: 'Lemonmaze !' });
 });
 
 async function main() {
