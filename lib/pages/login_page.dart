@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
-
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 

@@ -1,86 +1,130 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
-const cors = require("cors");  // Pour connecter les différents domaines
+const cors = require("cors"); // Pour connecter les différents domaines
 const config = require('config');
 const crypto = require('crypto');
 
 let db = null;
 const app = express();
 
-app.use(cors());  
+app.use(cors());
 app.use(express.json());
 
 app.post('/login', async (req, res) => {
   try {
     const pseudo = req.body.pseudo;
     const password = req.body.password;
+    console.log("Pseudo debut");
     console.log(pseudo);
+    console.log("MDP debut");
     console.log(password);
+    console.log("SQL");
 
     // Recherchez l'utilisateur dans la base de données par pseudo
     const user = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
     console.log(user);
+    console.log("SQL");
 
-    if (user.length === 0) {
-      res.status(401).json({ error: "Utilisateur non trouvé." });
+    // Vérifiez si un utilisateur a été trouvé
+    if (user[0].length === 0) {
+      res.status(401).json({
+        status: "Utilisateur non trouvé."
+      });
       return;
-    }else{
-      console.log("on a réussi")
     }
+
+    // Accédez à la propriété du mot de passe dans la première ligne de résultats
+    const userPassword = user[0][0].password;
+    console.log("user[0][0]",user[0][0].password);
+    console.log("truc rentré",password);
 
     // Comparez le mot de passe haché stocké avec le mot de passe fourni
-    const hashedPassword = hashPassword(password);
-    if (user[0].password !== hashedPassword) {
-      res.status(401).json({ error: "Mot de passe incorrect." });
-      console.log("mauvais mdp")
+    if (userPassword !== password) {
+      res.status(401).json({
+        status: "Mot de passe incorrect."
+      });
       return;
-    }else{
-      console.log("bon mdp")
+    } else {
+      //console.log("Utilisateur trouvé avec le bon mot de passe");
+      //console.log("Données de l'utilisateur :", user[0][0]);
+      res.json({
+        status: "Connecté"
+      });
     }
 
-    res.json({ status: "OK" });
+    
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
+
 });
 
-// Fonction pour hasher le mot de passe
-function hashPassword(password) {
-  const hash = crypto.createHash('sha256');
-  hash.update(password);
-  return hash.digest('hex');
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.post('/create-user', async (req, res, next) => {
   try {
-    const { pseudo, mail, name, surname, password } = req.body;
+    const {
+      pseudo,
+      mail,
+      name,
+      surname,
+      password
+    } = req.body;
 
     if (!pseudo) {
-      return res.status(400).json({ error: "Pseudo is required" });
+      return res.status(400).json({
+        error: "Pseudo is required"
+      });
     }
     if (!surname) {
-      return res.status(400).json({ error: "Mail is required" });
+      return res.status(400).json({
+        error: "Mail is required"
+      });
     }
     if (!name) {
-      return res.status(400).json({ error: "Name is required" });
+      return res.status(400).json({
+        error: "Name is required"
+      });
     }
 
     if (!surname) {
-      return res.status(400).json({ error: "Surname is required" });
+      return res.status(400).json({
+        error: "Surname is required"
+      });
     }
 
     if (!surname) {
-      return res.status(400).json({ error: "Password is required" });
+      return res.status(400).json({
+        error: "Password is required"
+      });
     }
 
     await db.query("INSERT INTO users (pseudo, mail, name, surname, password) VALUES (?, ?, ?, ?, ?);", [pseudo, mail, name, surname, password]);
 
-    res.json({ status: "OK" });
+    res.json({
+      status: "OK"
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 });
 
@@ -89,17 +133,34 @@ app.post('/create-user', async (req, res, next) => {
 app.get('/users', async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM users;");
-    res.json(rows);console.log("SELECT reussi");
+    res.json(rows);
+    console.log("SELECT reussi");
   } catch (error) {
     console.log("SELECT PAS REUSSI");
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      error: "Internal Server Error"
+    });
   }
 });
 
+
+
+
+
+
 app.get('/', (req, res) => {
-  res.json({ message: 'Lemonmaze !' });
+  res.json({
+    message: 'Lemonmaze !'
+  });
 });
+
+
+
+
+
+
+
 
 async function main() {
   try {
