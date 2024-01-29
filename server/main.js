@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
-const cors = require("cors"); // Pour connecter les différents domaines
+const cors = require("cors"); // Pour connecter différents domaines
 const config = require('config');
 const crypto = require('crypto');
 
@@ -14,18 +14,17 @@ app.post('/login', async (req, res) => {
   try {
     const pseudo = req.body.pseudo;
     const password = req.body.password;
+    /*
     console.log("Pseudo debut");
     console.log(pseudo);
     console.log("MDP debut");
     console.log(password);
     console.log("SQL");
+    */
 
-    // Recherchez l'utilisateur dans la base de données par pseudo
     const user = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
-    console.log(user);
-    console.log("SQL");
 
-    // Vérifiez si un utilisateur a été trouvé
+    // Verif si utilisateur trouvé
     if (user[0].length === 0) {
       res.status(401).json({
         status: "Utilisateur non trouvé."
@@ -33,12 +32,7 @@ app.post('/login', async (req, res) => {
       return;
     }
 
-    // Accédez à la propriété du mot de passe dans la première ligne de résultats
     const userPassword = user[0][0].password;
-    console.log("user[0][0]",user[0][0].password);
-    console.log("truc rentré",password);
-
-    // Comparez le mot de passe haché stocké avec le mot de passe fourni
     if (userPassword !== password) {
       res.status(401).json({
         status: "Mot de passe incorrect."
@@ -164,7 +158,7 @@ app.get('/', (req, res) => {
 
 async function main() {
   try {
-    // Créer une connexion à la base de données MySQL
+    // Créer connexion
     db = await mysql.createConnection({
       host: config.get('db.host'),
       user: config.get('db.user'),
@@ -174,22 +168,21 @@ async function main() {
       port: config.get('db.port'),
     });
 
-    // Tester si la connexion est réussie
+    // Tester si connexion réussie
     await db.query("SELECT 1");
     console.log("Connexion à la base de données réussie");
 
-    // Démarrer le serveur
+    // Démarrer serveur
     app.listen(8000);
     console.log("Serveur démarré sur le port 8000");
   } catch (error) {
-    // En cas d'erreur
+    // ERREUR
     console.log("Échec de la connexion à la base de données");
     console.error(error);
 
-    // Arrêter le processus
+    // Arrêter processus
     process.exit(1);
   }
 }
 
-// Appeler la fonction principale pour démarrer le serveur
 main();
