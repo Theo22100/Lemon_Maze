@@ -18,10 +18,8 @@ class User {
   String id;
   String pseudo;
   String mail;
-  String name;
-  String surname;
   String password;
-  User(this.id, this.pseudo, this.mail, this.name, this.surname, this.password);
+  User(this.id, this.pseudo, this.mail, this.password);
 }
 
 // État de la page principale
@@ -42,13 +40,8 @@ class TestPageState extends State<TestPage> {
         users.clear();
         var inUsers = result.data as List<dynamic>;
         for (var inUser in inUsers) {
-          users.add(User(
-              inUser['id'].toString(),
-              inUser['pseudo'],
-              inUser['mail'],
-              inUser['name'],
-              inUser['surname'],
-              inUser['password']));
+          users.add(User(inUser['id'].toString(), inUser['pseudo'],
+              inUser['mail'], inUser['password']));
         }
 
         print("Users updated: $users");
@@ -101,7 +94,7 @@ class TestPageState extends State<TestPage> {
           itemBuilder: (context, i) => ListTile(
             leading: const Icon(Icons.person),
             title: Text(
-                "${users[i].pseudo} ${users[i].mail} ${users[i].name} ${users[i].surname} ${users[i].password}"),
+                "${users[i].pseudo} ${users[i].mail} ${users[i].password}"),
           ),
           separatorBuilder: (context, i) => const Divider(),
         ),

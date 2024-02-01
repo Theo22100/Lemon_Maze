@@ -16,8 +16,6 @@ class RegisterPage extends StatefulWidget {
 class RegisterPageState extends State<RegisterPage> {
   TextEditingController pseudoController = TextEditingController();
   TextEditingController mailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   String response = "";
@@ -27,8 +25,6 @@ class RegisterPageState extends State<RegisterPage> {
       // Validation des champs
       if (pseudoController.text.isEmpty ||
           mailController.text.isEmpty ||
-          nameController.text.isEmpty ||
-          surnameController.text.isEmpty ||
           passwordController.text.isEmpty) {
         // Afficher un message d'erreur ou effectuer une action appropriée
         return;
@@ -42,8 +38,6 @@ class RegisterPageState extends State<RegisterPage> {
       var result = await http_post("create-user", {
         "pseudo": pseudoController.text,
         "mail": mailController.text,
-        "name": nameController.text,
-        "surname": surnameController.text,
         "password": hashedPassword, // Utilisez le mot de passe hashé
       });
 
@@ -76,14 +70,6 @@ class RegisterPageState extends State<RegisterPage> {
           TextField(
             controller: mailController,
             decoration: const InputDecoration(hintText: "Mail"),
-          ),
-          TextField(
-            controller: surnameController,
-            decoration: const InputDecoration(hintText: "Prénom"),
-          ),
-          TextField(
-            controller: nameController,
-            decoration: const InputDecoration(hintText: "Nom"),
           ),
           TextField(
             controller: passwordController,
