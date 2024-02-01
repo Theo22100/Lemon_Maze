@@ -48,3 +48,4 @@ app.*.map.json
 #Database
 /server/config/default.json
 
+lib/pages/flutter
