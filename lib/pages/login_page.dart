@@ -21,9 +21,8 @@ class LoginPageState extends State<LoginPage> {
 
   Future<void> loginUser() async {
     try {
-      // Validation des champs
+      // Validation champs
       if (pseudoController.text.isEmpty || passwordController.text.isEmpty) {
-        // Afficher un message d'erreur ou effectuer une action appropriée
         print("Pseudo et mot de passe sont obligatoires.");
         return;
       }
@@ -31,20 +30,20 @@ class LoginPageState extends State<LoginPage> {
       // Hash du mot de passe (vous devez avoir ajouté la dépendance 'crypto')
       String hashedPassword = hashPassword(passwordController.text);
 
-      // Effectuer une requête HTTP POST vers le point de terminaison "login"
+      // requête HTTP POST vers login
       var result = await http_post("login", {
         "pseudo": pseudoController.text,
         "password": hashedPassword,
       });
 
-      // Si la requête est réussie, mettre à jour l'interface utilisateur de manière asynchrone
+      // Si la requête est réussie, MAJ interface utilisateur asynchrone
       if (result.ok) {
         setState(() {
           print("Response from server: ${result.data}");
           response = result.data['status'];
         });
       } else {
-        // Gérer les erreurs de connexion
+        // Gérer erreurs de connexion
         setState(() {
           print("Error response from server: ${result.data}");
           response =
@@ -52,7 +51,7 @@ class LoginPageState extends State<LoginPage> {
         });
       }
     } catch (error) {
-      // Gérer les erreurs inattendues
+      // Gérer erreurs
       print("Pseudo");
       print(pseudoController.text);
       print("Mot de passe");

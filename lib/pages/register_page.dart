@@ -4,16 +4,16 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 
-class AddUserPage extends StatefulWidget {
-  const AddUserPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return AddUserPageState();
+    return RegisterPageState();
   }
 }
 
-class AddUserPageState extends State<AddUserPage> {
+class RegisterPageState extends State<RegisterPage> {
   TextEditingController pseudoController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController nameController = TextEditingController();

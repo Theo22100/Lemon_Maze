@@ -4,12 +4,12 @@ import 'package:my_app/pages/login_page.dart';
 import 'package:my_app/pages/register_page.dart';
 
 // Classe représentant la page principale
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class TestPage extends StatefulWidget {
+  const TestPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return MainPageState();
+    return TestPageState();
   }
 }
 
@@ -25,7 +25,7 @@ class User {
 }
 
 // État de la page principale
-class MainPageState extends State<MainPage> {
+class TestPageState extends State<TestPage> {
   // Liste pour stocker les utilisateurs récupérés
   List<User> users = [];
 
@@ -77,7 +77,7 @@ class MainPageState extends State<MainPage> {
             onPressed: () {
               // Naviguer vers la page d'ajout d'utilisateur
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const AddUserPage();
+                return const RegisterPage();
               }));
             },
           ),
@@ -113,6 +113,6 @@ class MainPageState extends State<MainPage> {
 // Fonction Flutter
 void main() {
   runApp(const MaterialApp(
-    home: MainPage(),
+    home: TestPage(),
   ));
 }
