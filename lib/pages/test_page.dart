@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/login_page.dart';
-import 'package:my_app/pages/register_page.dart';
+import 'package:my_app/pages/register-login/login_page.dart';
+import 'package:my_app/pages/register-login/register_page.dart';
 
 // Classe représentant la page principale
 class TestPage extends StatefulWidget {
