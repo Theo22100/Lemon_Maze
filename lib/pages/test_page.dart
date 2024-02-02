@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/register-login/login_page.dart';
 import 'package:my_app/pages/register-login/register_page.dart';
+
+var logger = Logger();
 
 // Classe représentant la page principale
 class TestPage extends StatefulWidget {
@@ -27,9 +30,9 @@ class TestPageState extends State<TestPage> {
   // Liste pour stocker les utilisateurs récupérés
   List<User> users = [];
 
-  // Fonction asynchrone pour rafraîchir la liste des utilisateurs
+  // Fonction asynchrone pour rafraîchir liste utilisateurs
   Future<void> refreshUsers() async {
-    print("Refreshing users...");
+    logger.i("Refreshing users...");
 
     // Récupérer la liste des utilisateurs
     var result = await http_get('users');
@@ -44,11 +47,11 @@ class TestPageState extends State<TestPage> {
               inUser['mail'], inUser['password']));
         }
 
-        print("Users updated: $users");
+        logger.i("Users updated: $users");
       });
     } else {
       // Erreur
-      print("Failed to refresh users. Error: ${result.data['error']}");
+      logger.e("Failed to refresh users. Error: ${result.data['error']}");
     }
   }
 

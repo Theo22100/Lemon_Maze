@@ -2,7 +2,11 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
+import 'package:my_app/pages/home.dart';
+
+var logger = Logger();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,11 +23,20 @@ class LoginPageState extends State<LoginPage> {
 
   String response = "";
 
+  // Méthode pour gérer la navigation vers la page d'accueil
+
+  void navigateToHomePage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
   Future<void> loginUser() async {
     try {
       // Validation champs
       if (pseudoController.text.isEmpty || passwordController.text.isEmpty) {
-        print("Pseudo et mot de passe sont obligatoires.");
+        logger.w("Pseudo et mot de passe sont obligatoires.");
         return;
       }
 
@@ -39,26 +52,25 @@ class LoginPageState extends State<LoginPage> {
       // Si la requête est réussie, MAJ interface utilisateur asynchrone
       if (result.ok) {
         setState(() {
-          print("Response from server: ${result.data}");
+          logger.i("Response from server: ${result.data}");
           response = result.data['status'];
+          // Rediriger vers la page d'accueil
+          navigateToHomePage();
         });
       } else {
         // Gérer erreurs de connexion
         setState(() {
-          print("Error response from server: ${result.data}");
+          logger.e("Error response from server: ${result.data}");
           response =
               "Échec de la connexion. Vérifiez vos informations d'identification.";
         });
       }
     } catch (error) {
       // Gérer erreurs
-      print("Pseudo");
-      print(pseudoController.text);
-      print("Mot de passe");
-      print(passwordController.text);
-      print("Réponse");
-      print(response);
-      print("Error: $error");
+      logger.e('Pseudo : ${pseudoController.text}');
+      logger.e('Mot de passe : ${pseudoController.text}');
+      logger.e('Reponse : $response');
+      logger.e('Erreur : $error');
     }
   }
 

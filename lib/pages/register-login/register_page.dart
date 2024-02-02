@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
+
+var logger = Logger();
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -51,7 +54,7 @@ class RegisterPageState extends State<RegisterPage> {
       }
     } catch (error) {
       // Gérer les erreurs inattendues
-      print("Error: $error");
+      logger.e("Error: $error");
     }
   }
 
