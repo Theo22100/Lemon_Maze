@@ -40,7 +40,7 @@ class LoginPageState extends State<LoginPage> {
         return;
       }
 
-      // Hash du mot de passe (vous devez avoir ajouté la dépendance 'crypto')
+      // Hash du mot de passe
       String hashedPassword = hashPassword(passwordController.text);
 
       // requête HTTP POST vers login
@@ -55,7 +55,9 @@ class LoginPageState extends State<LoginPage> {
           logger.i("Response from server: ${result.data}");
           response = result.data['status'];
           // Rediriger vers la page d'accueil
-          navigateToHomePage();
+          if (response == "Connecté") {
+            navigateToHomePage();
+          }
         });
       } else {
         // Gérer erreurs de connexion
@@ -99,7 +101,7 @@ class LoginPageState extends State<LoginPage> {
           ),
           TextField(
             controller: passwordController,
-            obscureText: true, // Cacher le texte du mot de passe
+            obscureText: true,
             decoration: const InputDecoration(hintText: "Mot de passe"),
           ),
           TextButton(

@@ -39,14 +39,12 @@ app.post('/login', async (req, res) => {
       });
       return;
     } else {
-      //console.log("Utilisateur trouvé avec le bon mot de passe");
-      //console.log("Données de l'utilisateur :", user[0][0]);
       res.json({
         status: "Connecté"
       });
     }
 
-    
+
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -76,8 +74,6 @@ app.post('/create-user', async (req, res, next) => {
     const {
       pseudo,
       mail,
-      name,
-      surname,
       password
     } = req.body;
 
@@ -86,30 +82,38 @@ app.post('/create-user', async (req, res, next) => {
         error: "Pseudo is required"
       });
     }
-    if (!surname) {
+    if (!mail) {
       return res.status(400).json({
         error: "Mail is required"
       });
     }
-    if (!name) {
-      return res.status(400).json({
-        error: "Name is required"
-      });
-    }
 
-    if (!surname) {
-      return res.status(400).json({
-        error: "Surname is required"
-      });
-    }
-
-    if (!surname) {
+    if (!password) {
       return res.status(400).json({
         error: "Password is required"
       });
     }
 
-    await db.query("INSERT INTO users (pseudo, mail, name, surname, password) VALUES (?, ?, ?, ?, ?);", [pseudo, mail, name, surname, password]);
+    // Vérifier si le pseudo est déjà pris
+    const existingUser = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
+
+    if (existingUser[0].length > 0) {
+      console.log("pseudo pris");
+      return res.status(400).json({
+        status: "Ce pseudo est déjà pris !"
+      });
+    }
+
+    // Vérifier si le mail est déjà pris
+    const existingMail = await db.query("SELECT * FROM users WHERE mail = ?;", [mail]);
+
+    if (existingMail[0].length > 0) {
+      return res.status(400).json({
+        status: "Ce mail est déjà associé à un compte !"
+      });
+    }
+
+    await db.query("INSERT INTO users (pseudo, mail, password) VALUES (?, ?, ?);", [pseudo, mail, password]);
 
     res.json({
       status: "OK"
