@@ -1,4 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
+
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -8,35 +11,40 @@ import 'package:my_app/pages/home.dart';
 
 var logger = Logger();
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return LoginPageState();
-  }
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  TextEditingController pseudoController = TextEditingController();
+class _AuthScreenState extends State<AuthScreen> {
+  TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
   String response = "";
+// Fonction pour hash le mot de passe
+  String hashPassword(String password) {
+    // fonction sha256 directement
+    var hashedBytes = sha256.convert(utf8.encode(password));
+    // Convertir bytes en une représentation hexadécimale
+    var hashedPassword = hex.encode(hashedBytes.bytes);
+    return hashedPassword;
+  }
 
   // Méthode pour gérer la navigation vers la page d'accueil
-
   void navigateToHomePage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 
   Future<void> loginUser() async {
     try {
       // Validation champs
-      if (pseudoController.text.isEmpty || passwordController.text.isEmpty) {
-        logger.w("Pseudo et mot de passe sont obligatoires.");
+      if (mailController.text.isEmpty || passwordController.text.isEmpty) {
+        logger.w('Mail : ${mailController.text}');
+        logger.w("Password: ${passwordController.text}");
         return;
       }
 
@@ -45,7 +53,7 @@ class LoginPageState extends State<LoginPage> {
 
       // requête HTTP POST vers login
       var result = await http_post("login", {
-        "pseudo": pseudoController.text,
+        "mail": mailController.text,
         "password": hashedPassword,
       });
 
@@ -69,47 +77,108 @@ class LoginPageState extends State<LoginPage> {
       }
     } catch (error) {
       // Gérer erreurs
-      logger.e('Pseudo : ${pseudoController.text}');
-      logger.e('Mot de passe : ${pseudoController.text}');
+      logger.e('Mail : ${mailController.text}');
+      logger.e('Mot de passe : ${passwordController.text}');
       logger.e('Reponse : $response');
       logger.e('Erreur : $error');
     }
   }
 
-  // Fonction pour hash le mot de passe (utilisez la bibliothèque crypto)
-  String hashPassword(String password) {
-    // Utilisez la fonction sha256 directement
-    var hashedBytes = sha256.convert(utf8.encode(password));
-
-    // Convertissez les bytes en une représentation hexadécimale
-    var hashedPassword = hex.encode(hashedBytes.bytes);
-
-    return hashedPassword;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Page de Connexion"),
-      ),
-      body: Column(
-        children: <Widget>[
-          TextField(
-            controller: pseudoController,
-            decoration: const InputDecoration(hintText: "Pseudo"),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Page de Connexion new"),
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              RichText(
+                  text: TextSpan(
+                text: 'LemonMaze'.toUpperCase(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 50,
+                ),
+                children: const [],
+              )),
+              const SizedBox(
+                height: 50.0,
+              ), //Mettre espace
+              Form(
+                child: Column(
+                    crossAxisAlignment:
+                        CrossAxisAlignment.stretch, //Barre prend toute la page
+                    children: [
+                      const Text('Entrez votre email'),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      TextFormField(
+                        controller: mailController,
+                        decoration: InputDecoration(
+                          hintText: 'Ex: John.Smith@gmail.com',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      const Text('Entrez votre Mot de Passe'),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          hintText: 'Mot de passe',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(color: Colors.grey),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10.0,
+                      ),
+                      ElevatedButton(
+                        onPressed: loginUser,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).primaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        ),
+                        child: const Text(
+                          'Connexion',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Text(response),
+                    ]),
+              )
+            ]),
           ),
-          TextField(
-            controller: passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(hintText: "Mot de passe"),
-          ),
-          TextButton(
-            onPressed: loginUser,
-            child: const Text("Se Connecter"),
-          ),
-          Text(response),
-        ],
+        ),
       ),
     );
   }

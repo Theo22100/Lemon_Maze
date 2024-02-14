@@ -12,17 +12,10 @@ app.use(express.json());
 
 app.post('/login', async (req, res) => {
   try {
-    const pseudo = req.body.pseudo;
+    const mail = req.body.mail;
     const password = req.body.password;
-    /*
-    console.log("Pseudo debut");
-    console.log(pseudo);
-    console.log("MDP debut");
-    console.log(password);
-    console.log("SQL");
-    */
 
-    const user = await db.query("SELECT * FROM users WHERE pseudo = ?;", [pseudo]);
+    const user = await db.query("SELECT pseudo, mail, password FROM users WHERE mail = ?;", [mail]);
 
     // Verif si utilisateur trouvé
     if (user[0].length === 0) {
@@ -32,7 +25,8 @@ app.post('/login', async (req, res) => {
       return;
     }
 
-    const userPassword = user[0][0].password;
+    const userData = user[0][0];
+    const userPassword = userData.password;
     if (userPassword !== password) {
       res.status(401).json({
         status: "Mot de passe incorrect."
@@ -40,19 +34,18 @@ app.post('/login', async (req, res) => {
       return;
     } else {
       res.json({
-        status: "Connecté"
+        status: "Connecté",
+        mail: userData.mail // Ajout du champ mail dans la réponse JSON
       });
     }
-
-
   } catch (error) {
     console.error(error);
     res.status(500).json({
       error: "Internal Server Error"
     });
   }
-
 });
+
 
 
 

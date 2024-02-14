@@ -82,7 +82,7 @@ class TestPageState extends State<TestPage> {
             onPressed: () {
               // Naviguer vers la page d'ajout d'utilisateur
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const LoginPage();
+                return const AuthScreen();
               }));
             },
           ),

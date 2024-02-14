@@ -10,7 +10,7 @@ void main() {
 }
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -57,7 +57,7 @@ class MainPageState extends State<WelcomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                    MaterialPageRoute(builder: (context) => const AuthScreen()),
                   );
                 },
                 child: const Text('Connexion'),

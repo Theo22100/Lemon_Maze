@@ -1,45 +1,59 @@
-// home.dart
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/register-login/account.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bienvenue"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountPage(
+                    isLoggedIn: true,
+                  ),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {},
+          ),
+        ],
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Bonjour, choisissez un des 4 parcours",
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Naviguer vers le parcours "Musée"
+                // Handle bar button press
               },
-              child: const Text("Musée"),
+              child: const Text('Bars'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Naviguer vers le parcours "Bars"
+                // Handle restaurants button press
               },
-              child: const Text("Bars"),
+              child: const Text('Restaurants'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Naviguer vers le parcours "Restaurants"
+                // Handle parcs button press
               },
-              child: const Text("Restaurants"),
+              child: const Text('Parcs'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Naviguer vers le parcours "Parcs"
+                // Handle musée button press
               },
-              child: const Text("Parcs"),
+              child: const Text('Musée'),
             ),
           ],
         ),
