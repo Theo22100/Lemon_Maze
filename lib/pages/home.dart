@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/parkour/bars.dart';
 import 'package:my_app/pages/register-login/account.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,20 +40,21 @@ class HomePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle restaurants button press
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ParkourBarPage()),
+                );
               },
               child: const Text('Restaurants'),
             ),
             ElevatedButton(
               onPressed: () {
-                // Handle parcs button press
+                //
               },
               child: const Text('Parcs'),
             ),
             ElevatedButton(
-              onPressed: () {
-                // Handle musée button press
-              },
+              onPressed: () {},
               child: const Text('Musée'),
             ),
           ],

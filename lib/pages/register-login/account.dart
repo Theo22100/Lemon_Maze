@@ -39,7 +39,6 @@ class AccountPage extends StatelessWidget {
               children: [
                 Text('Email: $userEmail'),
                 Text('Pseudo: $userPseudo'),
-                // Ajoutez d'autres informations de l'utilisateur ici
               ],
             ),
           ),

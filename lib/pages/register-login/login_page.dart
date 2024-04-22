@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String response = "";
-// Fonction pour hash le mot de passe
+  // Fonction pour hash le mot de passe
   String hashPassword(String password) {
     // fonction sha256 directement
     var hashedBytes = sha256.convert(utf8.encode(password));

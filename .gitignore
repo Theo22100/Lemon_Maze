@@ -49,3 +49,7 @@ app.*.map.json
 /server/config/default.json
 
 lib/pages/flutter
+
+#Nodes modules
+
+node_modules/
