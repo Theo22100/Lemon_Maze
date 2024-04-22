@@ -1,0 +1,23 @@
+{
+  "name": "my_app",
+  "version": "1.0.0",
+  "description": "LemonMaze",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Théo Guérin",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.10",
+    "express": "^4.18.2",
+    "mysql2": "^3.7.0",
+    "nodemon": "^3.0.3"
+  },
+  "keywords": []
+}
