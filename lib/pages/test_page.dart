@@ -22,7 +22,9 @@ class User {
   String pseudo;
   String mail;
   String password;
-  User(this.id, this.pseudo, this.mail, this.password);
+  String age;
+  String ville;
+  User(this.id, this.pseudo, this.mail, this.password, this.age, this.ville);
 }
 
 // État de la page principale
@@ -35,7 +37,7 @@ class TestPageState extends State<TestPage> {
     logger.i("Refreshing users...");
 
     // Récupérer la liste des utilisateurs
-    var result = await http_get('users');
+    var result = await http_get('user/users');
 
     if (result.ok) {
       // Si la requête est réussie, mettre à jour l'état pour refléter la nouvelle liste d'utilisateurs
@@ -43,8 +45,13 @@ class TestPageState extends State<TestPage> {
         users.clear();
         var inUsers = result.data as List<dynamic>;
         for (var inUser in inUsers) {
-          users.add(User(inUser['id'].toString(), inUser['pseudo'],
-              inUser['mail'], inUser['password']));
+          users.add(User(
+              inUser['id'].toString(),
+              inUser['pseudo'],
+              inUser['mail'],
+              inUser['password'],
+              inUser['age'],
+              inUser['ville']));
         }
 
         logger.i("Users updated: $users");
@@ -97,7 +104,7 @@ class TestPageState extends State<TestPage> {
           itemBuilder: (context, i) => ListTile(
             leading: const Icon(Icons.person),
             title: Text(
-                "${users[i].pseudo} ${users[i].mail} ${users[i].password}"),
+                "${users[i].pseudo} ${users[i].mail} ${users[i].password} ${users[i].age} ${users[i].ville}"),
           ),
           separatorBuilder: (context, i) => const Divider(),
         ),

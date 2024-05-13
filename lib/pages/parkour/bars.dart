@@ -76,35 +76,6 @@ class ParkourBarPageState extends State<ParkourBarPage> {
           ),
         ],
       ),
-      body: Center(
-        child: FutureBuilder(
-          future: http_get('parkourBar'),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else if (snapshot.data != null) {
-              var parkourBar = ParkourBar(
-                snapshot.data['id_parkour'],
-                snapshot.data['id_type'],
-                snapshot.data['id_lieu1'],
-                snapshot.data['id_lieu2'],
-                snapshot.data['id_lieu3'],
-                snapshot.data['id_lieu4'],
-              );
-
-              return ListTile(
-                leading: const Icon(Icons.person),
-                title: Text(
-                    "${parkourBar.id_parkour} ${parkourBar.id_type} ${parkourBar.id_lieu1} ${parkourBar.id_lieu2} ${parkourBar.id_lieu3} ${parkourBar.id_lieu4}"),
-              );
-            } else {
-              return Text('No data available');
-            }
-          },
-        ),
-      ),
     );
   }
 }

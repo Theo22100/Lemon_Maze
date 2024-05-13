@@ -70,28 +70,29 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/login_signup/
-
-fonts:
-  - family: copaseti
-    fonts:
-      - asset: fonts/police/copaseti/copaseti.ttf
-  - family: glacialIndifference
-    fonts:
-      - asset: assets/fonts/glacialIndifference/GlacialIndifference-Regular.otf
-      - asset: assets/fonts/glacialIndifference/GlacialIndifference-Italic.otf
-        style: italic
-      - asset: assets/fonts/glacialIndifference/GlacialIndifference-Bold.otf
-        style: bold
-
+    - assets/images/welcome/
 
   
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/poppins/Poppins-Italic.ttf
+          style: italic
+        - asset: assets/fonts/poppins/Poppins-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/poppins/Poppins-Light.ttf
+          weight: 300
+        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+          weight: 400
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+        - asset: assets/fonts/inter/Inter-Light.ttf
+          weight: 300
+        - asset: assets/fonts/inter/Inter-Regular.ttf
+          weight: 400
+
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

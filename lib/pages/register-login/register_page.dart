@@ -20,6 +20,8 @@ class RegisterPageState extends State<RegisterPage> {
   TextEditingController pseudoController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController villeController = TextEditingController();
 
   String response = "";
 
@@ -35,8 +37,10 @@ class RegisterPageState extends State<RegisterPage> {
       // Validation des champs
       if (pseudoController.text.isEmpty ||
           mailController.text.isEmpty ||
-          passwordController.text.isEmpty) {
-        logger.e("Pseudo/Mail/Password vide");
+          passwordController.text.isEmpty ||
+          ageController.text.isEmpty ||
+          villeController.text.isEmpty) {
+        logger.e("Case vide");
         return;
       }
 
@@ -76,9 +80,11 @@ class RegisterPageState extends State<RegisterPage> {
           sha256.convert(utf8.encode(passwordController.text)).toString();
 
       // Effectuer une requête HTTP POST vers le point de terminaison "create-user"
-      var result = await http_post("create-user", {
+      var result = await http_post("/user/create-user", {
         "pseudo": pseudoController.text,
         "mail": mailController.text,
+        "age": ageController.text,
+        "ville": villeController.text,
         "password": hashedPassword,
       });
 
@@ -116,6 +122,14 @@ class RegisterPageState extends State<RegisterPage> {
               TextField(
                 controller: passwordController,
                 decoration: const InputDecoration(hintText: "Mot de passe"),
+              ),
+              TextField(
+                controller: ageController,
+                decoration: const InputDecoration(hintText: "Age"),
+              ),
+              TextField(
+                controller: villeController,
+                decoration: const InputDecoration(hintText: "Ville"),
               ),
               const SizedBox(height: 16), // Ajoute un espacement
               ElevatedButton(

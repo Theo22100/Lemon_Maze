@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/register-login/login_page.dart';
 import 'package:my_app/pages/register-login/register_page.dart';
 import 'package:my_app/pages/test_page.dart';
+import 'package:my_app/pages/welcome/page1.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -82,6 +83,17 @@ class MainPageState extends State<WelcomePage> {
                   );
                 },
                 child: const Text('Test'),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Welcome1Page()),
+                  );
+                },
+                child: const Text('Debut'),
               ),
             ],
           ),

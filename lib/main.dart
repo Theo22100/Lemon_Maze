@@ -6,10 +6,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: "Flutter NodeJS",
-      home: WelcomePage(),
-    );
+    return MaterialApp(
+        title: "Flutter NodeJS",
+        home: WelcomePage(),
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+        ));
   }
 }
 
