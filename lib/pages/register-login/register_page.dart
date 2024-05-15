@@ -7,16 +7,16 @@ import 'package:my_app/modules/http.dart';
 
 var logger = Logger();
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class Register2Page extends StatefulWidget {
+  const Register2Page({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return RegisterPageState();
+    return RegisterPage2State();
   }
 }
 
-class RegisterPageState extends State<RegisterPage> {
+class RegisterPage2State extends State<Register2Page> {
   TextEditingController pseudoController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -25,7 +25,7 @@ class RegisterPageState extends State<RegisterPage> {
 
   String response = "";
 
-  // Fonction pour valider le mot de passe
+  // Fonction pour valider mot de passe
   bool isPasswordValid(String password) {
     // mdp 8 carac 1 chiffre 1 carac spe
     final passwordRegex = RegExp(r'^(?=.*[0-9])(?=.*[!@#$%^&*])(.{8,})$');
@@ -44,7 +44,7 @@ class RegisterPageState extends State<RegisterPage> {
         return;
       }
 
-      // Validation du mot de passe
+      // Validation mot de passe
       if (!isPasswordValid(passwordController.text)) {
         setState(() {
           response =
@@ -53,7 +53,7 @@ class RegisterPageState extends State<RegisterPage> {
         return;
       }
 
-      // Validation de la longueur du pseudo
+      // Validation longueur du pseudo
       if (!(pseudoController.text.length <= 30)) {
         setState(() {
           response = "Le pseudo ne doit pas dépasser 30 caractères.";
@@ -67,7 +67,7 @@ class RegisterPageState extends State<RegisterPage> {
         return;
       }
       //Valide mail
-      // Fonction pour valider le format de l'e-mail
+      // Fonction pour valider format e-mail
       if (!EmailValidator.validate(mailController.text)) {
         setState(() {
           response = "Le mail n'est pas valide.";
@@ -75,28 +75,31 @@ class RegisterPageState extends State<RegisterPage> {
         return;
       }
 
-      // Hashage du mot de passe
+      // Hashage mot de passe
       String hashedPassword =
           sha256.convert(utf8.encode(passwordController.text)).toString();
 
-      // Effectuer une requête HTTP POST vers le point de terminaison "create-user"
-      var result = await http_post("/user/create-user", {
+      var result = await http_post("user/create-user", {
         "pseudo": pseudoController.text,
         "mail": mailController.text,
         "age": ageController.text,
         "ville": villeController.text,
         "password": hashedPassword,
       });
+      logger.i(result.ok);
 
-      // Si la requête est réussie, mettre à jour l'interface utilisateur de manière asynchrone
       if (result.ok) {
         setState(() {
-          response = result.data['status'];
+          if (result.data['success'] == true) {
+            response = "Inscription réussie !";
+          } else {
+            // erreur
+            response = result.data['error'];
+          }
         });
       }
     } catch (error) {
-      // Gérer les erreurs inattendues
-      logger.e("Erreur inattendue : $error");
+      logger.e("Erreur inattendue: $error");
     }
   }
 
@@ -131,12 +134,12 @@ class RegisterPageState extends State<RegisterPage> {
                 controller: villeController,
                 decoration: const InputDecoration(hintText: "Ville"),
               ),
-              const SizedBox(height: 16), // Ajoute un espacement
+              const SizedBox(height: 16), // Ajoute espace
               ElevatedButton(
                 onPressed: createUser,
                 child: const Text("Créer"),
               ),
-              const SizedBox(height: 8), // Ajoute un espacement
+              const SizedBox(height: 8), // Ajoute espace
               Text(response),
             ],
           ),

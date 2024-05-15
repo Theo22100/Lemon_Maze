@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/register-login/loginPage.dart';
+import 'package:my_app/pages/register-login/registerPage.dart';
 
 class LoginSignUpPage extends StatelessWidget {
   const LoginSignUpPage({super.key});
@@ -34,7 +36,13 @@ class LoginSignUpPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // METTRE PAGE CONNEXION
+                    {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFAF6D0),
@@ -60,7 +68,11 @@ class LoginSignUpPage extends StatelessWidget {
                 const SizedBox(height: 60), // Espace
                 ElevatedButton(
                   onPressed: () {
-                    // mettre page inscription
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterPage()),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFAF6D0),

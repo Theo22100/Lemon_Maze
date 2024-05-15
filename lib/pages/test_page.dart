@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/register-login/login_page.dart';
-import 'package:my_app/pages/register-login/register_page.dart';
+import 'package:my_app/pages/register-login/registerPage.dart';
 
 var logger = Logger();
 
@@ -32,33 +32,52 @@ class TestPageState extends State<TestPage> {
   // Liste pour stocker les utilisateurs récupérés
   List<User> users = [];
 
-  // Fonction asynchrone pour rafraîchir liste utilisateurs
   Future<void> refreshUsers() async {
-    logger.i("Refreshing users...");
+    logger.i("Actualisation des utilisateurs...");
 
     // Récupérer la liste des utilisateurs
-    var result = await http_get('user/users');
+    var response = await http_get('user/users');
 
-    if (result.ok) {
-      // Si la requête est réussie, mettre à jour l'état pour refléter la nouvelle liste d'utilisateurs
+    if (response != null && response.ok) {
+      // Si la réponse n'est pas nulle et que la requête est réussie
       setState(() {
         users.clear();
-        var inUsers = result.data as List<dynamic>;
-        for (var inUser in inUsers) {
-          users.add(User(
-              inUser['id'].toString(),
-              inUser['pseudo'],
-              inUser['mail'],
-              inUser['password'],
-              inUser['age'],
-              inUser['ville']));
+        var responseData = response.data;
+
+        // Vérifiez si la réponse contient une clé 'data' et si sa valeur est une liste
+        if (responseData != null && responseData['success'] == true) {
+          var userDataList = responseData['data'];
+
+          // Assurez-vous que userDataList est une liste
+          if (userDataList is List) {
+            for (var userData in userDataList) {
+              users.add(User(
+                userData['id'].toString(),
+                userData['pseudo'] ??
+                    '', // Vérifiez si 'pseudo' est nul, sinon utilisez une chaîne vide
+                userData['mail'] ??
+                    '', // Vérifiez si 'mail' est nul, sinon utilisez une chaîne vide
+                userData['password'] ??
+                    '', // Vérifiez si 'password' est nul, sinon utilisez une chaîne vide
+                userData['age']?.toString() ??
+                    '', // Vérifiez si 'age' est nul, sinon utilisez une chaîne vide
+                userData['ville'] ??
+                    '', // Vérifiez si 'ville' est nul, sinon utilisez une chaîne vide
+              ));
+            }
+          } else {
+            logger.e("Données de réponse invalides : $userDataList");
+          }
+        } else {
+          logger.e("Réponse de l'API invalide : $responseData");
         }
 
-        logger.i("Users updated: $users");
+        logger.i("Utilisateurs mis à jour : $users");
       });
     } else {
-      // Erreur
-      logger.e("Failed to refresh users. Error: ${result.data['error']}");
+      // Si la réponse est nulle ou si la requête a échoué
+      logger.e(
+          "Impossible d'actualiser les utilisateurs. Erreur : ${response?.data['error']}");
     }
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/register-login/loginPage.dart';
 import 'package:my_app/pages/register-login/login_page.dart';
+import 'package:my_app/pages/register-login/registerPage.dart';
 import 'package:my_app/pages/register-login/register_page.dart';
 import 'package:my_app/pages/test_page.dart';
 import 'package:my_app/pages/welcome/page1.dart';
@@ -58,7 +60,7 @@ class MainPageState extends State<WelcomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AuthScreen()),
+                    MaterialPageRoute(builder: (context) => const LoginPage()),
                   );
                 },
                 child: const Text('Connexion'),
