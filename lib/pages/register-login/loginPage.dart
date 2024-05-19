@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-//import 'package:logger/logger.dart';
+import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/home.dart';
+import 'package:my_app/pages/home/home.dart';
 import 'package:my_app/pages/register-login/loginSignupPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-//var logger = Logger();
+var logger = Logger();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -58,6 +59,8 @@ class LoginPageState extends State<LoginPage> {
         "password": hashedPassword,
       });
 
+      logger.i(result.data);
+
       // Si la requête est réussie, MAJ interface utilisateur asynchrone
       if (result.ok) {
         if (result.data['success'] == true) {
@@ -65,8 +68,16 @@ class LoginPageState extends State<LoginPage> {
             response = "Connexion réussie !";
           });
 
-          // Appeler la fonction asynchrone pour attendre 3 secondes
-          await Future.delayed(const Duration(seconds: 3));
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', result.data['token']);
+          await prefs.setString('pseudo', result.data['pseudo']);
+          await prefs.setString('mail', result.data['mail']);
+          await prefs.setString('age', result.data['age'].toString());
+          await prefs.setString('ville', result.data['ville']);
+          await prefs.setString('id', result.data['id'].toString());
+
+          // Appeler la fonction asynchrone pour attendre 2 secondes
+          await Future.delayed(const Duration(seconds: 2));
 
           // Mettre à jour l'état dans setState après l'attente
           setState(() {
@@ -75,23 +86,19 @@ class LoginPageState extends State<LoginPage> {
         } else {
           // erreur
           setState(() {
-            response = result.data['error'];
+            response = result.data['status'];
           });
         }
       } else {
         // Gérer erreurs de connexion
         setState(() {
-          response = "Vérifiez vos informations d'identification.";
+          response = result.data['status'];
+          ;
         });
       }
     } catch (error) {
-      // Gérer erreurs
-      // logger.e('Pseudo : ${pseudoController.text}');
-      // logger.e('Mot de passe : ${passwordController.text}');
-      // logger.e('Reponse : $response');
-      // logger.e('Erreur : $error');
       setState(() {
-        response = "Vérifiez vos informations d'identification.";
+        response = "Vérifiez vos informations d'identificationn.";
       });
     }
   }

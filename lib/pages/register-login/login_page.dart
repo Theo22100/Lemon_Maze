@@ -7,7 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/home.dart';
+import 'package:my_app/pages/home/home.dart';
 
 var logger = Logger();
 

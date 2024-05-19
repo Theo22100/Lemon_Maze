@@ -84,5 +84,6 @@ class ParkourBarPageState extends State<ParkourBarPage> {
 void main() {
   runApp(const MaterialApp(
     home: ParkourBarPage(),
+    debugShowCheckedModeBanner: false,
   ));
 }

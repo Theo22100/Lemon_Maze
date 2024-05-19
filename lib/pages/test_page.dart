@@ -136,5 +136,6 @@ class TestPageState extends State<TestPage> {
 void main() {
   runApp(const MaterialApp(
     home: TestPage(),
+    debugShowCheckedModeBanner: false,
   ));
 }

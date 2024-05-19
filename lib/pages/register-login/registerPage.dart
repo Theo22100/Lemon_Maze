@@ -37,6 +37,12 @@ class RegisterPageState extends State<RegisterPage> {
 
   Future<void> createUser() async {
     try {
+      logger.i(pseudoController.text);
+      logger.i(mailController.text);
+      logger.i(passwordController.text);
+      logger.i(password2Controller.text);
+      logger.i(ageController.text);
+      logger.i(villeController.text);
       // Validation des champs
       if (pseudoController.text.isEmpty ||
           mailController.text.isEmpty ||
@@ -45,7 +51,7 @@ class RegisterPageState extends State<RegisterPage> {
           ageController.text.isEmpty ||
           villeController.text.isEmpty) {
         setState(() {
-          response = "Veuillez remplir tous les champs !";
+          response = "Veuillez remplir tous les champsss !";
         });
         return;
       }
@@ -218,6 +224,7 @@ class RegisterPageState extends State<RegisterPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
+                      controller: ageController,
                       decoration: const InputDecoration(
                         labelText: 'Age',
                         filled: true,
@@ -297,18 +304,16 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   // Bouton "S'inscrire"
-                  // Bouton "S'inscrire"
                   const SizedBox(height: 20.0),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Appeler votre fonction createUser ici
                         createUser();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            Color(0xFFE9581B), // Couleur de fond orange
+                            const Color(0xFFE9581B), // Couleur de fond orange
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(20), // Bords arrondis
