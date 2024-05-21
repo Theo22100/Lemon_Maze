@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/home/account.dart';
 import 'package:my_app/pages/register-login/loginSignupPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -180,7 +181,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const HomePage()),
                   );
@@ -193,7 +194,10 @@ class BottomNavigationBarWidget extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  // Action pour la boutique
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CitronPage()),
+                  );
                 },
                 icon: Image.asset(
                   '../../assets/images/home/boutique.png',
