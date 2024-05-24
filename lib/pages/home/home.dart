@@ -1,28 +1,37 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/home/account.dart';
+import 'package:my_app/pages/home/inventory.dart';
+import 'package:my_app/pages/parkour/bar/barIntro1.dart';
 import 'package:my_app/pages/register-login/loginSignupPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final List<String> images = [
-    '../../assets/images/home/announce/announce1.png',
-    '../../assets/images/home/announce/announce1.png',
-    '../../assets/images/home/announce/announce1.png'
+    'assets/images/home/announce/announce1.png',
+    'assets/images/home/announce/announce2.png',
+    'assets/images/home/announce/announce3.png'
   ];
 
   int _currentIndex = 0;
 
   void _clearSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.clear(); // Supprimer toutes les données des SharedPreferences
+    prefs.clear();
   }
 
   @override
@@ -40,14 +49,14 @@ class _HomePageState extends State<HomePage> {
                     height: 28,
                   ),
                   Image.asset(
-                    '../../assets/images/home/titre.png',
+                    'assets/images/home/titre.png',
                     width: MediaQuery.of(context).size.width * 0.4,
                   ),
                   const SizedBox(
                     height: 32,
                   ),
-                  Container(
-                    height: 200, // Hauteur de votre swiper
+                  SizedBox(
+                    height: 200,
                     child: Stack(
                       children: [
                         PageView.builder(
@@ -56,16 +65,16 @@ class _HomePageState extends State<HomePage> {
                           onPageChanged: (index) {
                             setState(() {
                               _currentIndex = index;
+                              logger.i(_currentIndex);
                             });
                           },
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0), // Ajout du padding
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Image.asset(
-                                images[index],
-                                fit: BoxFit
-                                    .fitHeight, // Ajustez la taille de l'image ici
+                                images[_currentIndex],
+                                fit: BoxFit.fitHeight,
                               ),
                             );
                           },
@@ -78,9 +87,10 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   _currentIndex--;
+                                  logger.i(_currentIndex);
                                 });
                               },
-                              icon: Icon(Icons.arrow_back),
+                              icon: const Icon(Icons.arrow_back),
                             ),
                           ),
                         if (_currentIndex < images.length - 1)
@@ -91,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   _currentIndex++;
+                                  logger.i(_currentIndex);
                                 });
                               },
                               icon: const Icon(Icons.arrow_forward),
@@ -99,8 +110,38 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-
-                  // Utilisez le pseudo récupéré dans votre interface utilisateur
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          _buildClickableImage(
+                            context,
+                            image: 'bar.png',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const CitronPage()),
+                              );
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          _buildUnavailableImage(context, 'bibliotheque.png')
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          _buildUnavailableImage(context, 'restaurant.png'),
+                          const SizedBox(height: 16),
+                          _buildUnavailableImage(context, 'musee.png'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -121,6 +162,112 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: const BottomNavigationBarWidget(),
+    );
+  }
+
+  Widget _buildClickableImage(BuildContext context,
+      {required String image, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: () async {
+        try {
+          // Récupérer l'ID de l'utilisateur
+          final String? userId = await getUserId();
+          if (userId == null || userId.isEmpty) {
+            logger.e('User ID is null or empty');
+            return;
+          }
+
+          // Appeler la route pour obtenir la liste des idparkour
+          final RequestResult parkourIdsResult =
+              await http_get('parkour/parkoursidbar');
+          if (parkourIdsResult.ok) {
+            final List<int> idParkours = List<int>.from(
+                parkourIdsResult.data.map((item) => item['idparkour'] as int));
+
+            // Choisir un idparkour aléatoire
+            final Random random = Random();
+            final int randomIdParkour =
+                idParkours[random.nextInt(idParkours.length)];
+
+            // Appeler la route pour créer une partie
+            final RequestResult createPartyResult =
+                await http_post('party/create-party', {
+              'id_parkour': randomIdParkour,
+              'id_user': userId,
+            });
+
+            if (createPartyResult.ok) {
+              // Gérer la réussite de la création de la partie
+              logger.i('Party created: ${createPartyResult.data}');
+              // ignore: use_build_context_synchronously
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      BarIntro1(randomIdParkour: randomIdParkour),
+                ),
+              );
+            } else {
+              // Gérer l'échec de la création de la partie
+              logger.e('Failed to create party: ${createPartyResult.data}');
+            }
+          } else {
+            // Gérer l'échec de l'obtention des idparkour
+            logger.e('Failed to fetch parkour ids: ${parkourIdsResult.data}');
+          }
+        } catch (e) {
+          // Gérer les erreurs
+          logger.e('Error while processing request: $e');
+        }
+      },
+      child: Image.asset(
+        'assets/images/home/homeparkour/$image',
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height * 0.2,
+      ),
+    );
+  }
+
+// Vous devez implémenter la fonction getUserId() pour récupérer l'ID de l'utilisateur
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('id');
+
+    // Retourner userId ou null en fonction de sa présence dans les préférences partagées
+    return userId;
+  }
+
+  Widget _buildUnavailableImage(BuildContext context, String image) {
+    return GestureDetector(
+      onTap: () {
+        _showUnavailableAlert(context);
+      },
+      child: Image.asset(
+        'assets/images/home/homeparkour/$image',
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height * 0.2,
+      ),
+    );
+  }
+
+  void _showUnavailableAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Non disponible pour le moment'),
+          content:
+              const Text('Cette fonctionnalité n\'est pas encore disponible.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -158,15 +305,12 @@ class _HomePageState extends State<HomePage> {
 }
 
 class BottomNavigationBarWidget extends StatelessWidget {
-  const BottomNavigationBarWidget({Key? key}) : super(key: key);
+  const BottomNavigationBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        double iconSize =
-            constraints.maxWidth * 0.16; // Ajustez le facteur selon vos besoins
-
         return Container(
           decoration: const BoxDecoration(
             color: Color(0xFFEB622B),
@@ -175,47 +319,48 @@ class BottomNavigationBarWidget extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
           ),
-          height: constraints.maxWidth * 0.28,
+          height: constraints.maxWidth * 0.18,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              IconButton(
+              _buildNavItem(
+                context,
+                icon: Icons.home,
+                label: 'Accueil',
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 },
-                icon: Image.asset(
-                  '../../assets/images/home/accueil.png',
-                  height: iconSize,
-                  width: iconSize,
-                ),
               ),
-              IconButton(
+              _buildNavItem(
+                context,
+                icon: Icons.shopping_bag,
+                label: 'Boutique',
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const CitronPage()),
                   );
                 },
-                icon: Image.asset(
-                  '../../assets/images/home/boutique.png',
-                  height: iconSize,
-                  width: iconSize,
-                ),
               ),
-              IconButton(
+              _buildNavItem(
+                context,
+                icon: Icons.archive,
+                label: 'Inventaire',
                 onPressed: () {
-                  // Action pour les notifications
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const InventoryPage()),
+                  );
                 },
-                icon: Image.asset(
-                  '../../assets/images/home/notifications.png',
-                  height: iconSize * 1.22,
-                  width: iconSize * 1.22,
-                ),
               ),
-              IconButton(
+              _buildNavItem(
+                context,
+                icon: Icons.person,
+                label: 'Profil',
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -223,16 +368,36 @@ class BottomNavigationBarWidget extends StatelessWidget {
                         builder: (context) => const AccountPage()),
                   );
                 },
-                icon: Image.asset(
-                  '../../assets/images/home/profil.png',
-                  height: iconSize,
-                  width: iconSize,
-                ),
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context,
+      {required IconData icon,
+      required String label,
+      required VoidCallback onPressed}) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: Icon(icon, size: MediaQuery.of(context).size.width * 0.08),
+          onPressed: onPressed,
+          color: const Color(0xFFFAF6D0),
+        ),
+        Text(
+          label,
+          style: const TextStyle(
+            color: Color(0xFFFAF6D0),
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+            fontFamily: 'Outfit',
+          ),
+        ),
+      ],
     );
   }
 }

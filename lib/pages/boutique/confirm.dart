@@ -11,9 +11,10 @@ Map<String, dynamic> response = {};
 
 class ConfirmPage extends StatefulWidget {
   final int idRecompense;
-  ConfirmPage({Key? key, required this.idRecompense}) : super(key: key);
+  const ConfirmPage({super.key, required this.idRecompense});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ConfirmPageState createState() => _ConfirmPageState();
 }
 
@@ -27,7 +28,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
   @override
   void initState() {
     super.initState();
-    int idRecompense = widget.idRecompense;
     _fetchOneRecompense(); // Appel de la fonction pour récupérer les récompenses
   }
 
@@ -68,9 +68,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
     }
   }
 
-  Future<String> _fetchLieuName(int id_lieu) async {
+  Future<String> _fetchLieuName(int idLieu) async {
     try {
-      final result = await http_get("lieu/getnomlieu/$id_lieu");
+      final result = await http_get("lieu/getnomlieu/$idLieu");
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {
@@ -112,7 +112,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
   // Fonction pour construire la boîte de récompense
   Widget _buildRecompenseBox() {
     if (recompense == null) {
-      return Center(
+      return const Center(
         child: Text(
           'Aucune récompense trouvée.',
           style: TextStyle(color: Colors.red, fontSize: 16),
@@ -122,10 +122,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
-    int id_lieu = recompense['id_lieu'] ?? 0;
-    int id_type = recompense['id_type'] ?? 0;
+    int idLieu = recompense['id_lieu'] ?? 0;
+    int idType = recompense['id_type'] ?? 0;
 
-    var selectedType = typeData[id_type] ?? {};
+    var selectedType = typeData[idType] ?? {};
 
     String imagePath = selectedType['imagePath'] ?? '';
     Color citronColor = selectedType['citronColor'] ?? Colors.transparent;
@@ -167,7 +167,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     child: Text(
                       citronText,
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Outfit',
                         color: citronColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -186,7 +186,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 Text(
                   nom,
                   style: const TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Outfit',
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
                     color: Color(0xFFFAF6D0),
@@ -194,7 +194,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 ),
                 const SizedBox(height: 5),
                 FutureBuilder<String>(
-                  future: _fetchLieuName(id_lieu), // Récupérer le nom du lieu
+                  future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator(); // Indicateur de chargement
@@ -204,7 +204,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                       return Text(
                         snapshot.data ?? '',
                         style: const TextStyle(
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Outfit',
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
                           color: Color(0xFFFAF6D0),
@@ -217,7 +217,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 Text(
                   info,
                   style: const TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Outfit',
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     color: Color(0xFFFAF6D0),
@@ -233,12 +233,11 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Avoir taille ecran pour image
-    final screenSize = MediaQuery.of(context).size;
-    String response = "";
+    // // Avoir taille ecran pour image
+    // final screenSize = MediaQuery.of(context).size;
 
-    final imageWidth = screenSize.width * 0.4;
-    final imageHeight = screenSize.height * 0.2;
+    // final imageWidth = screenSize.width * 0.4;
+    // final imageHeight = screenSize.height * 0.2;
 
     return Scaffold(
       body: Stack(
@@ -275,6 +274,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     const Text(
                       "Je veux régler ma commande...",
                       style: TextStyle(
+                        fontFamily: 'Gustavo',
                         fontWeight: FontWeight.w500,
                         fontSize: 40,
                         color: Color(0xFFFAF6D0),
@@ -297,6 +297,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   ),
                   child: Container(
                     color: const Color(0xFFFAF6D0),
+                    //Taille zone beige
                     height: MediaQuery.of(context).size.height / 1.30,
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
@@ -306,9 +307,10 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         children: [
                           const SizedBox(height: 10),
                           const Text(
+                            //Texte titre
                             'Achat de ma commande',
                             style: TextStyle(
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w600,
                               fontSize: 22,
                               color: Color(0xFFEB622B),
@@ -321,23 +323,23 @@ class _ConfirmPageState extends State<ConfirmPage> {
                             onPressed: () async {
                               _removeCitron(citron);
                             },
+                            //Bouton achete
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xFFE9581B), // Couleur du fond
+                              backgroundColor: const Color(0xFFE9581B),
                               shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(20), // Bords arrondis
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 40,
-                                  vertical: 16), // Taille du bouton
+                                  vertical: 16), // Taille bouton
                             ),
                             child: const Text(
                               'J\'achète',
                               style: TextStyle(
+                                fontFamily: 'Outfit',
                                 fontWeight: FontWeight.w500,
-                                color: Colors.white, // Couleur du texte
-                                fontSize: 18, // Taille de la police
+                                color: Colors.white,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -351,11 +353,13 @@ class _ConfirmPageState extends State<ConfirmPage> {
                               fontSize: 14,
                             ),
                           ),
-                          const SizedBox(height: 8), // Ajoute espace
+                          const SizedBox(height: 8),
                           Text(
                             textAlign: TextAlign.center,
                             responsemsg,
                             style: const TextStyle(
+                              fontFamily: 'Outfit',
+                              fontWeight: FontWeight.w500,
                               fontSize: 16,
                               color: Color(0xFFFAF6D0),
                             ),
@@ -384,8 +388,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
   }
 
   Future<void> _removeCitron(int citron) async {
-    logger.i('Citron $citron');
-    logger.i('Route $route');
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString('id');
@@ -403,12 +405,11 @@ class _ConfirmPageState extends State<ConfirmPage> {
         'nombre': citron,
       };
 
-      final result =
-          await http_put(route, body); // Utilisez la route correcte ici
-      logger.i(result);
+      final result = await http_put(route, body);
 
       if (result.data['success']) {
         logger.i('Successfully removed $citron citron(s)');
+        _addRecompense();
         // ignore: use_build_context_synchronously
         Navigator.push(
           context,
@@ -427,6 +428,47 @@ class _ConfirmPageState extends State<ConfirmPage> {
       setState(() {
         responsemsg = 'Erreur interne lors de la suppression des citrons';
       });
+    }
+  }
+
+  Future<void> _addRecompense() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('id');
+
+      // Validation userId
+      if (userId == null || userId.isEmpty) {
+        logger.e('User ID is null or empty');
+        setState(() {
+          responsemsg = 'Erreur: ID utilisateur non trouvé';
+        });
+        return;
+      }
+
+      var result3 = await http_post("recompense_user/create_recompense_user",
+          {"id_user": userId, "id_recompense": widget.idRecompense});
+
+      if (result3.ok) {
+        setState(() {
+          if (result3.data['success'] == true) {
+            logger.i("Ajout réussi");
+            responsemsg = 'Récompense ajoutée avec succès';
+          } else {
+            responsemsg = result3.data['message'];
+            logger.e("Erreur : ${result3.data['message']}");
+          }
+        });
+      } else {
+        setState(() {
+          responsemsg = 'Erreur de connexion avec le serveur';
+        });
+        logger.e('Erreur de connexion avec le serveur');
+      }
+    } catch (error) {
+      setState(() {
+        responsemsg = 'Erreur inattendue: $error';
+      });
+      logger.e("Erreur inattendue: $error");
     }
   }
 }

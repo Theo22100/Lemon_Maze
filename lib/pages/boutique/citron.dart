@@ -10,7 +10,7 @@ var logger = Logger();
 String response = "";
 
 class CitronPage extends StatefulWidget {
-  const CitronPage({Key? key}) : super(key: key);
+  const CitronPage({super.key});
 
   @override
   _CitronPageState createState() => _CitronPageState();
@@ -80,8 +80,8 @@ class _CitronPageState extends State<CitronPage> {
     // Avoir taille ecran pour image
     final screenSize = MediaQuery.of(context).size;
 
-    final imageWidth = screenSize.width * 0.4;
-    final imageHeight = screenSize.height * 0.2;
+    // final imageWidth = screenSize.width * 0.4;
+    // final imageHeight = screenSize.height * 0.2;
 
     return Scaffold(
       body: Stack(
@@ -93,7 +93,7 @@ class _CitronPageState extends State<CitronPage> {
               fit: BoxFit.cover,
             ),
           ),
-          // Back button at the top left
+          // Bouton retour
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -115,9 +115,9 @@ class _CitronPageState extends State<CitronPage> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Bravo à toi $pseudo !", // Utilisation du pseudo ici
+                      "Bravo à toi $pseudo !",
                       style: const TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Outfit',
                         fontWeight: FontWeight.w500,
                         fontSize: 40,
                         color: Color(0xFFFAF6D0),
@@ -152,7 +152,7 @@ class _CitronPageState extends State<CitronPage> {
                             'Mes bons citrons',
                             style: TextStyle(
                               fontSize: 22,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w600,
                               color: Color(0xFFEB622B),
                             ),
@@ -182,7 +182,7 @@ class _CitronPageState extends State<CitronPage> {
                             response,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                               color: Colors.red,
@@ -207,8 +207,7 @@ class _CitronPageState extends State<CitronPage> {
                   left: 0,
                   right: 0,
                   bottom: screenSize.width / 2.6,
-                  child:
-                      _buildShopButton(), // Le bouton est maintenant au-dessus de l'image
+                  child: _buildShopButton(),
                 ),
               ],
             ),
@@ -241,7 +240,7 @@ class _CitronPageState extends State<CitronPage> {
             child: Text(
               title,
               style: const TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: 'Outfit',
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
                 color: Colors.white,
@@ -292,7 +291,7 @@ class _CitronPageState extends State<CitronPage> {
         child: const Text(
           "La boutique",
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: 'Outfit',
             fontWeight: FontWeight.w500,
             fontSize: 18,
             color: Colors.white,

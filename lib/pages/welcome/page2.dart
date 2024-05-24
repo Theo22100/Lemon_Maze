@@ -49,11 +49,11 @@ class Welcome2Page extends StatelessWidget {
                             Text(
                               'Amuse toi avec tes amis',
                               style: TextStyle(
-                                color: Color(0xFFFAF6D0),
-                                fontSize: 40,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                              ),
+                                  color: Color(0xFFFAF6D0),
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.5,
+                                  fontFamily: 'Gustavo'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),

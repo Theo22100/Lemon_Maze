@@ -10,7 +10,7 @@ import 'package:my_app/pages/register-login/loginSignupPage.dart';
 var logger = Logger();
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  const RegisterPage({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -51,7 +51,7 @@ class RegisterPageState extends State<RegisterPage> {
           ageController.text.isEmpty ||
           villeController.text.isEmpty) {
         setState(() {
-          response = "Veuillez remplir tous les champsss !";
+          response = "Veuillez remplir tous les champs !";
         });
         return;
       }
@@ -175,7 +175,8 @@ class RegisterPageState extends State<RegisterPage> {
                     child: Text(
                       "S'inscrire",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontFamily: 'Gustavo',
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFAF6D0),
                       ),
@@ -197,7 +198,8 @@ class RegisterPageState extends State<RegisterPage> {
                             Icon(Icons.person, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -216,7 +218,8 @@ class RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.email, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -236,7 +239,8 @@ class RegisterPageState extends State<RegisterPage> {
                             color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                       inputFormatters: <TextInputFormatter>[
@@ -260,7 +264,8 @@ class RegisterPageState extends State<RegisterPage> {
                             Icon(Icons.location_city, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -298,7 +303,8 @@ class RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -324,8 +330,9 @@ class RegisterPageState extends State<RegisterPage> {
                         child: Text(
                           "S'inscrire",
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Outfit',
                             color: Color(0xFFFAF6D0),
                           ),
                         ),
@@ -340,6 +347,8 @@ class RegisterPageState extends State<RegisterPage> {
                     style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xFFFAF6D0),
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'Outfit',
                     ),
                   ),
                 ],

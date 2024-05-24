@@ -75,10 +75,6 @@ class LoginPageState extends State<LoginPage> {
           await prefs.setString('age', result.data['age'].toString());
           await prefs.setString('ville', result.data['ville']);
           await prefs.setString('id', result.data['id'].toString());
-
-          // Appeler la fonction asynchrone pour attendre 2 secondes
-          await Future.delayed(const Duration(seconds: 2));
-
           // Mettre à jour l'état dans setState après l'attente
           setState(() {
             navigateToHomePage();
@@ -93,7 +89,6 @@ class LoginPageState extends State<LoginPage> {
         // Gérer erreurs de connexion
         setState(() {
           response = result.data['status'];
-          ;
         });
       }
     } catch (error) {
@@ -157,8 +152,9 @@ class LoginPageState extends State<LoginPage> {
                     child: Text(
                       "Se connecter",
                       style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Gustavo',
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
                         color: Color(0xFFFAF6D0),
                       ),
                     ),
@@ -179,7 +175,8 @@ class LoginPageState extends State<LoginPage> {
                             Icon(Icons.person, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -198,7 +195,8 @@ class LoginPageState extends State<LoginPage> {
                         prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Outfit',
                         ),
                       ),
                     ),
@@ -224,9 +222,10 @@ class LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Se connecter",
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
                             color: Color(0xFFFAF6D0),
+                            fontFamily: 'Outfit',
                           ),
                         ),
                       ),
@@ -240,6 +239,8 @@ class LoginPageState extends State<LoginPage> {
                     style: const TextStyle(
                       fontSize: 16,
                       color: Color(0xFFFAF6D0),
+                      fontFamily: 'Outfit',
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],

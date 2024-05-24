@@ -47,7 +47,7 @@ class Welcome1Page extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontFamily: 'Poppins',
+                          fontFamily: 'Outfit',
                           fontWeight: FontWeight.w300,
                         ),
                       ),

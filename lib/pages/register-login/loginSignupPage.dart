@@ -25,7 +25,7 @@ class LoginSignUpPage extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Image.asset(
-              '../../assets/images/login_signup/login-bot.png',
+              'assets/images/login_signup/login-bot.png',
               fit: BoxFit.cover,
               alignment: Alignment.bottomCenter,
             ),
@@ -58,8 +58,9 @@ class LoginSignUpPage extends StatelessWidget {
                     child: Text(
                       'Connexion',
                       style: TextStyle(
+                        fontFamily: 'Gustavo',
                         fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(233, 88, 27, 1),
                       ),
                     ),
@@ -88,8 +89,9 @@ class LoginSignUpPage extends StatelessWidget {
                     child: Text(
                       'Inscription',
                       style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Gustavo',
                         fontSize: 30,
-                        fontWeight: FontWeight.bold,
                         color: Color.fromRGBO(233, 88, 27, 1),
                       ),
                     ),

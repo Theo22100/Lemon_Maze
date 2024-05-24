@@ -14,7 +14,7 @@ Map<String, dynamic> response = {};
 class SuccesPage extends StatefulWidget {
   final int idRecompense;
 
-  const SuccesPage({Key? key, required this.idRecompense}) : super(key: key);
+  const SuccesPage({super.key, required this.idRecompense});
 
   @override
   _SuccesPageState createState() => _SuccesPageState();
@@ -38,8 +38,6 @@ class _SuccesPageState extends State<SuccesPage> {
     try {
       // Appel de l'API pour récupérer les récompenses
       final result = await http_get("recompense/getrecompense/$idRecompense");
-      logger.i("result data");
-      logger.i(result.data['data']);
 
       if (result.data['success']) {
         setState(() {
@@ -164,7 +162,7 @@ class _SuccesPageState extends State<SuccesPage> {
                     child: Text(
                       citronText,
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Outfit',
                         color: citronColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -183,7 +181,7 @@ class _SuccesPageState extends State<SuccesPage> {
                 Text(
                   nom,
                   style: const TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Outfit',
                     fontWeight: FontWeight.w600,
                     fontSize: 14,
                     color: Color(0xFFFAF6D0),
@@ -205,7 +203,7 @@ class _SuccesPageState extends State<SuccesPage> {
                         return Text(
                           lieuNom,
                           style: const TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Outfit',
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                             color: Color(0xFFFAF6D0),
@@ -219,7 +217,7 @@ class _SuccesPageState extends State<SuccesPage> {
                 Text(
                   info,
                   style: const TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Outfit',
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     color: Color(0xFFFAF6D0),
@@ -276,7 +274,7 @@ class _SuccesPageState extends State<SuccesPage> {
                     const Text(
                       "Commande réglée, succès !",
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Outfit',
                         fontWeight: FontWeight.w500,
                         fontSize: 40,
                         color: Color(0xFFFAF6D0),
@@ -310,7 +308,7 @@ class _SuccesPageState extends State<SuccesPage> {
                           const Text(
                             'Validation de ma commande',
                             style: TextStyle(
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w600,
                               fontSize: 22,
                               color: Color(0xFFEB622B),

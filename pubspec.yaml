@@ -70,27 +70,45 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/boutique/
+    - assets/images/welcome/
+    - assets/images/boutique/
     - assets/images/login_signup/
     - assets/images/welcome/
+    - assets/images/home/announce/
+    - assets/images/home/
+    - assets/images/home/homeparkour/
+    - assets/images/parkour/
 
   
   fonts:
-    - family: Poppins
+    - family: Gustavo
       fonts:
-        - asset: assets/fonts/poppins/Poppins-Regular.ttf
-        - asset: assets/fonts/poppins/Poppins-Italic.ttf
-          style: italic
-        - asset: assets/fonts/poppins/Poppins-Thin.ttf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Regular.otf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Thin.otf
           weight: 100
-        - asset: assets/fonts/poppins/Poppins-Light.ttf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Light.otf
           weight: 300
-        - asset: assets/fonts/poppins/Poppins-Regular.ttf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Regular.otf
           weight: 400
-        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Medium.otf
           weight: 500
-        - asset: assets/fonts/poppins/Poppins-Bold.ttf
+        - asset: assets/fonts/gustavo/Gustavo_trial-Bold.otf
           weight: 600
-        - asset: assets/fonts/poppins/Poppins-ExtraBold.ttf
+    - family: Outfit
+      fonts:
+        - asset: assets/fonts/outfit/Outfit-Regular.ttf
+        - asset: assets/fonts/outfit/Outfit-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/outfit/Outfit-Light.ttf
+          weight: 300
+        - asset: assets/fonts/outfit/Outfit-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/outfit/Outfit-SemiBold.ttf
+          weight: 500
+        - asset: assets/fonts/outfit/Outfit-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/outfit/Outfit-ExtraBold.ttf
           weight: 700
     - family: Inter
       fonts:

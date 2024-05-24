@@ -48,11 +48,11 @@ class Welcome4Page extends StatelessWidget {
                             Text(
                               'Explore de nouveaux lieux',
                               style: TextStyle(
-                                color: Color(0xFFFAF6D0),
-                                fontSize: 40,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5,
-                              ),
+                                  color: Color(0xFFFAF6D0),
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.w400,
+                                  height: 1.5,
+                                  fontFamily: 'Gustavo'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -63,7 +63,7 @@ class Welcome4Page extends StatelessWidget {
                               'Découvre de nouveaux endroits à Rennes et trouve de nouvelles adresses qui deviendront tes favoris.',
                               style: TextStyle(
                                 color: Color(0xFFFAF6D0),
-                                fontFamily: 'Inter',
+                                fontFamily: 'Outfit',
                                 fontSize: 19,
                                 fontWeight: FontWeight.w400,
                                 height: 25 / 19, // Calculer le line-height

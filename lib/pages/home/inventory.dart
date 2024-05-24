@@ -10,53 +10,58 @@ import 'package:logger/logger.dart';
 var logger = Logger();
 String response = "";
 
-class BoutiquePage extends StatefulWidget {
-  const BoutiquePage({super.key});
+class InventoryPage extends StatefulWidget {
+  const InventoryPage({super.key});
 
   @override
-  _BoutiquePageState createState() => _BoutiquePageState();
+  _InventoryPageState createState() => _InventoryPageState();
 }
 
-class _BoutiquePageState extends State<BoutiquePage> {
-  List<dynamic> recompenses = []; // Liste des récompenses
-  bool isLoading = false; // Indicateur de chargement
+class _InventoryPageState extends State<InventoryPage> {
+  List<dynamic> recompenses = [];
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchRecompenses(); // Appel de la fonction pour récupérer les récompenses
+    _fetchRecompensesUsers();
   }
 
-  // Fonction pour récupérer les récompenses en fonction de l'ID de type
-  Future<void> _fetchRecompenses() async {
+  Future<void> _fetchRecompensesUsers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('id');
+
+    if (userId == null || userId.isEmpty) {
+      setState(() {
+        response = "Erreur: ID utilisateur non trouvé";
+      });
+      return;
+    }
+
     setState(() {
-      isLoading = true; // Définir l'indicateur de chargement sur vrai
+      isLoading = true;
     });
 
     try {
-      // Appel de l'API pour récupérer les récompenses
-      final result = await http_get("recompense/recompenses");
+      final result =
+          await http_get("recompense_user/list_user_recompenses/$userId");
 
       if (result.data['success']) {
         setState(() {
-          recompenses =
-              result.data['message']; // Mettre à jour la liste des récompenses
+          recompenses = result.data['recompenses'];
         });
       } else {
         setState(() {
-          response =
-              result.data['message']; // Mettre à jour le message d'erreur
+          response = result.data['message'];
         });
       }
     } catch (error) {
       setState(() {
-        response =
-            "Erreur lors de la récupération des récompenses"; // Mettre à jour le message d'erreur
+        response = "Erreur lors de la récupération des récompenses";
       });
     } finally {
       setState(() {
-        isLoading =
-            false; // Définir l'indicateur de chargement sur faux une fois terminé
+        isLoading = false;
       });
     }
   }
@@ -66,14 +71,12 @@ class _BoutiquePageState extends State<BoutiquePage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
-          // Back button at the top left
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -89,16 +92,14 @@ class _BoutiquePageState extends State<BoutiquePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      '../../assets/images/boutique/backhomecitron.png',
+                      'assets/images/boutique/backhomecitron.png',
                       width: 50,
                       height: 50,
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "J’ai trouvé le code secret !",
+                      "Mon inventaire",
                       style: TextStyle(
-                        fontFamily: 'Gustavo',
-                        fontWeight: FontWeight.w500,
                         fontSize: 40,
                         color: Color(0xFFFAF6D0),
                       ),
@@ -108,7 +109,6 @@ class _BoutiquePageState extends State<BoutiquePage> {
               ),
             ),
           ),
-
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -122,17 +122,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
-                    const Text(
-                      'La boutique',
-                      style: TextStyle(
-                        fontFamily: 'Outfit',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22,
-                        color: Color(0xFFEB622B),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Expanded(
                       child: isLoading
                           ? const Center(child: CircularProgressIndicator())
@@ -154,8 +144,6 @@ class _BoutiquePageState extends State<BoutiquePage> {
     );
   }
 
-  // Fonction pour construire la boîte de récompense
-
   Widget _buildRecompenseBox(dynamic recompense) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
@@ -163,40 +151,37 @@ class _BoutiquePageState extends State<BoutiquePage> {
     String citronJaune = (recompense['citronJaune'] ?? 0).toString();
     String citronRouge = (recompense['citronRouge'] ?? 0).toString();
     String citronBleu = (recompense['citronBleu'] ?? 0).toString();
-    int id_lieu = recompense['id_lieu'] ?? 0;
-    int id_type = recompense['id_type'] ?? 0;
-    int idrecompense =
-        recompense['idrecompense'] ?? 0; // Ajout d'une valeur par défaut
+    int idLieu = recompense['id_lieu'] ?? 0;
+    int idType = recompense['id_type'] ?? 0;
+    int idRecompense = recompense['id_recompense'] ?? 0;
 
-    // Vérifiez que id_recompense n'est pas null
-    if (idrecompense == 0) {
-      return const SizedBox
-          .shrink(); // Retournez un widget vide ou un message d'erreur
+    if (idRecompense == 0) {
+      logger.w("Récompense avec id_recompense 0 trouvée : $recompense");
+      return const SizedBox.shrink();
     }
 
-    String imagePath = ''; // Chemin de l'image en fonction de l'ID de type
+    String imagePath;
     Color citronColor;
     String citronText;
 
-    // Assigner le chemin de l'image et les valeurs de la boîte en fonction de l'ID de type
-    switch (id_type) {
+    switch (idType) {
       case 1:
-        imagePath = '../../assets/images/boutique/bar.png';
+        imagePath = 'assets/images/boutique/bar.png';
         citronColor = Colors.red;
         citronText = '$citronRouge PTS';
         break;
       case 2:
-        imagePath = '../../assets/images/boutique/restaurant.png';
+        imagePath = 'assets/images/boutique/restaurant.png';
         citronColor = Colors.yellow;
         citronText = '$citronJaune PTS';
         break;
       case 3:
-        imagePath = '../../assets/images/boutique/musee.png';
+        imagePath = 'assets/images/boutique/musee.png';
         citronColor = Colors.blue;
         citronText = '$citronBleu PTS';
         break;
       case 4:
-        imagePath = '../../assets/images/boutique/bibliotheque.png';
+        imagePath = 'assets/images/boutique/bibliotheque.png';
         citronColor = Colors.green;
         citronText = '$citronVert PTS';
         break;
@@ -206,12 +191,16 @@ class _BoutiquePageState extends State<BoutiquePage> {
         citronText = '';
     }
 
+    if (imagePath.isEmpty) {
+      logger.w("Chemin de l'image vide pour la récompense : $recompense");
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ConfirmPage(idRecompense: idrecompense),
+            builder: (context) => ConfirmPage(idRecompense: idRecompense),
           ),
         );
       },
@@ -225,7 +214,6 @@ class _BoutiquePageState extends State<BoutiquePage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Centrer verticalement l'image
             Stack(
               children: [
                 Center(
@@ -239,7 +227,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
                   top: 0,
                   right: 15,
                   child: Transform.rotate(
-                    angle: -pi / 9, // Rotation
+                    angle: -pi / 9,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
@@ -268,42 +256,16 @@ class _BoutiquePageState extends State<BoutiquePage> {
                     style: const TextStyle(
                       fontFamily: 'Outfit',
                       fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                      fontSize: 20,
                       color: Color(0xFFFAF6D0),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  FutureBuilder(
-                    future: _fetchLieuName(id_lieu), // Récupérer le nom du lieu
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
-                      } else {
-                        if (snapshot.hasError) {
-                          return const Text(
-                              "Erreur de chargement du nom du lieu"); // Afficher message d'erreur
-                        } else {
-                          String lieuNom = snapshot.data
-                              .toString(); // Récupérer le nom du lieu depuis le snapshot
-                          return Text(
-                            lieuNom,
-                            style: const TextStyle(
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Color(0xFFFAF6D0),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   Text(
                     info,
                     style: const TextStyle(
                       fontFamily: 'Outfit',
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                       fontSize: 14,
                       color: Color(0xFFFAF6D0),
                     ),
@@ -317,14 +279,13 @@ class _BoutiquePageState extends State<BoutiquePage> {
     );
   }
 
-  // Fonction pour récupérer le nom du lieu en fonction de l'ID de lieu
-  Future<String> _fetchLieuName(int id_lieu) async {
+  Future<String> _fetchLieuName(int idLieu) async {
     try {
-      final result = await http_get("lieu/getnomlieu/$id_lieu");
+      final result = await http_get("lieu/getnomlieu/$idLieu");
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {
-        throw Exception("Lieu non trouvé"); // Lancer une exception
+        throw Exception("Lieu non trouvé");
       }
     } catch (error) {
       return "Erreur de chargement du nom du lieu";

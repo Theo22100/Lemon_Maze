@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/register-login/login_page.dart';
+import 'package:my_app/pages/register-login/loginPage.dart';
 import 'package:my_app/pages/register-login/registerPage.dart';
 
 var logger = Logger();
@@ -38,7 +38,7 @@ class TestPageState extends State<TestPage> {
     // Récupérer la liste des utilisateurs
     var response = await http_get('user/users');
 
-    if (response != null && response.ok) {
+    if (response.ok) {
       // Si la réponse n'est pas nulle et que la requête est réussie
       setState(() {
         users.clear();
@@ -77,7 +77,7 @@ class TestPageState extends State<TestPage> {
     } else {
       // Si la réponse est nulle ou si la requête a échoué
       logger.e(
-          "Impossible d'actualiser les utilisateurs. Erreur : ${response?.data['error']}");
+          "Impossible d'actualiser les utilisateurs. Erreur : ${response.data['error']}");
     }
   }
 
@@ -108,7 +108,7 @@ class TestPageState extends State<TestPage> {
             onPressed: () {
               // Naviguer vers la page d'ajout d'utilisateur
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const AuthScreen();
+                return const LoginPage();
               }));
             },
           ),

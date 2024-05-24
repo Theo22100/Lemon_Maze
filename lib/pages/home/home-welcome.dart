@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/home/home.dart';
 
 class WelcomeHomePage extends StatefulWidget {
-  const WelcomeHomePage({Key? key}) : super(key: key);
+  const WelcomeHomePage({super.key});
 
   @override
   _WelcomeHomePageState createState() => _WelcomeHomePageState();
@@ -51,7 +51,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                           style: TextStyle(
                             color: Color(0xFFE9581B),
                             fontSize: 16,
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Outfit',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -64,7 +64,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                           style: TextStyle(
                             color: Color(0xFFE9581B),
                             fontSize: 16,
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Outfit',
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -79,7 +79,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                             style: TextStyle(
                               color: Color(0xFFE9581B),
                               fontSize: 14,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -98,7 +98,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                             style: TextStyle(
                               color: Color(0xFFE9581B),
                               fontSize: 14,
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Outfit',
                               fontWeight: FontWeight.w300,
                             ),
                           ),
@@ -136,7 +136,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                                Color(0xFFE9581B)),
+                                const Color(0xFFE9581B)),
                           ),
                           child: const Text(
                             'Suivant',
