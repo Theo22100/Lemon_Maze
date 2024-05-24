@@ -4,8 +4,10 @@ import 'package:my_app/pages/parkour/bar/barIntro2.dart';
 
 class BarMap extends StatefulWidget {
   final int randomIdParkour;
+  final int idParty;
 
-  const BarMap({super.key, required this.randomIdParkour});
+  const BarMap(
+      {super.key, required this.randomIdParkour, required this.idParty});
 
   @override
   _BarMapState createState() => _BarMapState();
@@ -30,8 +32,26 @@ class _BarMapState extends State<BarMap> {
           lieux = List<String>.from(data['lieux']);
         });
       } else {
-        // Handle missing 'lieux' or 'data' being null
-        // Optionally show an error message or handle it gracefully
+        //mettre msg erreur
+        logger.e("The response data or 'lieux' key is null");
+      }
+    } else {
+      // Handle error
+      logger.e("Failed to fetch parkour data");
+    }
+  }
+
+  Future<void> getEtatParty() async {
+    var result =
+        await http_get("party/getpartyetat/nomslieu/${widget.randomIdParkour}");
+    if (result.ok) {
+      var data = result.data['data'];
+      if (data != null && data['lieux'] != null) {
+        setState(() {
+          lieux = List<String>.from(data['lieux']);
+        });
+      } else {
+        //mettre msg erreur
         logger.e("The response data or 'lieux' key is null");
       }
     } else {
@@ -115,7 +135,9 @@ class _BarMapState extends State<BarMap> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BarIntro2(
-                                  randomIdParkour: widget.randomIdParkour),
+                                randomIdParkour: widget.randomIdParkour,
+                                idParty: widget.idParty,
+                              ),
                             ),
                           );
                         },

@@ -3,8 +3,10 @@ import 'package:my_app/pages/parkour/bar/barMap.dart';
 
 class BarIntro2 extends StatelessWidget {
   final int randomIdParkour;
+  final int idParty;
 
-  const BarIntro2({super.key, required this.randomIdParkour});
+  const BarIntro2(
+      {super.key, required this.randomIdParkour, required this.idParty});
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +99,10 @@ class BarIntro2 extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      BarMap(randomIdParkour: randomIdParkour),
+                                  builder: (context) => BarMap(
+                                    randomIdParkour: randomIdParkour,
+                                    idParty: idParty,
+                                  ),
                                 ),
                               );
                             },

@@ -203,8 +203,10 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      BarIntro1(randomIdParkour: randomIdParkour),
+                  builder: (context) => BarIntro1(
+                    randomIdParkour: randomIdParkour,
+                    idParty: createPartyResult.data['idparty'],
+                  ),
                 ),
               );
             } else {
