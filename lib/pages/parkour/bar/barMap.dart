@@ -160,13 +160,13 @@ class SnakePainter extends CustomPainter {
 
     Path path = Path();
     path.moveTo(size.width - 50, 72);
-
+    //Positionnement points
     double stepX = size.width / 5.8;
     double stepY = size.height / 5;
 
     for (int i = 0; i < 5; i++) {
       double controlPointX = (i % 2 == 0)
-          ? size.width - stepX * (i - 0.2)
+          ? size.width - stepX * (i - 0.2) /*start à image1*/
           : size.width - stepX * (i + 1.5);
       double controlPointY = (i % 2 == 0) ? stepY * (i + 1) : stepY * (i);
       double endPointX = size.width - stepX * (i + 1);
