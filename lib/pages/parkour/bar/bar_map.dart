@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/BarLieu.dart';
+import 'package:my_app/pages/parkour/bar/bar_lieu.dart';
 
 class BarMap extends StatefulWidget {
   final int randomIdParkour;

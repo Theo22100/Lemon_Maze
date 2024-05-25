@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/barArrive.dart';
-import 'package:my_app/pages/parkour/bar/barMap.dart';
+import 'package:my_app/pages/parkour/bar/bar_arrive.dart';
+import 'package:my_app/pages/parkour/bar/bar_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BarLieu extends StatefulWidget {
@@ -112,7 +112,7 @@ class _BarLieuState extends State<BarLieu> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              '../../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -144,7 +144,7 @@ class _BarLieuState extends State<BarLieu> {
             right: 0,
             child: Center(
               child: Image.asset(
-                '../../../assets/images/home/homeparkour/bar.png',
+                'assets/images/home/homeparkour/bar.png',
                 width: screenWidth * 0.4,
                 height: screenHeight * 0.2,
                 fit: BoxFit.contain,
@@ -234,7 +234,7 @@ class _BarLieuState extends State<BarLieu> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.asset(
-                            '../../../assets/images/parkour/index_3.png',
+                            'assets/images/parkour/index_3.png',
                             width: 80,
                             height: 80,
                           ),

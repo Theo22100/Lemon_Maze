@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/parkour/bar/barMap.dart';
+import 'package:my_app/pages/parkour/bar/bar_map.dart';
 
 class BarIntro2 extends StatelessWidget {
   final int randomIdParkour;
@@ -20,7 +20,7 @@ class BarIntro2 extends StatelessWidget {
           // Image en arrière-plan
           Positioned.fill(
             child: Image.asset(
-              '../../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -32,7 +32,7 @@ class BarIntro2 extends StatelessWidget {
             right: 0,
             child: Center(
               child: Image.asset(
-                '../../../assets/images/home/homeparkour/bar.png',
+                'assets/images/home/homeparkour/bar.png',
                 width: screenWidth *
                     0.4, // Ajustez la largeur proportionnelle à l'écran
                 height: screenHeight *
@@ -90,7 +90,7 @@ class BarIntro2 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.asset(
-                            '../../../assets/images/parkour/index_3.png',
+                            'assets/images/parkour/index_3.png',
                             width: 80,
                             height: 80,
                           ),
@@ -107,7 +107,7 @@ class BarIntro2 extends StatelessWidget {
                               );
                             },
                             child: Image.asset(
-                              '../../../assets/images/parkour/button.png',
+                              'assets/images/parkour/button.png',
                               width: 50,
                               height: 50,
                             ),

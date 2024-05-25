@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/modules/http.dart';
+import 'package:my_app/pages/parkour/bar/bar_arrive.dart';
+import 'package:my_app/pages/parkour/bar/question/enigme1_page.dart';
 
 class CodePage extends StatefulWidget {
   final int randomIdParkour;
@@ -12,13 +15,19 @@ class CodePage extends StatefulWidget {
 }
 
 class _CodePageState extends State<CodePage> {
-  List<String> code = [
-    "",
-    "",
-    "",
-    ""
-  ]; // Liste pour stocker les entrées du code
-  int currentIndex = 0; // Index actuel pour la saisie du code
+  List<String> code = ["", "", "", ""];
+  int currentIndex = 0; // Index actuel pour code
+  int etat = 0;
+  int bonCode = 0;
+  String lieu = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getCodeEtat();
+  }
+
+  // Avec etat ça recup le code le code en fonction
 
   void addDigit(String digit) {
     setState(() {
@@ -38,6 +47,59 @@ class _CodePageState extends State<CodePage> {
     });
   }
 
+  Future<void> getCodeEtat() async {
+    try {
+      var result = await http_get("party/getcodewithetat/${widget.idParty}");
+      if (result.ok) {
+        var data = result.data['data'];
+        if (data != null) {
+          setState(() {
+            etat = data['etat'];
+            bonCode = data['code'];
+            logger.i('bon code $bonCode');
+          });
+        } else {
+          logger.e("La réponse 'data' ou la clé 'etat' est nulle");
+        }
+      } else {
+        logger.e("Échec de la récupération des données de la partie");
+      }
+    } catch (error) {
+      logger.e("Erreur lors de l'appel HTTP : $error");
+    }
+  }
+
+  void checkCode() {
+    String enteredCode = code.join();
+    if (enteredCode == bonCode.toString()) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EnigmePage(
+                randomIdParkour: widget.randomIdParkour,
+                idParty: widget.idParty)),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Mauvais Code"),
+            content: const Text("Le code que vous avez entré est incorrect."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -48,7 +110,7 @@ class _CodePageState extends State<CodePage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              '../../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -58,10 +120,32 @@ class _CodePageState extends State<CodePage> {
             right: 0,
             child: Center(
               child: Image.asset(
-                '../../../assets/images/home/homeparkour/bar.png',
+                'assets/images/home/homeparkour/bar.png',
                 width: screenWidth * 0.4,
                 height: screenHeight * 0.2,
                 fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.02,
+            left: 32,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BarArrive(
+                      randomIdParkour: widget.randomIdParkour,
+                      idParty: widget.idParty,
+                    ),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/parkour/backmap.png',
+                width: screenWidth * 0.15,
+                height: screenHeight * 0.05,
               ),
             ),
           ),
@@ -81,7 +165,6 @@ class _CodePageState extends State<CodePage> {
                   padding: const EdgeInsets.all(24.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 20),
                       const Text(
                         "Récupérez votre code",
                         style: TextStyle(
@@ -92,7 +175,21 @@ class _CodePageState extends State<CodePage> {
                           height: 1.5,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 5),
+                      const Center(
+                        child: Text(
+                          "Félicitations pour avoir déniché le code secret de l'établissement !\nVeuillez le saisir :)",
+                          style: TextStyle(
+                            color: Color(0xFFEB622B),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Outfit',
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: 15),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(4, (index) {
@@ -117,7 +214,7 @@ class _CodePageState extends State<CodePage> {
                       const SizedBox(height: 40),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 50.0), // Padding pour taille bouton
+                            horizontal: 55.0), // Padding pour taille bouton
                         child: GridView.count(
                           crossAxisCount: 3,
                           shrinkWrap: true,
@@ -147,7 +244,27 @@ class _CodePageState extends State<CodePage> {
                           ],
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: checkCode,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFEB622B),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 16.0,
+                            horizontal: 32.0,
+                          ),
+                        ),
+                        child: const Text(
+                          "Envoyer",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -172,10 +289,10 @@ class DigitButton extends StatefulWidget {
   final VoidCallback onPressed;
 
   const DigitButton({
-    Key? key,
+    super.key,
     required this.digit,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   _DigitButtonState createState() => _DigitButtonState();

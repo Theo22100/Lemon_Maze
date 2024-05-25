@@ -5,8 +5,8 @@ import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/home/account.dart';
 import 'package:my_app/pages/home/inventory.dart';
-import 'package:my_app/pages/parkour/bar/barIntro1.dart';
-import 'package:my_app/pages/register-login/loginSignupPage.dart';
+import 'package:my_app/pages/parkour/bar/bar_intro_1.dart';
+import 'package:my_app/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 

@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/boutique.dart';
-import 'package:my_app/pages/home/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:logger/logger.dart';
 
@@ -234,10 +232,10 @@ class _SuccesPageState extends State<SuccesPage> {
   @override
   Widget build(BuildContext context) {
     // Avoir taille ecran pour image
-    final screenSize = MediaQuery.of(context).size;
+    //final screenSize = MediaQuery.of(context).size;
 
-    final imageWidth = screenSize.width * 0.4;
-    final imageHeight = screenSize.height * 0.2;
+    //final imageWidth = screenSize.width * 0.4;
+    //final imageHeight = screenSize.height * 0.2;
 
     return Scaffold(
       body: Stack(

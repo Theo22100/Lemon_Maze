@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/boutique/confirm.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
 import 'package:logger/logger.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/boutique/confirm.dart';
 import 'package:my_app/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';

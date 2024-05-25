@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/parkour/bar/BarLieu.dart';
-import 'package:my_app/pages/parkour/bar/barCode.dart';
+import 'package:my_app/pages/parkour/bar/bar_lieu.dart';
+import 'package:my_app/pages/parkour/bar/bar_code.dart';
 
 class BarArrive extends StatelessWidget {
   final int randomIdParkour;
@@ -21,7 +21,7 @@ class BarArrive extends StatelessWidget {
           // Image en arrière-plan
           Positioned.fill(
             child: Image.asset(
-              '../../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -53,7 +53,7 @@ class BarArrive extends StatelessWidget {
             right: 0,
             child: Center(
               child: Image.asset(
-                '../../../assets/images/home/homeparkour/bar.png',
+                'assets/images/home/homeparkour/bar.png',
                 width: screenWidth * 0.4,
                 height: screenHeight * 0.2,
                 fit: BoxFit.contain,
