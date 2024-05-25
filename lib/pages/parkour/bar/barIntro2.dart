@@ -60,7 +60,7 @@ class BarIntro2 extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20), // Espace pour l'image
                       const Text(
-                        'Votre carte secrète...',
+                        'Votre carte secrete...',
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontSize: 40,

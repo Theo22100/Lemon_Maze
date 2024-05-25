@@ -224,7 +224,7 @@ class _CitronPageState extends State<CitronPage> {
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFBBA2C),
+        color: const Color(0xFFEDE54F),
         borderRadius: BorderRadius.circular(30),
       ),
       padding: const EdgeInsets.all(14),
@@ -241,9 +241,9 @@ class _CitronPageState extends State<CitronPage> {
               title,
               style: const TextStyle(
                 fontFamily: 'Outfit',
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
-                color: Colors.white,
+                color: Color(0xFFEB622B),
               ),
             ),
           ),
@@ -265,7 +265,7 @@ class _CitronPageState extends State<CitronPage> {
         style: const TextStyle(
           fontSize: 18,
           color: Color(0xFFFBBA2C),
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

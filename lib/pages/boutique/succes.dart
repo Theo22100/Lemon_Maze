@@ -333,6 +333,7 @@ class _SuccesPageState extends State<SuccesPage> {
                                   vertical: 16), // Taille du bouton
                             ),
                             child: const Text(
+                              //InventoryPage
                               'Voir inventaire',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/parkour/bar/barIntro2.dart';
 
-class BarIntro1 extends StatelessWidget {
+class codePage extends StatelessWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarIntro1(
+  const codePage(
       {super.key, required this.randomIdParkour, required this.idParty});
 
   @override

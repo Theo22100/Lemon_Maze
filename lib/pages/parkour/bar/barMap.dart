@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/barIntro2.dart';
+import 'package:my_app/pages/parkour/bar/BarLieu.dart';
 
 class BarMap extends StatefulWidget {
   final int randomIdParkour;
@@ -15,11 +15,13 @@ class BarMap extends StatefulWidget {
 
 class _BarMapState extends State<BarMap> {
   List<String> lieux = [];
+  int etat = 0;
 
   @override
   void initState() {
     super.initState();
     fetchLieux();
+    getEtatParty();
   }
 
   Future<void> fetchLieux() async {
@@ -42,17 +44,16 @@ class _BarMapState extends State<BarMap> {
   }
 
   Future<void> getEtatParty() async {
-    var result =
-        await http_get("party/getpartyetat/nomslieu/${widget.randomIdParkour}");
+    var result = await http_get("party/getpartyetat/${widget.idParty}");
     if (result.ok) {
       var data = result.data['data'];
-      if (data != null && data['lieux'] != null) {
+      if (data != null && data['etat'] != null) {
         setState(() {
-          lieux = List<String>.from(data['lieux']);
+          etat = data['etat'];
         });
       } else {
         //mettre msg erreur
-        logger.e("The response data or 'lieux' key is null");
+        logger.e("The response data or 'etat' key is null");
       }
     } else {
       // Handle error
@@ -104,7 +105,7 @@ class _BarMapState extends State<BarMap> {
                       child: Padding(
                         padding: const EdgeInsets.all(24.0),
                         child: CustomPaint(
-                          painter: SnakePainter(lieux),
+                          painter: SnakePainter(lieux, etat),
                         ),
                       ),
                     ),
@@ -134,7 +135,7 @@ class _BarMapState extends State<BarMap> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => BarIntro2(
+                              builder: (context) => BarLieu(
                                 randomIdParkour: widget.randomIdParkour,
                                 idParty: widget.idParty,
                               ),
@@ -161,11 +162,15 @@ class _BarMapState extends State<BarMap> {
 
 class SnakePainter extends CustomPainter {
   final List<String> lieux;
+  final int etat;
 
-  SnakePainter(this.lieux);
+  SnakePainter(this.lieux, this.etat);
 
   @override
   void paint(Canvas canvas, Size size) {
+    const Color couleurOrange = Color(0xFFEB632B);
+    const Color couleurVerte = Color(0xFFA1CD91);
+    Color couleurFinale;
     Paint paint = Paint()
       ..shader = const LinearGradient(
         colors: [
@@ -200,20 +205,26 @@ class SnakePainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    Paint circlePaint = Paint()
-      ..color = const Color(0xFFEB632B)
-      ..style = PaintingStyle.fill;
-
     for (int i = 1; i < 5; i++) {
       double circleX = size.width - stepX * i;
       double circleY = stepY * i;
+
+      if ((etat + 2) <= i) {
+        couleurFinale = couleurOrange;
+      } else {
+        couleurFinale = couleurVerte;
+      }
+
+      Paint circlePaint = Paint()
+        ..color = couleurFinale
+        ..style = PaintingStyle.fill;
 
       canvas.drawCircle(Offset(circleX, circleY), 15, circlePaint);
 
       if (i - 1 < lieux.length) {
         TextSpan span = TextSpan(
-          style: const TextStyle(
-            color: Color(0xFFEB632B),
+          style: TextStyle(
+            color: couleurFinale,
             fontSize: 14,
             fontFamily: 'Outfit',
             fontWeight: FontWeight.w500,

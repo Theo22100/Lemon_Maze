@@ -100,7 +100,7 @@ class _AccountPageState extends State<AccountPage> {
                 );
               },
               child: Image.asset(
-                '../../assets/images/account/backhomeprofil.png',
+                'assets/images/account/backhomeprofil.png',
                 width: 40,
                 height: 40,
               ),
@@ -113,7 +113,7 @@ class _AccountPageState extends State<AccountPage> {
             right: 0,
             child: Center(
               child: Image.asset(
-                '../../assets/images/account/picture.png',
+                'assets/images/account/picture.png',
                 width: imageWidth,
                 height: imageHeight,
               ),
@@ -141,7 +141,8 @@ class _AccountPageState extends State<AccountPage> {
                         'Mon profil',
                         style: TextStyle(
                           fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'Gustavo',
                           color: Color(0xFFFBBA2C),
                         ),
                       ),
@@ -165,6 +166,8 @@ class _AccountPageState extends State<AccountPage> {
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.red,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -199,6 +202,8 @@ class _AccountPageState extends State<AccountPage> {
               style: const TextStyle(
                 fontSize: 18,
                 color: Colors.white,
+                fontFamily: 'Outfit',
+                fontWeight: FontWeight.w400,
               ),
             ),
           ),
@@ -220,6 +225,8 @@ class _AccountPageState extends State<AccountPage> {
           style: TextStyle(
             fontSize: 18,
             color: Colors.white,
+            fontFamily: 'Outfit',
+            fontWeight: FontWeight.w400,
           ),
         ),
         style: ElevatedButton.styleFrom(
@@ -251,8 +258,6 @@ class _AccountPageState extends State<AccountPage> {
             TextButton(
               onPressed: () {
                 deleteUser();
-                // N'oubliez pas de naviguer vers la page d'accueil ou une autre page appropriée après la suppression du compte
-                Navigator.of(context).pop();
               },
               child: const Text("Supprimer"),
             ),

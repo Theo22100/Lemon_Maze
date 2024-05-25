@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/citron.dart';
 import 'package:my_app/pages/boutique/confirm.dart';
+import 'package:my_app/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
@@ -85,7 +86,7 @@ class _InventoryPageState extends State<InventoryPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CitronPage()),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 },
                 child: Column(
@@ -102,6 +103,8 @@ class _InventoryPageState extends State<InventoryPage> {
                       style: TextStyle(
                         fontSize: 40,
                         color: Color(0xFFFAF6D0),
+                        fontFamily: 'Gustavo',
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
@@ -246,7 +249,7 @@ class _InventoryPageState extends State<InventoryPage> {
                 ),
               ],
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 6),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +263,33 @@ class _InventoryPageState extends State<InventoryPage> {
                       color: Color(0xFFFAF6D0),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 4),
+                  FutureBuilder(
+                    future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
+                      } else {
+                        if (snapshot.hasError) {
+                          return const Text(
+                              "Erreur de chargement du nom du lieu"); // Afficher message d'erreur
+                        } else {
+                          String lieuNom = snapshot.data
+                              .toString(); // Récupérer le nom du lieu depuis le snapshot
+                          return Text(
+                            lieuNom,
+                            style: const TextStyle(
+                              fontFamily: 'Outfit',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Color(0xFFFAF6D0),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 6),
                   Text(
                     info,
                     style: const TextStyle(

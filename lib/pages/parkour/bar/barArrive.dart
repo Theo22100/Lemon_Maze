@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/parkour/bar/barIntro2.dart';
+import 'package:my_app/pages/parkour/bar/BarLieu.dart';
+import 'package:my_app/pages/parkour/bar/barCode.dart';
 
-class BarIntro1 extends StatelessWidget {
+class BarArrive extends StatelessWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarIntro1(
+  const BarArrive(
       {super.key, required this.randomIdParkour, required this.idParty});
 
   @override
@@ -24,19 +25,37 @@ class BarIntro1 extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          // Image bar.png en haut et alignée au centre
           Positioned(
-            top: screenHeight *
-                0.04, // Ajustez la position verticale selon vos besoins
+            top: screenHeight * 0.02,
+            left: 32,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BarLieu(
+                      randomIdParkour: randomIdParkour,
+                      idParty: idParty,
+                    ),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/parkour/backmap.png',
+                width: screenWidth * 0.15,
+                height: screenHeight * 0.05,
+              ),
+            ),
+          ),
+          Positioned(
+            top: screenHeight * 0.04,
             left: 0,
             right: 0,
             child: Center(
               child: Image.asset(
                 '../../../assets/images/home/homeparkour/bar.png',
-                width: screenWidth *
-                    0.4, // Ajustez la largeur proportionnelle à l'écran
-                height: screenHeight *
-                    0.2, // Ajustez la hauteur proportionnelle à l'écran
+                width: screenWidth * 0.4,
+                height: screenHeight * 0.2,
                 fit: BoxFit.contain,
               ),
             ),
@@ -60,7 +79,7 @@ class BarIntro1 extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20), // Espace pour l'image
                       const Text(
-                        'Bienvenue a toi, jeune aventurier !',
+                        'A la recherche du code cache...',
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontSize: 34,
@@ -74,7 +93,7 @@ class BarIntro1 extends StatelessWidget {
                       const SizedBox(
                           height: 16), // Espacement entre les deux textes
                       const Text(
-                        "Bienvenue à Rennes, une ville où chaque rue murmure des histoires anciennes et des mystères cachés. Vous incarnez une équipe d'explorateurs intrépides, recrutés par une mystérieuse organisation secrète de citrons appelée <<Les Gardiens de l'Histoire>>. \n\nVotre mission : percer les secrets les mieux gardés de Rennes et protéger son patrimoine culturel.",
+                        "Vous voilà arrivés ! \n\nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. N'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. \n\nBonne chance et que l'aventure continue !",
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontFamily: 'Outfit',
@@ -85,33 +104,40 @@ class BarIntro1 extends StatelessWidget {
                         textAlign: TextAlign.left,
                       ),
                       const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            '../../../assets/images/parkour/index_3.png',
-                            width: 80,
-                            height: 80,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BarIntro2(
-                                    randomIdParkour: randomIdParkour,
-                                    idParty: idParty,
-                                  ),
+                      Center(
+                        // Centrer horizontalement le bouton
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => codePage(
+                                  randomIdParkour: randomIdParkour,
+                                  idParty: idParty,
                                 ),
-                              );
-                            },
-                            child: Image.asset(
-                              '../../../assets/images/parkour/button.png',
-                              width: 50,
-                              height: 50,
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFBBA2C),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
                             ),
                           ),
-                        ],
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 16, horizontal: 24),
+                            child: Text(
+                              "J’ai trouvé où il se cache :)",
+                              style: TextStyle(
+                                color: Colors.white, // Couleur du texte
+                                fontFamily: 'Outfit',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
