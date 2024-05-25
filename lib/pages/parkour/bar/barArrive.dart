@@ -111,7 +111,7 @@ class BarArrive extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => codePage(
+                                builder: (context) => CodePage(
                                   randomIdParkour: randomIdParkour,
                                   idParty: idParty,
                                 ),
