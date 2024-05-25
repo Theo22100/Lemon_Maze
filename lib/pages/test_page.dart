@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/register-login/loginPage.dart';
-import 'package:my_app/pages/register-login/registerPage.dart';
+import 'package:my_app/pages/register-login/login_page.dart';
+import 'package:my_app/pages/register-login/register_page.dart';
 
 var logger = Logger();
 

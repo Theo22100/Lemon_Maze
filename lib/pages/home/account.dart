@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/home/home.dart';
-import 'package:my_app/pages/register-login/loginSignupPage.dart';
+import 'package:my_app/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:logger/logger.dart';
