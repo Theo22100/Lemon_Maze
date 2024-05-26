@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/parkour/bar/bar_map.dart';
+import 'package:my_app/pages/parkour/bar/question/fin_parkour.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
+// Initialize the logger
 final Logger logger = Logger();
 
 class GoodAnswerPage extends StatefulWidget {
@@ -18,9 +20,8 @@ class GoodAnswerPage extends StatefulWidget {
 }
 
 class _GoodAnswerPageState extends State<GoodAnswerPage> {
-  List<String> lieux = [];
-  int etat = 0;
   String? responsemsg;
+  int etat = 0;
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
     _addCitron(10);
   }
 
+  // Function to add citron
   Future<void> _addCitron(int citron) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -41,30 +43,81 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
         return;
       }
 
-      final body = {
-        'userId': userId,
-        'nombre': citron,
-      };
+      final body = {'userId': userId, 'nombre': citron};
       final result = await http_put('add-citron-rouge', body);
 
-      if (result.data['success']) {
-        logger.i('Successfully added $citron citron(s)');
-        responsemsg = "+ $citron citrons rouges !";
-      } else {
-        setState(() {
+      setState(() {
+        if (result.data['success']) {
+          responsemsg = "+ $citron Citrons Rouges !";
+        } else {
           responsemsg = result.data['message'];
-        });
-        logger.e('Failed to add citron(s): ${result.data}');
-      }
+          logger.e('Failed to add citron(s): ${result.data}');
+        }
+      });
     } catch (error) {
       logger.e('Error adding citron(s): $error');
       setState(() {
-        responsemsg = 'Erreur interne lors de la suppression des citrons';
+        responsemsg = 'Erreur interne lors de l\'ajout des citrons';
       });
     }
   }
 
-  //AJOUTER +1 A L ETAT
+  // Function to add etat
+  Future<void> addEtat() async {
+    try {
+      String idParty = widget.idParty.toString();
+
+      if (idParty.isEmpty || int.tryParse(idParty) == null) {
+        throw Exception("ID de la partie invalide");
+      }
+
+      String url = 'party/add-etat/$idParty';
+      final result = await http_put(url);
+      logger
+          .i("Result from PUT request: ${result.ok} with data: ${result.data}");
+
+      setState(() {
+        if (result.ok) {
+          if (result.data['success']) {
+            etat = result.data['new_etat'];
+            if (etat == 4) {
+              logger.i('etat $etat');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FinalParkourPage(
+                      /*randomIdParkour: widget.randomIdParkour,
+                    idParty: widget.idParty,*/
+                      ),
+                ),
+              );
+            } else {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BarMap(
+                    randomIdParkour: widget.randomIdParkour,
+                    idParty: widget.idParty,
+                  ),
+                ),
+              );
+            }
+          } else {
+            etat = 0;
+            logger.e('Erreur ajout etat: ${result.data['message']}');
+          }
+        } else {
+          etat = 0;
+          logger.e('Erreur HTTP: ${result.data}');
+        }
+      });
+    } catch (error) {
+      logger.e('Erreur ajout etat : $error');
+      setState(() {
+        responsemsg = 'Erreur interne lors de l\'ajout etat';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,8 +146,6 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
               ),
             ),
           ),
-
-          // Conteneur orange avec zone jaune en bas
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -108,36 +159,14 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
                 width: screenWidth,
                 child: Stack(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [
-                          if (responsemsg != null)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Text(
-                                responsemsg!,
-                                style: const TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         color: const Color(0xFFEDE54F),
-                        height: (screenHeight) / 10,
+                        height: screenHeight / 10,
                         width: screenWidth,
                       ),
                     ),
-
-                    // Image enigme.png chevauchant la zone orange
                     Positioned(
                       bottom: screenHeight / 18,
                       top: 0,
@@ -152,15 +181,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
                       right: 20,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BarMap(
-                                randomIdParkour: widget.randomIdParkour,
-                                idParty: widget.idParty,
-                              ),
-                            ),
-                          );
+                          addEtat();
                         },
                         child: Image.asset(
                           'assets/images/parkour/button.png',
@@ -169,6 +190,22 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
                         ),
                       ),
                     ),
+                    if (responsemsg != null)
+                      Positioned(
+                        bottom: screenHeight / 2.03,
+                        left: 0,
+                        right: 0,
+                        child: Text(
+                          responsemsg!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color(0xFF13A388),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Outfit',
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),

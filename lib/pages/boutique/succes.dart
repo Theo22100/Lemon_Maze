@@ -5,6 +5,7 @@ import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/boutique.dart';
 
 import 'package:logger/logger.dart';
+import 'package:my_app/pages/home/inventory.dart';
 
 var logger = Logger();
 Map<String, dynamic> response = {};
@@ -330,13 +331,33 @@ class _SuccesPageState extends State<SuccesPage> {
                                   horizontal: 40,
                                   vertical: 16), // Taille du bouton
                             ),
-                            child: const Text(
-                              //InventoryPage
-                              'Voir inventaire',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white, // Couleur du texte
-                                fontSize: 18, // Taille de la police
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const InventoryPage(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color(0xFFE9581B), // Couleur du fond
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20), // Bords arrondis
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 16), // Taille du bouton
+                              ),
+                              child: const Text(
+                                'Voir inventaire',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white, // Couleur du texte
+                                  fontSize: 18, // Taille de la police
+                                ),
                               ),
                             ),
                           ),

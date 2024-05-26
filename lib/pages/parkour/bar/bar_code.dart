@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/parkour/bar/bar_arrive.dart';
 import 'package:my_app/pages/parkour/bar/question/enigme1_page.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 class CodePage extends StatefulWidget {
   final int randomIdParkour;
@@ -75,7 +78,7 @@ class _CodePageState extends State<CodePage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => EnigmePage(
+            builder: (context) => EnigmePage1(
                 randomIdParkour: widget.randomIdParkour,
                 idParty: widget.idParty)),
       );
@@ -213,8 +216,9 @@ class _CodePageState extends State<CodePage> {
                       ),
                       const SizedBox(height: 40),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 55.0), // Padding pour taille bouton
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenHeight /
+                                13), // Padding pour taille bouton
                         child: GridView.count(
                           crossAxisCount: 3,
                           shrinkWrap: true,

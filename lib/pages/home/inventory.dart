@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/confirm.dart';
 import 'package:my_app/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
@@ -9,6 +8,9 @@ import 'package:logger/logger.dart';
 
 var logger = Logger();
 String response = "";
+String responsealert = "";
+String code = "";
+int selectedIdRecompense = 0;
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
@@ -156,6 +158,7 @@ class _InventoryPageState extends State<InventoryPage> {
     int idLieu = recompense['id_lieu'] ?? 0;
     int idType = recompense['id_type'] ?? 0;
     int idRecompense = recompense['id_recompense'] ?? 0;
+    int idRecompenseUser = recompense['id_recompense_user'] ?? 0;
 
     if (idRecompense == 0) {
       logger.w("Récompense avec id_recompense 0 trouvée : $recompense");
@@ -199,12 +202,7 @@ class _InventoryPageState extends State<InventoryPage> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ConfirmPage(idRecompense: idRecompense),
-          ),
-        );
+        getCode(idRecompenseUser);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -305,6 +303,141 @@ class _InventoryPageState extends State<InventoryPage> {
         ),
       ),
     );
+  }
+
+  Future<void> getCode(int idrecompense) async {
+    try {
+      var result = await http_get("recompense_user/getcode/$idrecompense");
+      if (result.ok) {
+        var data = result.data;
+        if (data != null) {
+          setState(() {
+            code = result.data['code'];
+          });
+          _showCodeDialog(
+              code, idrecompense); // Afficher le dialogue avec le code
+        } else {
+          logger.e("La réponse 'data' ou la clé 'code' est nulle");
+        }
+      } else {
+        logger.e("Échec de la récupération des données de la partie");
+      }
+    } catch (error) {
+      logger.e("Erreur lors de l'appel HTTP : $error");
+    }
+  }
+
+  void _showCodeDialog(String code, int idRecompenseUser) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          backgroundColor: const Color(0xFFFAF6D0),
+          content: Stack(
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Code de la récompense",
+                    style: TextStyle(
+                      fontFamily: 'Gustavo',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24,
+                      color: Color(0xFFEB622B),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Center(
+                    child: Text(
+                      code,
+                      style: const TextStyle(
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: Color(0xFFEB622B),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  const Center(
+                    child: Text(
+                      "Veuillez faire valider ce code auprès de l'établissement concerné pour obtenir votre récompense.\nLorsque cela est fait et que l'établissement vous l'autorise, veuillez valider !\n\nAucun remboursement, en cas d'erreur.\nVoir conditions d'utilisation",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w300,
+                        fontSize: 16,
+                        color: Color(0xFFEB622B),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFFBBA2C),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    onPressed: () {
+                      deleteRecompenseUser(idRecompenseUser);
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      "Valider",
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 22,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> deleteRecompenseUser(int idRecompenseUser) async {
+    // Construire l'URI pour la suppression de l'utilisateur en incluant l'ID dans l'URL
+    logger.i(idRecompenseUser);
+
+    var route =
+        "recompense_user/delete-recompense_user/$idRecompenseUser"; // Utilisation de l'ID dans l'URL
+
+    // Envoyer la requête HTTP DELETE pour supprimer l'utilisateur
+    var result = await http_delete(route);
+    logger.i(result.data);
+
+    if (result.ok) {
+      if (result.data['success'] == true) {
+        // Appeler _fetchRecompensesUsers pour rafraîchir la liste
+        _fetchRecompensesUsers();
+      } else {
+        setState(() {
+          responsealert = result.data['message'];
+        });
+      }
+    }
   }
 
   Future<String> _fetchLieuName(int idLieu) async {

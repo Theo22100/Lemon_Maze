@@ -1,22 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/parkour/bar/question/enigme2_page.dart';
+import 'package:logger/logger.dart';
 
-class EnigmePage extends StatefulWidget {
+final Logger logger = Logger();
+
+class EnigmePage1 extends StatefulWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const EnigmePage(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const EnigmePage1({
+    Key? key,
+    required this.randomIdParkour,
+    required this.idParty,
+  }) : super(key: key);
 
   @override
-  _EnigmePageState createState() => _EnigmePageState();
+  _EnigmePage1State createState() => _EnigmePage1State();
 }
 
-class _EnigmePageState extends State<EnigmePage> {
+class _EnigmePage1State extends State<EnigmePage1> {
   int etat = 0;
+  List<dynamic> questions = [];
+  Map<String, dynamic>? currentQuestion;
+
   @override
   void initState() {
     super.initState();
+    getEtatParty();
+    getQuestion();
+  }
+
+  Future<void> getQuestion() async {
+    try {
+      var result = await http_get("partyquestion/${widget.idParty}");
+      if (result.ok) {
+        var data = result.data['data'];
+        if (data != null && data is List) {
+          setState(() {
+            questions = data;
+            if (etat >= 0 && etat < questions.length) {
+              currentQuestion = questions[etat];
+            }
+          });
+        } else {
+          logger.e("The response data or 'questions' key is null");
+        }
+      } else {
+        logger.e("Failed to fetch questions data");
+      }
+    } catch (error) {
+      logger.e("Error fetching questions: $error");
+    }
+  }
+
+  Future<void> getEtatParty() async {
+    try {
+      var result = await http_get("party/getpartyetat/${widget.idParty}");
+      if (result.ok) {
+        var data = result.data['data'];
+        if (data != null && data['etat'] != null) {
+          setState(() {
+            etat = data['etat'];
+            if (questions.isNotEmpty && etat >= 0) {
+              currentQuestion = questions[etat];
+            }
+          });
+        } else {
+          logger.e("The response data or 'etat' key is null");
+        }
+      } else {
+        logger.e("Failed to fetch party state data");
+      }
+    } catch (error) {
+      logger.e("Error fetching party state: $error");
+    }
   }
 
   @override
@@ -33,8 +91,6 @@ class _EnigmePageState extends State<EnigmePage> {
               fit: BoxFit.cover,
             ),
           ),
-
-          // Conteneur orange avec zone jaune en bas
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -62,17 +118,13 @@ class _EnigmePageState extends State<EnigmePage> {
                         width: screenWidth,
                       ),
                     ),
-
-                    // Image enigme.png chevauchant la zone orange
                     Positioned(
                       bottom: screenHeight / 8,
                       top: 0,
                       child: Image.asset(
                         'assets/images/parkour/enigme.png',
-                        width:
-                            screenWidth, // Ajuster la largeur de l'image selon les besoins
-                        height:
-                            screenHeight, // Ajuster la hauteur de l'image selon les besoins
+                        width: screenWidth,
+                        height: screenHeight,
                       ),
                     ),
                     Positioned(
@@ -97,6 +149,35 @@ class _EnigmePageState extends State<EnigmePage> {
                         ),
                       ),
                     ),
+                    Positioned(
+                      bottom: screenHeight / 2.5,
+                      left: screenWidth * 0.3,
+                      right: screenWidth * 0.1,
+                      child: LayoutBuilder(
+                        builder:
+                            (BuildContext context, BoxConstraints constraints) {
+                          return CustomPaint(
+                            painter: OvalBubblePainter(const Color(0xFFFAF6D0)),
+                            child: Container(
+                              padding: const EdgeInsets.all(16.0),
+                              constraints: BoxConstraints(
+                                maxWidth: constraints.maxWidth,
+                                minHeight: 50.0,
+                              ),
+                              child: Text(
+                                currentQuestion?['question'] ?? 'Chargement...',
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFFEB622B),
+                                    fontFamily: 'Outfit'),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -105,5 +186,31 @@ class _EnigmePageState extends State<EnigmePage> {
         ],
       ),
     );
+  }
+}
+
+class OvalBubblePainter extends CustomPainter {
+  final Color color;
+
+  OvalBubblePainter(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+
+    final Path path = Path()
+      ..addRRect(RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, size.width, size.height),
+        const Radius.circular(25),
+      ));
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

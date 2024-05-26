@@ -7,11 +7,7 @@ import 'package:logger/logger.dart';
 final Logger logger = Logger();
 
 class FinalParkourPage extends StatefulWidget {
-  final int randomIdParkour;
-  final int idParty;
-
-  const FinalParkourPage(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const FinalParkourPage({super.key});
 
   @override
   _FinalParkourPageState createState() => _FinalParkourPageState();
@@ -49,7 +45,9 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
 
       if (result.data['success']) {
         logger.i('Successfully added $citron citron(s)');
-        responsemsg = "+ $citron citrons rouges !";
+        setState(() {
+          responsemsg = "+ $citron citrons rouges !";
+        });
       } else {
         setState(() {
           responsemsg = result.data['message'];
@@ -91,8 +89,6 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
               ),
             ),
           ),
-
-          // Conteneur orange avec zone jaune en bas
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -116,15 +112,15 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
                       alignment: Alignment.bottomCenter,
                       child: Container(
                         color: const Color(0xFF10A488),
-                        height: (screenHeight) / 10,
+                        height: screenHeight / 10,
                         width: screenWidth,
                       ),
                     ),
-
-                    // Image enigme.png chevauchant la zone orange
                     Positioned(
                       bottom: screenHeight / 18,
                       top: 0,
+                      left: 0,
+                      right: 0,
                       child: Image.asset(
                         'assets/images/parkour/bravo.png',
                         width: screenWidth,
@@ -139,7 +135,8 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const CitronPage()),
+                              builder: (context) => const CitronPage(),
+                            ),
                           );
                         },
                         child: Image.asset(
@@ -149,6 +146,22 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
                         ),
                       ),
                     ),
+                    if (responsemsg != null)
+                      Positioned(
+                        bottom: screenHeight / 2.3,
+                        left: 0,
+                        right: 0,
+                        child: Text(
+                          responsemsg!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color(0xFFE9622A),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Outfit',
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
