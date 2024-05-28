@@ -53,3 +53,5 @@ lib/pages/flutter
 #Nodes modules
 
 node_modules/
+.env
+

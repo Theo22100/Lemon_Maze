@@ -78,7 +78,7 @@ class _CitronPageState extends State<CitronPage> {
   @override
   Widget build(BuildContext context) {
     // Avoir taille ecran pour image
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
 
     // final imageWidth = screenSize.width * 0.4;
     // final imageHeight = screenSize.height * 0.2;
@@ -158,15 +158,11 @@ class _CitronPageState extends State<CitronPage> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          _buildInfoBox(
-                              'assets/images/boutique/citronvert.png',
-                              'Citron Bibliothèque',
-                              '$citronvert PTS'),
+                          _buildInfoBox('assets/images/boutique/citronvert.png',
+                              'Citron Bibliothèque', '$citronvert PTS'),
                           const SizedBox(height: 10),
-                          _buildInfoBox(
-                              'assets/images/boutique/citronbleu.png',
-                              'Citron Musée',
-                              '$citronbleu PTS'),
+                          _buildInfoBox('assets/images/boutique/citronbleu.png',
+                              'Citron Musée', '$citronbleu PTS'),
                           const SizedBox(height: 10),
                           _buildInfoBox(
                               'assets/images/boutique/citronrouge.png',
@@ -282,7 +278,7 @@ class _CitronPageState extends State<CitronPage> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric( vertical: 15),
+          padding: const EdgeInsets.symmetric(vertical: 15),
           backgroundColor: const Color(0xFFEB622B).withOpacity(0.9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

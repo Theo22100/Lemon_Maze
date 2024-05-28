@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:my_app/pages/home/home.dart';
 import 'package:my_app/pages/welcome/page1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+void main() async {
+  // Assurez-vous que le binding est initialisé
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Charger les variables d'environnement
+  await dotenv.load(fileName: ".env");
+
+  // Lancer l'application
   runApp(const MyApp());
 }
 
@@ -24,7 +32,11 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Affichez une indication de chargement pendant que vous vérifiez l'état de connexion
-            return const CircularProgressIndicator();
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
           } else {
             // Si l'utilisateur est connecté, redirigez-le vers la page d'accueil
             if (snapshot.data == true) {

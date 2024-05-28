@@ -12,10 +12,10 @@ class EnigmePage2 extends StatefulWidget {
   final int idParty;
 
   const EnigmePage2({
-    Key? key,
+    super.key,
     required this.randomIdParkour,
     required this.idParty,
-  }) : super(key: key);
+  });
 
   @override
   _EnigmePage2State createState() => _EnigmePage2State();

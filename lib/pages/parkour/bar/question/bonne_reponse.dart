@@ -85,7 +85,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FinalParkourPage(
+                  builder: (context) => const FinalParkourPage(
                       /*randomIdParkour: widget.randomIdParkour,
                     idParty: widget.idParty,*/
                       ),

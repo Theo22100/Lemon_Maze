@@ -83,17 +83,13 @@ class _BarLieuState extends State<BarLieu> {
   }
 
   void _launchURL(String url) async {
-    print("Trying to launch URL: $url");
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
-      print("Can launch URL: $url");
       await launchUrl(uri);
     } else {
-      print("Cannot launch URL: $url");
       throw 'Ne peut pas lancer $url';
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
