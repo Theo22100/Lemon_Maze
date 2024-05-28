@@ -163,15 +163,14 @@ class _BarMapState extends State<BarMap> {
 class SnakePainter extends CustomPainter {
   final List<String> lieux;
   final int etat;
-
   SnakePainter(this.lieux, this.etat);
-
   @override
   void paint(Canvas canvas, Size size) {
     const Color couleurOrange = Color(0xFFEB632B);
     const Color couleurVerte = Color(0xFFA1CD91);
     Color couleurFinale;
     Paint paint = Paint()
+      //Permet d'avoir un dégradé
       ..shader = const LinearGradient(
         colors: [
           Color(0xFFA1CD91),
@@ -182,15 +181,15 @@ class SnakePainter extends CustomPainter {
         ],
         stops: [0.0, 0.17, 0.42, 0.73, 1.0],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..strokeWidth = 8.0
+      ..strokeWidth = 8.0 //Épaisseur du trait
       ..style = PaintingStyle.stroke;
 
     Path path = Path();
-    path.moveTo(size.width - 50, 72);
+    path.moveTo(size.width - 50, 72); //Départ
     //Positionnement points
     double stepX = size.width / 5.8;
     double stepY = size.height / 5;
-
+    //cr
     for (int i = 0; i < 5; i++) {
       double controlPointX = (i % 2 == 0)
           ? size.width - stepX * (i - 0.2) /*start à image1*/
@@ -200,7 +199,7 @@ class SnakePainter extends CustomPainter {
       double endPointY = stepY * (i + 1);
 
       path.quadraticBezierTo(
-          controlPointX, controlPointY, endPointX, endPointY);
+          controlPointX, controlPointY, endPointX, endPointY); //Ligne
     }
 
     canvas.drawPath(path, paint);
@@ -240,7 +239,7 @@ class SnakePainter extends CustomPainter {
 
         tp.layout();
         if (i == 1 || i == 2) {
-          tp.paint(canvas, Offset(circleX - 80, circleY - 40));
+          tp.paint(canvas, Offset(circleX - 100, circleY - 30));
         } else {
           tp.paint(canvas, Offset(circleX + 16, circleY + 12));
         }

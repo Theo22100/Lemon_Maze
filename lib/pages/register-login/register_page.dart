@@ -60,7 +60,7 @@ class RegisterPageState extends State<RegisterPage> {
       if (!isPasswordValid(passwordController.text)) {
         setState(() {
           response =
-              "Mot de passe doit contenir au moins 8 caractères avec un chiffre et un caractère spécial.";
+          "Mot de passe doit contenir au moins 8 caractères avec un chiffre et un caractère spécial.";
         });
         return;
       }
@@ -95,7 +95,7 @@ class RegisterPageState extends State<RegisterPage> {
 
       // Hashage mot de passe
       String hashedPassword =
-          sha256.convert(utf8.encode(passwordController.text)).toString();
+      sha256.convert(utf8.encode(passwordController.text)).toString();
 
       var result = await http_post("user/create-user", {
         "pseudo": pseudoController.text,
@@ -145,7 +145,7 @@ class RegisterPageState extends State<RegisterPage> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  '../../assets/images/welcome/wallpaper.png',
+                  'assets/images/welcome/wallpaper.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -157,14 +157,14 @@ class RegisterPageState extends State<RegisterPage> {
             right: 0,
             bottom: 0,
             child: Image.asset(
-              '../../assets/images/login_signup/signup-bot.png',
+              'assets/images/login_signup/signup-bot.png',
               fit: BoxFit.cover,
               alignment: Alignment.bottomCenter,
             ),
           ),
           // Contenu centré
           Positioned.fill(
-            child: Padding(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,7 +177,7 @@ class RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(
                         fontFamily: 'Gustavo',
                         fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                         color: Color(0xFFFAF6D0),
                       ),
                     ),
@@ -195,7 +195,7 @@ class RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         prefixIcon:
-                            Icon(Icons.person, color: Color(0xFFE9581B)),
+                        Icon(Icons.person, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
@@ -244,9 +244,9 @@ class RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(
-                            r'[0-9]')), // Permettre uniquement les chiffres
+                        FilteringTextInputFormatter.digitsOnly, // Permettre uniquement les chiffres
                       ],
+                      keyboardType: TextInputType.number, // Clavier numérique
                     ),
                   ),
                   Padding(
@@ -261,7 +261,7 @@ class RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         prefixIcon:
-                            Icon(Icons.location_city, color: Color(0xFFE9581B)),
+                        Icon(Icons.location_city, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
@@ -284,9 +284,10 @@ class RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
+                      obscureText: true, // Masquer le mot de passe
                     ),
                   ),
                   Padding(
@@ -307,6 +308,7 @@ class RegisterPageState extends State<RegisterPage> {
                           fontFamily: 'Outfit',
                         ),
                       ),
+                      obscureText: true, // Masquer le mot de passe
                     ),
                   ),
                   // Bouton "S'inscrire"
@@ -319,10 +321,10 @@ class RegisterPageState extends State<RegisterPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                            const Color(0xFFE9581B), // Couleur de fond orange
+                        const Color(0xFFE9581B), // Couleur de fond orange
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.circular(20), // Bords arrondis
+                          BorderRadius.circular(20), // Bords arrondis
                         ),
                       ),
                       child: const Padding(

@@ -89,7 +89,7 @@ class _CitronPageState extends State<CitronPage> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -109,7 +109,7 @@ class _CitronPageState extends State<CitronPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      '../../assets/images/boutique/backhomecitron.png',
+                      'assets/images/boutique/backhomecitron.png',
                       width: 50,
                       height: 50,
                     ),
@@ -147,7 +147,7 @@ class _CitronPageState extends State<CitronPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 5),
                           const Text(
                             'Mes bons citrons',
                             style: TextStyle(
@@ -157,24 +157,24 @@ class _CitronPageState extends State<CitronPage> {
                               color: Color(0xFFEB622B),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           _buildInfoBox(
-                              '../../assets/images/boutique/citronvert.png',
+                              'assets/images/boutique/citronvert.png',
                               'Citron Bibliothèque',
                               '$citronvert PTS'),
                           const SizedBox(height: 10),
                           _buildInfoBox(
-                              '../../assets/images/boutique/citronbleu.png',
+                              'assets/images/boutique/citronbleu.png',
                               'Citron Musée',
                               '$citronbleu PTS'),
                           const SizedBox(height: 10),
                           _buildInfoBox(
-                              '../../assets/images/boutique/citronrouge.png',
+                              'assets/images/boutique/citronrouge.png',
                               'Citron Bar',
                               '$citronrouge PTS'),
                           const SizedBox(height: 10),
                           _buildInfoBox(
-                              '../../assets/images/boutique/citronjaune.png',
+                              'assets/images/boutique/citronjaune.png',
                               'Citron Restaurant',
                               '$citronjaune PTS'),
                           const SizedBox(height: 40),
@@ -198,7 +198,7 @@ class _CitronPageState extends State<CitronPage> {
                   right: 0,
                   bottom: 0,
                   child: Image.asset(
-                    '../../assets/images/boutique/shop-bot.png',
+                    'assets/images/boutique/shop-bot.png',
                     fit: BoxFit.cover,
                     alignment: Alignment.bottomCenter,
                   ),
@@ -206,7 +206,7 @@ class _CitronPageState extends State<CitronPage> {
                 Positioned(
                   left: 0,
                   right: 0,
-                  bottom: screenSize.width / 2.6,
+                  bottom: 90,
                   child: _buildShopButton(),
                 ),
               ],
@@ -242,7 +242,7 @@ class _CitronPageState extends State<CitronPage> {
               style: const TextStyle(
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: 16,
                 color: Color(0xFFEB622B),
               ),
             ),
@@ -263,7 +263,7 @@ class _CitronPageState extends State<CitronPage> {
       child: Text(
         points,
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           color: Color(0xFFFBBA2C),
           fontWeight: FontWeight.w500,
         ),
@@ -273,7 +273,7 @@ class _CitronPageState extends State<CitronPage> {
 
   Widget _buildShopButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 40),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
@@ -282,7 +282,7 @@ class _CitronPageState extends State<CitronPage> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          padding: const EdgeInsets.symmetric( vertical: 15),
           backgroundColor: const Color(0xFFEB622B).withOpacity(0.9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

@@ -83,13 +83,17 @@ class _BarLieuState extends State<BarLieu> {
   }
 
   void _launchURL(String url) async {
+    print("Trying to launch URL: $url");
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
+      print("Can launch URL: $url");
       await launchUrl(uri);
     } else {
-      throw 'Could not launch $url';
+      print("Cannot launch URL: $url");
+      throw 'Ne peut pas lancer $url';
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -167,20 +171,18 @@ class _BarLieuState extends State<BarLieu> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
                       const Text(
                         "Que l'aventure commence !",
                         style: TextStyle(
                           color: Color(0xFFEB622B),
-                          fontSize: 34,
+                          fontSize: 30,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Gustavo',
-                          height: 1.5,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 14),
                       const Text(
                         "Rendez vous :",
                         style: TextStyle(
@@ -192,7 +194,7 @@ class _BarLieuState extends State<BarLieu> {
                         ),
                         textAlign: TextAlign.left,
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Expanded(
@@ -213,18 +215,18 @@ class _BarLieuState extends State<BarLieu> {
                             child: const Icon(
                               Icons.location_on,
                               color: Color(0xFFFBBA2C),
-                              size: 36.0,
+                              size: 48.0,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 14),
                       const Text(
-                        "Vous voilà arrivés ! \nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. \nN'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. Bonne chance et que l'aventure continue !",
+                        "Vous voilà arrivés ! \nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. \n\nN'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. Bonne chance et que l'aventure continue !",
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontFamily: 'Outfit',
-                          fontSize: 19,
+                          fontSize: 16,
                           fontWeight: FontWeight.w400,
                         ),
                         textAlign: TextAlign.left,

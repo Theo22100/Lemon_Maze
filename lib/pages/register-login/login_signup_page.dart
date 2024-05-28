@@ -7,6 +7,8 @@ class LoginSignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Stack(
         children: [
@@ -14,7 +16,7 @@ class LoginSignUpPage extends StatelessWidget {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  '../../assets/images/welcome/wallpaper.png',
+                  'assets/images/welcome/wallpaper.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -28,6 +30,15 @@ class LoginSignUpPage extends StatelessWidget {
               'assets/images/login_signup/login-bot.png',
               fit: BoxFit.cover,
               alignment: Alignment.bottomCenter,
+            ),
+          ),
+
+          Positioned(
+            top: screenHeight*0.05,
+            child: Image.asset(
+              'assets/images/welcome/logosimple.png',
+              width: screenWidth,
+              height: screenHeight*0.25,
             ),
           ),
           Center(

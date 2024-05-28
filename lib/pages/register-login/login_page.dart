@@ -25,9 +25,7 @@ class LoginPageState extends State<LoginPage> {
 
   // Fonction pour hash le mot de passe
   String hashPassword(String password) {
-    // fonction sha256 directement
     var hashedBytes = sha256.convert(utf8.encode(password));
-    // Convertir bytes en une représentation hexadécimale
     var hashedPassword = hex.encode(hashedBytes.bytes);
     return hashedPassword;
   }
@@ -93,7 +91,7 @@ class LoginPageState extends State<LoginPage> {
       }
     } catch (error) {
       setState(() {
-        response = "Vérifiez vos informations d'identificationn.";
+        response = "Vérifiez vos informations d'identification.";
       });
     }
   }
@@ -122,7 +120,7 @@ class LoginPageState extends State<LoginPage> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
-                  '../../assets/images/welcome/wallpaper.png',
+                  'assets/images/welcome/wallpaper.png',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -134,116 +132,114 @@ class LoginPageState extends State<LoginPage> {
             right: 0,
             bottom: 0,
             child: Image.asset(
-              '../../assets/images/login_signup/login-bot.png',
+              'assets/images/login_signup/login-bot.png',
               fit: BoxFit.cover,
               alignment: Alignment.bottomCenter,
             ),
           ),
           // Contenu centré
           Positioned.fill(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 40.0),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 50.0),
-                    child: Text(
-                      "Se connecter",
-                      style: TextStyle(
-                        fontFamily: 'Gustavo',
-                        fontSize: 28,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFFFAF6D0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextField(
-                      controller: pseudoController,
-                      decoration: const InputDecoration(
-                        labelText: 'Pseudo',
-                        filled: true,
-                        fillColor: Color(0xFFFAF6D0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        ),
-                        prefixIcon:
-                            Icon(Icons.person, color: Color(0xFFE9581B)),
-                        labelStyle: TextStyle(
-                          color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Outfit',
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 40.0),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 50.0),
+                      child: Text(
+                        "Se connecter",
+                        style: TextStyle(
+                          fontFamily: 'Gustavo',
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFFAF6D0),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: TextField(
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        labelText: 'Mot de passe',
-                        filled: true,
-                        fillColor: Color(0xFFFAF6D0),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        ),
-                        prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
-                        labelStyle: TextStyle(
-                          color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Outfit',
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        loginUser();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color(0xFFE9581B), // Couleur de fond orange
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(20), // Bords arrondis
-                        ),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          "Se connecter",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFFFAF6D0),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextField(
+                        controller: pseudoController,
+                        decoration: const InputDecoration(
+                          labelText: 'Pseudo',
+                          filled: true,
+                          fillColor: Color(0xFFFAF6D0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          prefixIcon: Icon(Icons.person, color: Color(0xFFE9581B)),
+                          labelStyle: TextStyle(
+                            color: Color(0xFFE9581B),
+                            fontWeight: FontWeight.w500,
                             fontFamily: 'Outfit',
                           ),
                         ),
                       ),
                     ),
-                  ),
-
-                  const SizedBox(height: 8), // Ajoute espace
-                  Text(
-                    textAlign: TextAlign.center,
-                    response,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFFFAF6D0),
-                      fontFamily: 'Outfit',
-                      fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: TextField(
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Mot de passe',
+                          filled: true,
+                          fillColor: Color(0xFFFAF6D0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
+                          labelStyle: TextStyle(
+                            color: Color(0xFFE9581B),
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Outfit',
+                          ),
+                        ),
+                        obscureText: true, // Pour masquer le mot de passe
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          loginUser();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE9581B), // Couleur de fond orange
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20), // Bords arrondis
+                          ),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text(
+                            "Se connecter",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFFFAF6D0),
+                              fontFamily: 'Outfit',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8), // Ajoute espace
+                    Text(
+                      textAlign: TextAlign.center,
+                      response,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFFFAF6D0),
+                        fontFamily: 'Outfit',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -20,7 +20,7 @@ class Welcome1Page extends StatelessWidget {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(
-                    '../../assets/images/welcome/wallpaper.png',
+                    'assets/images/welcome/wallpaper.png',
                   ),
                   fit: BoxFit.cover,
                 ),
@@ -33,7 +33,7 @@ class Welcome1Page extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.2,
                     ),
                     Image.asset(
-                      '../../assets/images/welcome/lemonmaze.png',
+                      'assets/images/welcome/lemonmaze.png',
                       width: MediaQuery.of(context).size.width * 0.6,
                     ),
                     const SizedBox(
@@ -61,7 +61,7 @@ class Welcome1Page extends StatelessWidget {
               right: 0,
               bottom: 0,
               child: Image.asset(
-                '../../assets/images/welcome/welcome-1.png',
+                'assets/images/welcome/welcome-1.png',
                 fit: BoxFit.cover, // Ajuster image pour couvrir largeur
                 alignment:
                     Alignment.bottomCenter, // Aligner image bas de l'écran

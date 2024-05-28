@@ -84,25 +84,25 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   Map<int, dynamic> typeData = {
     1: {
-      'imagePath': '../../assets/images/boutique/bar.png',
+      'imagePath': 'assets/images/boutique/bar.png',
       'citronColor': Colors.red,
       'citronText': 'citronRouge',
       'route': 'remove-citron-rouge'
     },
     2: {
-      'imagePath': '../../assets/images/boutique/restaurant.png',
+      'imagePath': 'assets/images/boutique/restaurant.png',
       'citronColor': Colors.yellow,
       'citronText': 'citronJaune',
       'route': 'remove-citron-jaune'
     },
     3: {
-      'imagePath': '../../assets/images/boutique/musee.png',
+      'imagePath': 'assets/images/boutique/musee.png',
       'citronColor': Colors.blue,
       'citronText': 'citronBleu',
       'route': 'remove-citron-bleu'
     },
     4: {
-      'imagePath': '../../assets/images/boutique/bibliotheque.png',
+      'imagePath': 'assets/images/boutique/bibliotheque.png',
       'citronColor': Colors.green,
       'citronText': 'citronVert',
       'route': 'remove-citron-vert'
@@ -245,7 +245,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -266,17 +266,17 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      '../../assets/images/boutique/backhomecitron.png',
+                      'assets/images/boutique/backhomecitron.png',
                       width: 50,
                       height: 50,
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "Je veux régler ma commande...",
+                      "Je veux regler ma commande...",
                       style: TextStyle(
                         fontFamily: 'Gustavo',
                         fontWeight: FontWeight.w500,
-                        fontSize: 40,
+                        fontSize: 36,
                         color: Color(0xFFFAF6D0),
                       ),
                     ),
@@ -374,7 +374,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   right: 0,
                   bottom: 0,
                   child: Image.asset(
-                    '../assets/images/boutique/shop-bot.png',
+                    'assets/images/boutique/shop-bot.png',
                     fit: BoxFit.cover,
                     alignment: Alignment.bottomCenter,
                   ),

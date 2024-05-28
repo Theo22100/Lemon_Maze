@@ -175,7 +175,7 @@ class _CodePageState extends State<CodePage> {
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
-                          height: 1.5,
+                          height: 1,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -184,7 +184,7 @@ class _CodePageState extends State<CodePage> {
                           "Félicitations pour avoir déniché le code secret de l'établissement !\nVeuillez le saisir :)",
                           style: TextStyle(
                             color: Color(0xFFEB622B),
-                            fontSize: 16,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                             fontFamily: 'Outfit',
                             height: 1.5,
@@ -197,8 +197,8 @@ class _CodePageState extends State<CodePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: List.generate(4, (index) {
                           return Container(
-                            width: 50,
-                            height: 50,
+                            width: 45,
+                            height: 45,
                             decoration: BoxDecoration(
                               color: const Color(0xFFFBBA2C),
                               borderRadius: BorderRadius.circular(10),
@@ -214,11 +214,10 @@ class _CodePageState extends State<CodePage> {
                           );
                         }),
                       ),
-                      const SizedBox(height: 40),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: screenHeight /
-                                13), // Padding pour taille bouton
+                                11), // Padding pour taille bouton
                         child: GridView.count(
                           crossAxisCount: 3,
                           shrinkWrap: true,

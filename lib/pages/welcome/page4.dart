@@ -14,7 +14,7 @@ class Welcome4Page extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Image.asset(
-                '../../assets/images/welcome/welcome-4.png',
+                'assets/images/welcome/welcome-4.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -30,7 +30,7 @@ class Welcome4Page extends StatelessWidget {
                         topRight: Radius.circular(30),
                       ),
                       child: Image.asset(
-                        '../../assets/images/welcome/wallpaper.png',
+                        'assets/images/welcome/wallpaper.png',
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height / 2.5,
@@ -75,16 +75,16 @@ class Welcome4Page extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 40,
+                      bottom: 1,
                       left: 16,
                       child: Image.asset(
-                        '../../assets/images/welcome/index_page4.png',
+                        'assets/images/welcome/index_page4.png',
                         width: 80,
                         height: 80,
                       ),
                     ),
                     Positioned(
-                      bottom: 60,
+                      bottom: 10,
                       right: 16,
                       child: GestureDetector(
                         onTap: () {
@@ -95,7 +95,7 @@ class Welcome4Page extends StatelessWidget {
                           );
                         },
                         child: Image.asset(
-                          '../../assets/images/welcome/circle_arrow.png',
+                          'assets/images/welcome/circle_arrow.png',
                           width: 50,
                           height: 50,
                         ),

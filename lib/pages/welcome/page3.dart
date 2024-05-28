@@ -14,7 +14,7 @@ class Welcome3Page extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Image.asset(
-                '../../assets/images/welcome/welcome-3.png',
+                'assets/images/welcome/welcome-3.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -30,7 +30,7 @@ class Welcome3Page extends StatelessWidget {
                         topRight: Radius.circular(30),
                       ),
                       child: Image.asset(
-                        '../../assets/images/welcome/wallpaper.png',
+                        'assets/images/welcome/wallpaper.png',
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height / 2.5,
@@ -49,9 +49,8 @@ class Welcome3Page extends StatelessWidget {
                               'Gagne de l’argent',
                               style: TextStyle(
                                   color: Color(0xFFFAF6D0),
-                                  fontSize: 44,
+                                  fontSize: 42,
                                   fontWeight: FontWeight.w400,
-                                  height: 1.5,
                                   fontFamily: 'Gustavo'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -75,16 +74,16 @@ class Welcome3Page extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 40,
+                      bottom: 1,
                       left: 16,
                       child: Image.asset(
-                        '../../assets/images/welcome/index_page3.png',
+                        'assets/images/welcome/index_page3.png',
                         width: 80,
                         height: 80,
                       ),
                     ),
                     Positioned(
-                      bottom: 60,
+                      bottom: 10,
                       right: 16,
                       child: GestureDetector(
                         onTap: () {
@@ -95,7 +94,7 @@ class Welcome3Page extends StatelessWidget {
                           );
                         },
                         child: Image.asset(
-                          '../../assets/images/welcome/circle_arrow.png',
+                          'assets/images/welcome/circle_arrow.png',
                           width: 50,
                           height: 50,
                         ),

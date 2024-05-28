@@ -68,7 +68,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -88,13 +88,13 @@ class _BoutiquePageState extends State<BoutiquePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      '../../assets/images/boutique/backhomecitron.png',
+                      'assets/images/boutique/backhomecitron.png',
                       width: 50,
                       height: 50,
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      "J’ai trouvé le code secret !",
+                      "Ma Boutique !",
                       style: TextStyle(
                         fontFamily: 'Gustavo',
                         fontWeight: FontWeight.w500,
@@ -180,22 +180,22 @@ class _BoutiquePageState extends State<BoutiquePage> {
     // Assigner le chemin de l'image et les valeurs de la boîte en fonction de l'ID de type
     switch (id_type) {
       case 1:
-        imagePath = '../../assets/images/boutique/bar.png';
+        imagePath = 'assets/images/boutique/bar.png';
         citronColor = Colors.red;
         citronText = '$citronRouge PTS';
         break;
       case 2:
-        imagePath = '../../assets/images/boutique/restaurant.png';
+        imagePath = 'assets/images/boutique/restaurant.png';
         citronColor = Colors.yellow;
         citronText = '$citronJaune PTS';
         break;
       case 3:
-        imagePath = '../../assets/images/boutique/musee.png';
+        imagePath = 'assets/images/boutique/musee.png';
         citronColor = Colors.blue;
         citronText = '$citronBleu PTS';
         break;
       case 4:
-        imagePath = '../../assets/images/boutique/bibliotheque.png';
+        imagePath = 'assets/images/boutique/bibliotheque.png';
         citronColor = Colors.green;
         citronText = '$citronVert PTS';
         break;

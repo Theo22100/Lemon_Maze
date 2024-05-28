@@ -15,7 +15,7 @@ class Welcome2Page extends StatelessWidget {
               padding: const EdgeInsets.only(
                   top: 20), // Espace supplémentaire en haut
               child: Image.asset(
-                '../../assets/images/welcome/welcome-2.png',
+                'assets/images/welcome/welcome-2.png',
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -31,7 +31,7 @@ class Welcome2Page extends StatelessWidget {
                         topRight: Radius.circular(30),
                       ),
                       child: Image.asset(
-                        '../../assets/images/welcome/wallpaper.png',
+                        'assets/images/welcome/wallpaper.png',
                         fit: BoxFit.cover,
                         width: double.infinity,
                         height: MediaQuery.of(context).size.height / 2.5,
@@ -47,12 +47,11 @@ class Welcome2Page extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Amuse toi avec tes amis',
+                              'Amuse-toi avec tes amis',
                               style: TextStyle(
                                   color: Color(0xFFFAF6D0),
                                   fontSize: 40,
                                   fontWeight: FontWeight.w400,
-                                  height: 1.5,
                                   fontFamily: 'Gustavo'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -76,16 +75,16 @@ class Welcome2Page extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 40,
+                      bottom: 1,
                       left: 16,
                       child: Image.asset(
-                        '../../assets/images/welcome/index_page2.png',
+                        'assets/images/welcome/index_page2.png',
                         width: 80,
                         height: 80,
                       ),
                     ),
                     Positioned(
-                      bottom: 60,
+                      bottom: 10,
                       right: 16,
                       child: GestureDetector(
                         onTap: () {
@@ -96,7 +95,7 @@ class Welcome2Page extends StatelessWidget {
                           );
                         },
                         child: Image.asset(
-                          '../../assets/images/welcome/circle_arrow.png',
+                          'assets/images/welcome/circle_arrow.png',
                           width: 50,
                           height: 50,
                         ),

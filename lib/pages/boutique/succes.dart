@@ -104,22 +104,22 @@ class _SuccesPageState extends State<SuccesPage> {
     // Assigner le chemin de l'image et les valeurs de la boîte en fonction de l'ID de type
     switch (id_type) {
       case 1:
-        imagePath = '../../assets/images/boutique/bar.png';
+        imagePath = 'assets/images/boutique/bar.png';
         citronColor = Colors.red;
         citronText = '$citronRouge PTS';
         break;
       case 2:
-        imagePath = '../../assets/images/boutique/restaurant.png';
+        imagePath = 'assets/images/boutique/restaurant.png';
         citronColor = Colors.yellow;
         citronText = '$citronJaune PTS';
         break;
       case 3:
-        imagePath = '../../assets/images/boutique/musee.png';
+        imagePath = 'assets/images/boutique/musee.png';
         citronColor = Colors.blue;
         citronText = '$citronBleu PTS';
         break;
       case 4:
-        imagePath = '../../assets/images/boutique/bibliotheque.png';
+        imagePath = 'assets/images/boutique/bibliotheque.png';
         citronColor = Colors.green;
         citronText = '$citronVert PTS';
         break;
@@ -244,7 +244,7 @@ class _SuccesPageState extends State<SuccesPage> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -265,7 +265,7 @@ class _SuccesPageState extends State<SuccesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      '../../assets/images/boutique/backhomecitron.png',
+                      'assets/images/boutique/backhomecitron.png',
                       width: 50,
                       height: 50,
                     ),
@@ -317,21 +317,6 @@ class _SuccesPageState extends State<SuccesPage> {
                           _buildRecompenseBox(response),
                           const SizedBox(height: 20),
                           ElevatedButton(
-                            onPressed: () {
-                              // Logique pour confirmer la demande
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color(0xFFE9581B), // Couleur du fond
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(20), // Bords arrondis
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 40,
-                                  vertical: 16), // Taille du bouton
-                            ),
-                            child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -360,7 +345,6 @@ class _SuccesPageState extends State<SuccesPage> {
                                 ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),

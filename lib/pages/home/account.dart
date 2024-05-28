@@ -84,7 +84,7 @@ class _AccountPageState extends State<AccountPage> {
           // Background
           Positioned.fill(
             child: Image.asset(
-              '../../assets/images/welcome/wallpaper.png',
+              'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -136,7 +136,7 @@ class _AccountPageState extends State<AccountPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 20),
                       const Text(
                         'Mon profil',
                         style: TextStyle(
@@ -158,13 +158,13 @@ class _AccountPageState extends State<AccountPage> {
                       const SizedBox(height: 10),
                       _buildInfoBox(Icons.cake, 'Age',
                           age != null ? '$age ans' : 'Chargement...'),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
                       _buildDeleteButton(),
                       Text(
                         textAlign: TextAlign.center,
                         response,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 12,
                           color: Colors.red,
                           fontFamily: 'Outfit',
                           fontWeight: FontWeight.w400,
@@ -200,7 +200,7 @@ class _AccountPageState extends State<AccountPage> {
             child: Text(
               '$title: $info',
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 color: Colors.white,
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.w400,
@@ -223,7 +223,7 @@ class _AccountPageState extends State<AccountPage> {
         label: const Text(
           "Supprimer mon compte",
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 14,
             color: Colors.white,
             fontFamily: 'Outfit',
             fontWeight: FontWeight.w400,

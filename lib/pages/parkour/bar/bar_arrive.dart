@@ -93,7 +93,7 @@ class BarArrive extends StatelessWidget {
                       const SizedBox(
                           height: 16), // Espacement entre les deux textes
                       const Text(
-                        "Vous voilà arrivés ! \n\nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. N'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. \n\nBonne chance et que l'aventure continue !",
+                        "Te voilà arrivé ! \n\nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. N'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. \n\nBonne chance et que l'aventure continue !",
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontFamily: 'Outfit',
