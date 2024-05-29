@@ -75,7 +75,7 @@ class BadAnswerPage extends StatelessWidget {
                         ),
                       ),
 
-                      // Image enigme.png chevauchant la zone orange
+                      // Image mauvaise rep
                       Positioned(
                         bottom: screenHeight / 18,
                         top: 0,

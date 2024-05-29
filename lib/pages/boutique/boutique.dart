@@ -72,7 +72,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
               fit: BoxFit.cover,
             ),
           ),
-          // Back button at the top left
+          // Bouton retour à CitronPage
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -107,6 +107,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
               ),
             ),
           ),
+          //zone beige
 
           Align(
             alignment: Alignment.bottomCenter,
@@ -154,7 +155,6 @@ class _BoutiquePageState extends State<BoutiquePage> {
   }
 
   // Fonction pour construire la boîte de récompense
-
   Widget _buildRecompenseBox(dynamic recompense) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
@@ -164,20 +164,17 @@ class _BoutiquePageState extends State<BoutiquePage> {
     String citronBleu = (recompense['citronBleu'] ?? 0).toString();
     int id_lieu = recompense['id_lieu'] ?? 0;
     int id_type = recompense['id_type'] ?? 0;
-    int idrecompense =
-        recompense['idrecompense'] ?? 0; // Ajout d'une valeur par défaut
+    int idrecompense = recompense['idrecompense'] ?? 0;
 
-    // Vérifiez que id_recompense n'est pas null
     if (idrecompense == 0) {
-      return const SizedBox
-          .shrink(); // Retournez un widget vide ou un message d'erreur
+      return const SizedBox.shrink();
     }
 
     String imagePath = ''; // Chemin de l'image en fonction de l'ID de type
     Color citronColor;
     String citronText;
 
-    // Assigner le chemin de l'image et les valeurs de la boîte en fonction de l'ID de type
+    // Assigner le chemin de 'image et les valeurs de la boîte en fonction de l'ID de type
     switch (id_type) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
@@ -323,7 +320,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {
-        throw Exception("Lieu non trouvé"); // Lancer une exception
+        throw Exception("Lieu non trouvé"); // Lancer exception
       }
     } catch (error) {
       return "Erreur de chargement du nom du lieu";

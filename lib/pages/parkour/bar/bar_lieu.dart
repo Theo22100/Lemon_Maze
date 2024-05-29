@@ -27,6 +27,7 @@ class _BarLieuState extends State<BarLieu> {
     getEtatParty();
   }
 
+  //Affice le bon lieu
   Future<void> fetchLieux() async {
     try {
       var result = await http_get(
@@ -72,10 +73,10 @@ class _BarLieuState extends State<BarLieu> {
             etat = data['etat'];
           });
         } else {
-          logger.e("The response data or 'etat' key is null");
+          logger.e("clé 'etat' est null");
         }
       } else {
-        logger.e("Failed to fetch parkour data");
+        logger.e("Échec extraction des données relatives au parcours");
       }
     } catch (error) {
       logger.e("Erreur lors de l'appel HTTP : $error");
@@ -105,7 +106,7 @@ class _BarLieuState extends State<BarLieu> {
     }
 
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenHeight = MediaQuery.of(context).size.height; //responsive
 
     return Scaffold(
       body: Stack(

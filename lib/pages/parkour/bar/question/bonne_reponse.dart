@@ -29,7 +29,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
     _addCitron(10);
   }
 
-  // Function to add citron
+  // Fonction pour ajouter citron
   Future<void> _addCitron(int citron) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -48,7 +48,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
 
       setState(() {
         if (result.data['success']) {
-          responsemsg = "+ $citron Citrons Rouges !";
+          responsemsg = "+ $citron Citrons Bar !";
         } else {
           responsemsg = result.data['message'];
           logger.e('Failed to add citron(s): ${result.data}');
@@ -73,8 +73,6 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
 
       String url = 'party/add-etat/$idParty';
       final result = await http_put(url);
-      logger
-          .i("Result from PUT request: ${result.ok} with data: ${result.data}");
 
       setState(() {
         if (result.ok) {
@@ -88,7 +86,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
                   builder: (context) => const FinalParkourPage(
                       /*randomIdParkour: widget.randomIdParkour,
                     idParty: widget.idParty,*/
-                      ),
+                      ), //TODOV2 AJOUTER INFO PARCOURS
                 ),
               );
             } else {

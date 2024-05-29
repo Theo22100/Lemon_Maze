@@ -15,7 +15,7 @@ class Welcome3Page extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20),
               child: Image.asset(
                 'assets/images/welcome/welcome-3.png',
-                width: double.infinity,
+                width: double.infinity, // Prend toute la largeur
                 fit: BoxFit.cover,
               ),
             ),

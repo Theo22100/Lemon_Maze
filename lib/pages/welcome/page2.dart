@@ -16,7 +16,7 @@ class Welcome2Page extends StatelessWidget {
                   top: 20), // Espace supplémentaire en haut
               child: Image.asset(
                 'assets/images/welcome/welcome-2.png',
-                width: double.infinity,
+                width: double.infinity, // Prend toute la largeur
                 fit: BoxFit.cover,
               ),
             ),

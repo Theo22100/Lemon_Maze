@@ -15,7 +15,7 @@ class Welcome4Page extends StatelessWidget {
               padding: const EdgeInsets.only(top: 20),
               child: Image.asset(
                 'assets/images/welcome/welcome-4.png',
-                width: double.infinity,
+                width: double.infinity, // Prend toute la largeur
                 fit: BoxFit.cover,
               ),
             ),

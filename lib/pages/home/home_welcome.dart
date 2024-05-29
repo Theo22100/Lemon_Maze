@@ -27,14 +27,14 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                     height: MediaQuery.of(context).size.height * 0.13,
                   ),
                   Image.asset(
-                    '../../assets/images/welcomehome/lemonmaze-orange.png',
+                    'assets/images/welcomehome/lemonmaze-orange.png',
                     width: MediaQuery.of(context).size.width * 0.6,
                   ),
                   const SizedBox(
                     height: 40,
                   ),
                   Image.asset(
-                    '../../assets/images/welcomehome/home-lemonmaze.png',
+                    'assets/images/welcomehome/home-lemonmaze.png',
                     width: MediaQuery.of(context).size.width * 0.6,
                   ),
                   const SizedBox(
@@ -52,7 +52,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                             color: Color(0xFFE9581B),
                             fontSize: 16,
                             fontFamily: 'Outfit',
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(
@@ -115,6 +115,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            //check pour voir si condid utilisation coché
                             if (!isChecked1) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

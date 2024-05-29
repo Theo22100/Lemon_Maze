@@ -81,6 +81,8 @@ flutter:
     - assets/images/home/homeparkour/
     - assets/images/parkour/
     - assets/images/account/
+    - assets/.env
+    - assets/images/welcomehome/
 
   
   fonts:

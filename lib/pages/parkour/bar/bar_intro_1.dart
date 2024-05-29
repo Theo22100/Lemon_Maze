@@ -10,14 +10,14 @@ class BarIntro1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtenir les dimensions de l'écran
+    // Obtenir dimensions écran pour responsive
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Stack(
         children: [
-          // Image en arrière-plan
+          // Image arrière-plan
           Positioned.fill(
             child: Image.asset(
               'assets/images/welcome/wallpaper.png',
@@ -26,17 +26,14 @@ class BarIntro1 extends StatelessWidget {
           ),
           // Image bar.png en haut et alignée au centre
           Positioned(
-            top: screenHeight *
-                0.04, // Ajustez la position verticale selon vos besoins
+            top: screenHeight * 0.04,
             left: 0,
             right: 0,
             child: Center(
               child: Image.asset(
                 'assets/images/home/homeparkour/bar.png',
-                width: screenWidth *
-                    0.4, // Ajustez la largeur proportionnelle à l'écran
-                height: screenHeight *
-                    0.2, // Ajustez la hauteur proportionnelle à l'écran
+                width: screenWidth * 0.4,
+                height: screenHeight * 0.2, //responsive
                 fit: BoxFit.contain,
               ),
             ),
@@ -71,8 +68,7 @@ class BarIntro1 extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(
-                          height: 16), // Espacement entre les deux textes
+                      const SizedBox(height: 16),
                       const Text(
                         "Bienvenue à Rennes, une ville où chaque rue murmure des histoires anciennes et des mystères cachés. Vous incarnez une équipe d'explorateurs intrépides, recrutés par une mystérieuse organisation secrète de citrons appelée <<Les Gardiens de l'Histoire>>. \n\nVotre mission : percer les secrets les mieux gardés de Rennes et protéger son patrimoine culturel.",
                         style: TextStyle(
@@ -80,7 +76,6 @@ class BarIntro1 extends StatelessWidget {
                           fontFamily: 'Outfit',
                           fontSize: 19,
                           fontWeight: FontWeight.w400,
-                          height: 25 / 19, // Calculer le line-height
                         ),
                         textAlign: TextAlign.left,
                       ),

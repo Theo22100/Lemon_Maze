@@ -20,18 +20,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+//annonce list
 class _HomePageState extends State<HomePage> {
   final List<String> images = [
     'assets/images/home/announce/announce1.png',
     'assets/images/home/announce/announce2.png',
     'assets/images/home/announce/announce3.png'
   ];
-
+  //annonce
   int _currentIndex = 0;
-
+  //fonction deconnexion
   void _clearSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
+    bool isFirstLogin = prefs.getBool('isFirstLogin') ?? false;
     prefs.clear();
+    await prefs.setBool('isFirstLogin', isFirstLogin);
+  }
+
+  Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('id');
+    return userId;
   }
 
   @override
@@ -59,6 +68,7 @@ class _HomePageState extends State<HomePage> {
                     height: 200,
                     child: Stack(
                       children: [
+                        //carrousel d'annonce
                         PageView.builder(
                           itemCount: images.length,
                           controller: PageController(initialPage: 0),
@@ -113,6 +123,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 32,
                   ),
+                  //carré des 4 choix
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -230,15 +241,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-// Vous devez implémenter la fonction getUserId() pour récupérer l'ID de l'utilisateur
-  Future<String?> getUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getString('id');
-
-    // Retourner userId ou null en fonction de sa présence dans les préférences partagées
-    return userId;
-  }
-
+  //Resto Musee Biblio
   Widget _buildUnavailableImage(BuildContext context, String image) {
     return GestureDetector(
       onTap: () {
@@ -273,6 +276,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //Confirmation deconnexion
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -306,6 +310,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+//Bouton en bas de l'écran
 class BottomNavigationBarWidget extends StatelessWidget {
   const BottomNavigationBarWidget({super.key});
 
@@ -378,6 +383,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     );
   }
 
+// Creation de barre nav
   Widget _buildNavItem(BuildContext context,
       {required IconData icon,
       required String label,

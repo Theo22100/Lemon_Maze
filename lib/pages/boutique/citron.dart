@@ -77,7 +77,7 @@ class _CitronPageState extends State<CitronPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Avoir taille ecran pour image
+    // Avoir taille ecran pour image pour responsive
     // final screenSize = MediaQuery.of(context).size;
 
     // final imageWidth = screenSize.width * 0.4;

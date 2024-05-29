@@ -5,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  // Assurez-vous que le binding est initialisé
+  // Initialiser les variables d'environnement
   WidgetsFlutterBinding.ensureInitialized();
 
   // Charger les variables d'environnement
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: "assets/.env");
 
   // Lancer l'application
   runApp(const MyApp());
@@ -38,11 +38,11 @@ class MyApp extends StatelessWidget {
               ),
             );
           } else {
-            // Si l'utilisateur est connecté, redirigez-le vers la page d'accueil
+            // Si l'utilisateur est connecté, redirige vers la page d'accueil
             if (snapshot.data == true) {
               return const HomePage();
             } else {
-              // Sinon, redirigez-le vers la page de connexion
+              // Sinon, redirigez vers page de connexion
               return const Welcome1Page();
             }
           }

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/home/home.dart';
+import 'package:my_app/pages/home/home_welcome.dart';
 import 'package:my_app/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,7 +30,7 @@ class LoginPageState extends State<LoginPage> {
     return hashedPassword;
   }
 
-  // Méthode pour gérer la navigation vers la page d'accueil
+  // Méthode pour gérer la navigation
   void navigateToHomePage() {
     Navigator.pushReplacement(
       context,
@@ -38,9 +38,32 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  // Méthode pour gérer la navigation
+  void navigateToFirstLogin() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const WelcomeHomePage()),
+    );
+  }
+
+  Future<void> setFirstLoginDone() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool result = await prefs.setBool('isFirstLogin', false);
+    } catch (e) {
+      logger.i('Erreur: $e');
+    }
+  }
+
+  Future<bool> isFirstLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstLogin = prefs.getBool('isFirstLogin') ?? true;
+    return isFirstLogin;
+  }
+
   Future<void> loginUser() async {
     try {
-      // Validation champs
+      // Validation des champs
       if (pseudoController.text.isEmpty || passwordController.text.isEmpty) {
         setState(() {
           response = "Veuillez remplir tous les champs !";
@@ -57,15 +80,13 @@ class LoginPageState extends State<LoginPage> {
         "password": hashedPassword,
       });
 
-      logger.i(result.data);
-
       // Si la requête est réussie, MAJ interface utilisateur asynchrone
       if (result.ok) {
         if (result.data['success'] == true) {
           setState(() {
             response = "Connexion réussie !";
           });
-
+          //Permet de stocker les informations utilisateur dans SharedPreferences
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', result.data['token']);
           await prefs.setString('pseudo', result.data['pseudo']);
@@ -73,10 +94,16 @@ class LoginPageState extends State<LoginPage> {
           await prefs.setString('age', result.data['age'].toString());
           await prefs.setString('ville', result.data['ville']);
           await prefs.setString('id', result.data['id'].toString());
-          // Mettre à jour l'état dans setState après l'attente
-          setState(() {
+
+          bool isFirstLogin = prefs.getBool('isFirstLogin') ?? true;
+
+          // Naviguer vers la page appropriée après l'attente
+          if (isFirstLogin) {
+            await setFirstLoginDone();
+            navigateToFirstLogin();
+          } else {
             navigateToHomePage();
-          });
+          }
         } else {
           // erreur
           setState(() {
@@ -168,9 +195,11 @@ class LoginPageState extends State<LoginPage> {
                           filled: true,
                           fillColor: Color(0xFFFAF6D0),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
                           ),
-                          prefixIcon: Icon(Icons.person, color: Color(0xFFE9581B)),
+                          prefixIcon:
+                              Icon(Icons.person, color: Color(0xFFE9581B)),
                           labelStyle: TextStyle(
                             color: Color(0xFFE9581B),
                             fontWeight: FontWeight.w500,
@@ -188,9 +217,11 @@ class LoginPageState extends State<LoginPage> {
                           filled: true,
                           fillColor: Color(0xFFFAF6D0),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
                           ),
-                          prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
+                          prefixIcon:
+                              Icon(Icons.lock, color: Color(0xFFE9581B)),
                           labelStyle: TextStyle(
                             color: Color(0xFFE9581B),
                             fontWeight: FontWeight.w500,
@@ -208,9 +239,11 @@ class LoginPageState extends State<LoginPage> {
                           loginUser();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE9581B), // Couleur de fond orange
+                          backgroundColor:
+                              const Color(0xFFE9581B), // Couleur de fond orange
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20), // Bords arrondis
+                            borderRadius:
+                                BorderRadius.circular(20), // Bords arrondis
                           ),
                         ),
                         child: const Padding(

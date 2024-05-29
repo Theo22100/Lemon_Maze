@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/modules/http.dart';
+import 'package:my_app/pages/register-login/login_page.dart';
 import 'package:my_app/pages/register-login/login_signup_page.dart';
 
 var logger = Logger();
@@ -35,14 +36,16 @@ class RegisterPageState extends State<RegisterPage> {
     return passwordRegex.hasMatch(password);
   }
 
+  Future<void> navigateToLogin() async {
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPage()),
+    );
+  }
+
   Future<void> createUser() async {
     try {
-      logger.i(pseudoController.text);
-      logger.i(mailController.text);
-      logger.i(passwordController.text);
-      logger.i(password2Controller.text);
-      logger.i(ageController.text);
-      logger.i(villeController.text);
       // Validation des champs
       if (pseudoController.text.isEmpty ||
           mailController.text.isEmpty ||
@@ -60,7 +63,7 @@ class RegisterPageState extends State<RegisterPage> {
       if (!isPasswordValid(passwordController.text)) {
         setState(() {
           response =
-          "Mot de passe doit contenir au moins 8 caractères avec un chiffre et un caractère spécial.";
+              "Mot de passe doit contenir au moins 8 caractères avec un chiffre et un caractère spécial.";
         });
         return;
       }
@@ -95,7 +98,7 @@ class RegisterPageState extends State<RegisterPage> {
 
       // Hashage mot de passe
       String hashedPassword =
-      sha256.convert(utf8.encode(passwordController.text)).toString();
+          sha256.convert(utf8.encode(passwordController.text)).toString();
 
       var result = await http_post("user/create-user", {
         "pseudo": pseudoController.text,
@@ -104,17 +107,18 @@ class RegisterPageState extends State<RegisterPage> {
         "ville": villeController.text,
         "password": hashedPassword,
       });
-      logger.i(result.ok);
-
       if (result.ok) {
-        setState(() {
-          if (result.data['success'] == true) {
+        if (result.data['success'] == true) {
+          setState(() {
             response = "Inscription réussie !";
-          } else {
-            // erreur
+            navigateToLogin();
+          });
+        } else {
+          // erreur
+          setState(() {
             response = result.data['error'];
-          }
-        });
+          });
+        }
       }
     } catch (error) {
       logger.e("Erreur inattendue: $error");
@@ -195,7 +199,7 @@ class RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         prefixIcon:
-                        Icon(Icons.person, color: Color(0xFFE9581B)),
+                            Icon(Icons.person, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
@@ -244,7 +248,8 @@ class RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly, // Permettre uniquement les chiffres
+                        FilteringTextInputFormatter
+                            .digitsOnly, // Permettre uniquement les chiffres
                       ],
                       keyboardType: TextInputType.number, // Clavier numérique
                     ),
@@ -261,7 +266,7 @@ class RegisterPageState extends State<RegisterPage> {
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                         prefixIcon:
-                        Icon(Icons.location_city, color: Color(0xFFE9581B)),
+                            Icon(Icons.location_city, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
@@ -321,10 +326,10 @@ class RegisterPageState extends State<RegisterPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
-                        const Color(0xFFE9581B), // Couleur de fond orange
+                            const Color(0xFFE9581B), // Couleur de fond orange
                         shape: RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.circular(20), // Bords arrondis
+                              BorderRadius.circular(20), // Bords arrondis
                         ),
                       ),
                       child: const Padding(

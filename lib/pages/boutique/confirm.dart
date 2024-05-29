@@ -343,13 +343,24 @@ class _ConfirmPageState extends State<ConfirmPage> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 10),
+                          Text(
+                            textAlign: TextAlign.center,
+                            responsemsg,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.red,
+                              fontFamily: 'Outfit',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             "Attention, après avoir cliqué sur \"J’achète\", aucun retour ou remboursement ne sera possible. \nVoir conditions d'utilisation.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
-                              color: Colors.red,
+                              color: Color(0xFFEB622B),
                               fontSize: 14,
                             ),
                           ),
@@ -393,22 +404,23 @@ class _ConfirmPageState extends State<ConfirmPage> {
       final userId = prefs.getString('id');
 
       if (userId == null || userId.isEmpty) {
-        logger.e('User ID is null or empty');
+        logger.e('User ID est null ou vide');
         setState(() {
           responsemsg = 'Erreur: ID utilisateur non trouvé';
         });
         return;
       }
-
+      logger.i(userId);
+      logger.i(citron);
       final body = {
         'userId': userId,
-        'nombre': citron,
+        'nombre':
+            citron, // Assurez-vous que 'nombre' est une chaîne de caractères
       };
 
       final result = await http_put(route, body);
 
       if (result.data['success']) {
-        logger.i('Successfully removed $citron citron(s)');
         _addRecompense();
         // ignore: use_build_context_synchronously
         Navigator.push(
@@ -421,10 +433,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
         setState(() {
           responsemsg = result.data['message'];
         });
-        logger.e('Failed to remove citron(s): ${result.data}');
       }
     } catch (error) {
-      logger.e('Error removing citron(s): $error');
+      logger.e('Erreur en enlevant les citrons: $error');
       setState(() {
         responsemsg = 'Erreur interne lors de la suppression des citrons';
       });
@@ -438,7 +449,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
       // Validation userId
       if (userId == null || userId.isEmpty) {
-        logger.e('User ID is null or empty');
+        logger.e('User ID est null ou vide');
         setState(() {
           responsemsg = 'Erreur: ID utilisateur non trouvé';
         });

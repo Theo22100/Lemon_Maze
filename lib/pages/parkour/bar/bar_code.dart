@@ -18,7 +18,7 @@ class CodePage extends StatefulWidget {
 }
 
 class _CodePageState extends State<CodePage> {
-  List<String> code = ["", "", "", ""];
+  List<String> code = ["", "", "", ""]; // code en haut
   int currentIndex = 0; // Index actuel pour code
   int etat = 0;
   int bonCode = 0;
@@ -30,8 +30,7 @@ class _CodePageState extends State<CodePage> {
     getCodeEtat();
   }
 
-  // Avec etat ça recup le code le code en fonction
-
+  //Ajout chiffre dans le code
   void addDigit(String digit) {
     setState(() {
       if (currentIndex < 4) {
@@ -41,6 +40,7 @@ class _CodePageState extends State<CodePage> {
     });
   }
 
+  //Supprimer avec la barre dans le code
   void removeDigit() {
     setState(() {
       if (currentIndex > 0) {
@@ -72,6 +72,7 @@ class _CodePageState extends State<CodePage> {
     }
   }
 
+  //Fonction pour savoir si bon code
   void checkCode() {
     String enteredCode = code.join();
     if (enteredCode == bonCode.toString()) {
@@ -287,6 +288,7 @@ class _CodePageState extends State<CodePage> {
   }
 }
 
+//bouton code
 class DigitButton extends StatefulWidget {
   final String digit;
   final VoidCallback onPressed;

@@ -10,7 +10,7 @@ class BarIntro2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Obtenir les dimensions de l'écran
+    // Obtenir les dimensions écran responsive
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
@@ -26,17 +26,14 @@ class BarIntro2 extends StatelessWidget {
           ),
           // Image bar.png en haut et alignée au centre
           Positioned(
-            top: screenHeight *
-                0.04, // Ajustez la position verticale selon vos besoins
+            top: screenHeight * 0.04, // responsive
             left: 0,
             right: 0,
             child: Center(
               child: Image.asset(
                 'assets/images/home/homeparkour/bar.png',
-                width: screenWidth *
-                    0.4, // Ajustez la largeur proportionnelle à l'écran
-                height: screenHeight *
-                    0.2, // Ajustez la hauteur proportionnelle à l'écran
+                width: screenWidth * 0.4, // responsive
+                height: screenHeight * 0.2, // responsive
                 fit: BoxFit.contain,
               ),
             ),

@@ -1,14 +1,11 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:my_app/modules/http.dart';
 import 'package:my_app/pages/boutique/boutique.dart';
-
 import 'package:logger/logger.dart';
 import 'package:my_app/pages/home/inventory.dart';
 
 var logger = Logger();
-Map<String, dynamic> response = {};
 
 class SuccesPage extends StatefulWidget {
   final int idRecompense;
@@ -21,45 +18,38 @@ class SuccesPage extends StatefulWidget {
 
 class _SuccesPageState extends State<SuccesPage> {
   bool isLoading = false;
+  Map<String, dynamic> response = {};
 
   @override
   void initState() {
     super.initState();
-    _fetchOneRecompense(); // Appel de la fonction pour récupérer les récompenses
+    _fetchOneRecompense();
   }
 
-  // Fonction pour récupérer les récompenses en fonction de l'ID de type
   Future<void> _fetchOneRecompense() async {
     setState(() {
-      isLoading = true; // Définir l'indicateur de chargement sur vrai
+      isLoading = true;
     });
-    final int idRecompense = (widget.idRecompense);
-    try {
-      // Appel de l'API pour récupérer les récompenses
-      final result = await http_get("recompense/getrecompense/$idRecompense");
 
+    try {
+      final result = await http_get("recompense/getrecompense/${widget.idRecompense}");
       if (result.data['success']) {
         setState(() {
-          response =
-              result.data['data']; // Mettre à jour la liste des récompenses
+          response = result.data['data'];
         });
       } else {
         setState(() {
-          response =
-              result.data['message']; // Mettre à jour le message d'erreur
+          response = {'message': result.data['message']};
         });
       }
     } catch (error) {
       logger.e("Error: $error");
       setState(() {
-        response = {
-          'message': "Erreur lors de la récupération des récompenses"
-        }; // Mettre à jour le message d'erreur
+        response = {'message': "Erreur lors de la récupération des récompenses"};
       });
     } finally {
       setState(() {
-        isLoading =
-            false; // Définir l'indicateur de chargement sur faux une fois terminé
+        isLoading = false;
       });
     }
   }
@@ -70,7 +60,7 @@ class _SuccesPageState extends State<SuccesPage> {
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {
-        throw Exception("Lieu non trouvé"); // Lancer une exception
+        throw Exception("Lieu non trouvé");
       }
     } catch (error) {
       logger.e("Erreur lors de la récupération du nom du lieu: $error");
@@ -78,8 +68,7 @@ class _SuccesPageState extends State<SuccesPage> {
     }
   }
 
-// Fonction pour construire la boîte de récompense  // Fonction pour construire la boîte de récompense
-  Widget _buildRecompenseBox(dynamic recompense) {
+  Widget _buildRecompenseBox(Map<String, dynamic> recompense) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
     String citronVert = (recompense['citronVert'] ?? 0).toString();
@@ -88,20 +77,16 @@ class _SuccesPageState extends State<SuccesPage> {
     String citronBleu = (recompense['citronBleu'] ?? 0).toString();
     int id_lieu = recompense['id_lieu'] ?? 0;
     int id_type = recompense['id_type'] ?? 0;
-    int idrecompense =
-        recompense['idrecompense'] ?? 0; // Ajout d'une valeur par défaut
+    int idrecompense = recompense['idrecompense'] ?? 0;
 
-    // Vérifiez que id_recompense n'est pas null
     if (idrecompense == 0) {
-      return const SizedBox
-          .shrink(); // Retournez un widget vide ou un message d'erreur
+      return const SizedBox.shrink();
     }
 
-    String imagePath = ''; // Chemin de l'image en fonction de l'ID de type
+    String imagePath;
     Color citronColor;
     String citronText;
 
-    // Assigner le chemin de l'image et les valeurs de la boîte en fonction de l'ID de type
     switch (id_type) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
@@ -139,7 +124,6 @@ class _SuccesPageState extends State<SuccesPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Centrer verticalement l'image
           Stack(
             children: [
               Center(
@@ -153,10 +137,9 @@ class _SuccesPageState extends State<SuccesPage> {
                 top: 0,
                 right: 15,
                 child: Transform.rotate(
-                  angle: -pi / 9, // Rotation
+                  angle: -pi / 9,
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     color: const Color(0xFFFAF6D0),
                     child: Text(
                       citronText,
@@ -188,27 +171,22 @@ class _SuccesPageState extends State<SuccesPage> {
                 ),
                 const SizedBox(height: 5),
                 FutureBuilder(
-                  future: _fetchLieuName(id_lieu), // Récupérer le nom du lieu
+                  future: _fetchLieuName(id_lieu),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return const Text("Erreur de chargement du nom du lieu");
                     } else {
-                      if (snapshot.hasError) {
-                        return const Text(
-                            "Erreur de chargement du nom du lieu"); // Afficher message d'erreur
-                      } else {
-                        String lieuNom = snapshot.data
-                            .toString(); // Récupérer le nom du lieu depuis le snapshot
-                        return Text(
-                          lieuNom,
-                          style: const TextStyle(
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Color(0xFFFAF6D0),
-                          ),
-                        );
-                      }
+                      return Text(
+                        snapshot.data ?? "Erreur de chargement du nom du lieu",
+                        style: const TextStyle(
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                          color: Color(0xFFFAF6D0),
+                        ),
+                      );
                     }
                   },
                 ),
@@ -232,23 +210,18 @@ class _SuccesPageState extends State<SuccesPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Avoir taille ecran pour image
-    //final screenSize = MediaQuery.of(context).size;
-
-    //final imageWidth = screenSize.width * 0.4;
-    //final imageHeight = screenSize.height * 0.2;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background
           Positioned.fill(
             child: Image.asset(
               'assets/images/welcome/wallpaper.png',
               fit: BoxFit.cover,
             ),
           ),
-          // Back button at the top left
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -257,8 +230,7 @@ class _SuccesPageState extends State<SuccesPage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const BoutiquePage()),
+                    MaterialPageRoute(builder: (context) => const BoutiquePage()),
                   );
                 },
                 child: Column(
@@ -284,7 +256,6 @@ class _SuccesPageState extends State<SuccesPage> {
               ),
             ),
           ),
-
           Align(
             alignment: Alignment.bottomCenter,
             child: Stack(
@@ -296,57 +267,66 @@ class _SuccesPageState extends State<SuccesPage> {
                   ),
                   child: Container(
                     color: const Color(0xFFFAF6D0),
-                    height: MediaQuery.of(context).size.height / 1.30,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Validation de ma commande',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22,
-                              color: Color(0xFFEB622B),
-                            ),
+                    height: screenHeight / 1.30,
+                    width: screenWidth,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Image.asset(
+                            'assets/images/boutique/confettis.png',
+                            fit: BoxFit.cover,
                           ),
-                          const SizedBox(height: 20),
-                          _buildRecompenseBox(response),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const InventoryPage(),
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color(0xFFE9581B), // Couleur du fond
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      20), // Bords arrondis
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40,
-                                    vertical: 16), // Taille du bouton
-                              ),
-                              child: const Text(
-                                'Voir inventaire',
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Validation de ma commande',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white, // Couleur du texte
-                                  fontSize: 18, // Taille de la police
+                                  fontFamily: 'Outfit',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 22,
+                                  color: Color(0xFFEB622B),
                                 ),
                               ),
-                            ),
-                        ],
-                      ),
+                              const SizedBox(height: 20),
+                              _buildRecompenseBox(response),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const InventoryPage(),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFFE9581B),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                                ),
+                                child: const Text(
+                                  'Voir inventaire',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

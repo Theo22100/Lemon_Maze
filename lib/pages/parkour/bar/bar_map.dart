@@ -207,7 +207,7 @@ class SnakePainter extends CustomPainter {
     for (int i = 1; i < 5; i++) {
       double circleX = size.width - stepX * i;
       double circleY = stepY * i;
-
+      //Choix couleur cercle en fonction etat
       if ((etat + 2) <= i) {
         couleurFinale = couleurOrange;
       } else {
@@ -219,7 +219,7 @@ class SnakePainter extends CustomPainter {
         ..style = PaintingStyle.fill;
 
       canvas.drawCircle(Offset(circleX, circleY), 15, circlePaint);
-
+      //Affichage des lieux
       if (i - 1 < lieux.length) {
         TextSpan span = TextSpan(
           style: TextStyle(
@@ -236,7 +236,7 @@ class SnakePainter extends CustomPainter {
           textAlign: TextAlign.left,
           textDirection: TextDirection.ltr,
         );
-
+        //MISE EN PLACE TEXTS
         tp.layout();
         if (i == 1 || i == 2) {
           tp.paint(canvas, Offset(circleX - 100, circleY - 30));

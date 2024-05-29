@@ -29,6 +29,7 @@ class _InventoryPageState extends State<InventoryPage> {
     _fetchRecompensesUsers();
   }
 
+//Récupération des récompenses de l'utilisateur
   Future<void> _fetchRecompensesUsers() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('id');
@@ -68,6 +69,7 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
+  //construction de la page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,6 +115,7 @@ class _InventoryPageState extends State<InventoryPage> {
               ),
             ),
           ),
+          // Liste des récompenses
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -148,6 +151,7 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
 
+  //box recompense
   Widget _buildRecompenseBox(dynamic recompense) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
@@ -168,7 +172,7 @@ class _InventoryPageState extends State<InventoryPage> {
     String imagePath;
     Color citronColor;
     String citronText;
-
+    //choix en fonction de l'idType couleur + image
     switch (idType) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
@@ -199,7 +203,7 @@ class _InventoryPageState extends State<InventoryPage> {
     if (imagePath.isEmpty) {
       logger.w("Chemin de l'image vide pour la récompense : $recompense");
     }
-
+    //Affichage des récompenses avec bouton
     return GestureDetector(
       onTap: () {
         getCode(idRecompenseUser);
@@ -327,6 +331,7 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
+//Confirmation de valider la recompense
   void _showCodeDialog(String code, int idRecompenseUser) {
     showDialog(
       context: context,
@@ -417,14 +422,9 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
 
+  //Fonction suppression recompense utilisateur
   Future<void> deleteRecompenseUser(int idRecompenseUser) async {
-    // Construire l'URI pour la suppression de l'utilisateur en incluant l'ID dans l'URL
-    logger.i(idRecompenseUser);
-
-    var route =
-        "recompense_user/delete-recompense_user/$idRecompenseUser"; // Utilisation de l'ID dans l'URL
-
-    // Envoyer la requête HTTP DELETE pour supprimer l'utilisateur
+    var route = "recompense_user/delete-recompense_user/$idRecompenseUser";
     var result = await http_delete(route);
     logger.i(result.data);
 
@@ -440,6 +440,7 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
+  //Recuperer le nom du lieu
   Future<String> _fetchLieuName(int idLieu) async {
     try {
       final result = await http_get("lieu/getnomlieu/$idLieu");

@@ -28,7 +28,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
   Map<String, dynamic>? currentQuestion;
   bool buttonsDisabled = false;
   int selectedAnswer = -1;
-
+//preparation page
   @override
   void initState() {
     super.initState();
@@ -36,6 +36,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
     getQuestion();
   }
 
+  //recuperation de la question+reponse
   Future<void> getQuestion() async {
     try {
       var result = await http_get("partyquestion/${widget.idParty}");
@@ -59,6 +60,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
     }
   }
 
+  //recuperation etat
   Future<void> getEtatParty() async {
     try {
       var result = await http_get("party/getpartyetat/${widget.idParty}");
@@ -82,6 +84,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
     }
   }
 
+  //recuperation reponse
   void handleAnswer(int answerIndex) {
     if (buttonsDisabled) return;
 
@@ -89,7 +92,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
       buttonsDisabled = true;
       selectedAnswer = answerIndex;
     });
-
+    // Délai pour montrer la répone
     Future.delayed(const Duration(seconds: 1), () {
       if (selectedAnswer == currentQuestion!['bonnereponse']) {
         Navigator.push(

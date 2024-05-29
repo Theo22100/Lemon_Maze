@@ -29,6 +29,7 @@ class _AccountPageState extends State<AccountPage> {
     _loadUserData();
   }
 
+  //recup dans shared
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -43,9 +44,9 @@ class _AccountPageState extends State<AccountPage> {
   Future<void> deleteUser() async {
     // Construire l'URI pour la suppression de l'utilisateur en incluant l'ID dans l'URL
 
-    var route = "user/delete-user/$userId"; // Utilisation de l'ID dans l'URL
+    var route = "user/delete-user/$userId";
 
-    // Envoyer la requête HTTP DELETE pour supprimer l'utilisateur
+    // Envoyerrequête HTTP DELETE
     var result = await http_delete(route);
 
     if (result.ok) {
@@ -72,7 +73,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Avoir taille ecran pour image
+    // Avoir taille ecran pour responsive
     final screenSize = MediaQuery.of(context).size;
 
     final imageWidth = screenSize.width * 0.4;
@@ -240,6 +241,7 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
+  //Bouton dialogue apres suppression
   void _showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,

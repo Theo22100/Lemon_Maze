@@ -24,6 +24,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
   List<dynamic> questions = [];
   Map<String, dynamic>? currentQuestion;
 
+// préparation de la page
   @override
   void initState() {
     super.initState();
@@ -31,6 +32,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
     getQuestion();
   }
 
+  //recuperation de la question
   Future<void> getQuestion() async {
     try {
       var result = await http_get("partyquestion/${widget.idParty}");
@@ -54,6 +56,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
     }
   }
 
+  //Recuperation etat party
   Future<void> getEtatParty() async {
     try {
       var result = await http_get("party/getpartyetat/${widget.idParty}");
@@ -189,6 +192,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
   }
 }
 
+//Forme question
 class OvalBubblePainter extends CustomPainter {
   final Color color;
 

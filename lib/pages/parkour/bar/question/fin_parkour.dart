@@ -24,13 +24,13 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
     _addCitron(100);
   }
 
+  //Ajout 100 citrons
   Future<void> _addCitron(int citron) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString('id');
 
       if (userId == null || userId.isEmpty) {
-        logger.e('User ID is null or empty');
         setState(() {
           responsemsg = 'Erreur: ID utilisateur non trouvé';
         });
@@ -44,18 +44,17 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
       final result = await http_put('add-citron-rouge', body);
 
       if (result.data['success']) {
-        logger.i('Successfully added $citron citron(s)');
         setState(() {
-          responsemsg = "+ $citron citrons rouges !";
+          responsemsg = "+ $citron Citrons Bar !";
         });
       } else {
         setState(() {
           responsemsg = result.data['message'];
         });
-        logger.e('Failed to add citron(s): ${result.data}');
+        logger.e('Erreur pour ajouter Citrons: ${result.data}');
       }
     } catch (error) {
-      logger.e('Error adding citron(s): $error');
+      logger.e('Erreur pour ajouter Citrons: $error');
       setState(() {
         responsemsg = 'Erreur interne lors de la suppression des citrons';
       });
