@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
+import 'package:my_app/modules/http.dart'; // Assurez-vous que ce package existe et contient les fonctions http_get et http_delete
 import 'package:my_app/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
@@ -7,10 +7,6 @@ import 'dart:math';
 import 'package:logger/logger.dart';
 
 var logger = Logger();
-String response = "";
-String responsealert = "";
-String code = "";
-int selectedIdRecompense = 0;
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
@@ -22,6 +18,9 @@ class InventoryPage extends StatefulWidget {
 class _InventoryPageState extends State<InventoryPage> {
   List<dynamic> recompenses = [];
   bool isLoading = false;
+  String response = "";
+  String responsealert = "";
+  String code = "";
 
   @override
   void initState() {
@@ -29,7 +28,7 @@ class _InventoryPageState extends State<InventoryPage> {
     _fetchRecompensesUsers();
   }
 
-//Récupération des récompenses de l'utilisateur
+  // Récupération des récompenses de l'utilisateur
   Future<void> _fetchRecompensesUsers() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('id');
@@ -55,10 +54,11 @@ class _InventoryPageState extends State<InventoryPage> {
         });
       } else {
         setState(() {
-          response = result.data['message'];
+          response = "Pas de récompenses :(";
         });
       }
     } catch (error) {
+      logger.e("Erreur lors de la récupération des récompenses: $error");
       setState(() {
         response = "Erreur lors de la récupération des récompenses";
       });
@@ -69,7 +69,6 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
-  //construction de la page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,77 +80,97 @@ class _InventoryPageState extends State<InventoryPage> {
               fit: BoxFit.cover,
             ),
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/boutique/backhomecitron.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "Mon inventaire",
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Color(0xFFFAF6D0),
-                        fontFamily: 'Gustavo',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Liste des récompenses
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              child: Container(
-                color: const Color(0xFFFAF6D0),
-                height: MediaQuery.of(context).size.height / 1.30,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: isLoading
-                          ? const Center(child: CircularProgressIndicator())
-                          : ListView.builder(
-                              itemCount: recompenses.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final recompense = recompenses[index];
-                                return _buildRecompenseBox(recompense);
-                              },
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          _buildHeader(context),
+          _buildRecompenseList(),
         ],
       ),
     );
   }
 
-  //box recompense
+  Widget _buildHeader(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/images/boutique/backhomecitron.png',
+                width: 50,
+                height: 50,
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Mon inventaire",
+                style: TextStyle(
+                  fontSize: 40,
+                  color: Color(0xFFFAF6D0),
+                  fontFamily: 'Gustavo',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRecompenseList() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+        ),
+        child: Container(
+          color: const Color(0xFFFAF6D0),
+          height: screenHeight / 1.30,
+          width: screenWidth,
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Expanded(
+                child: isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: recompenses.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final recompense = recompenses[index];
+                          return _buildRecompenseBox(recompense);
+                        },
+                      ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: screenHeight / 1.8),
+                child: Text(
+                  response,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 24,
+                    color: Color(0xFFEB622B),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildRecompenseBox(dynamic recompense) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
@@ -172,7 +191,7 @@ class _InventoryPageState extends State<InventoryPage> {
     String imagePath;
     Color citronColor;
     String citronText;
-    //choix en fonction de l'idType couleur + image
+
     switch (idType) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
@@ -203,7 +222,7 @@ class _InventoryPageState extends State<InventoryPage> {
     if (imagePath.isEmpty) {
       logger.w("Chemin de l'image vide pour la récompense : $recompense");
     }
-    //Affichage des récompenses avec bouton
+
     return GestureDetector(
       onTap: () {
         getCode(idRecompenseUser);
@@ -266,17 +285,16 @@ class _InventoryPageState extends State<InventoryPage> {
                   ),
                   const SizedBox(height: 4),
                   FutureBuilder(
-                    future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
+                    future: _fetchLieuName(idLieu),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
+                        return const CircularProgressIndicator();
                       } else {
                         if (snapshot.hasError) {
                           return const Text(
-                              "Erreur de chargement du nom du lieu"); // Afficher message d'erreur
+                              "Erreur de chargement du nom du lieu");
                         } else {
-                          String lieuNom = snapshot.data
-                              .toString(); // Récupérer le nom du lieu depuis le snapshot
+                          String lieuNom = snapshot.data.toString();
                           return Text(
                             lieuNom,
                             style: const TextStyle(
@@ -318,8 +336,7 @@ class _InventoryPageState extends State<InventoryPage> {
           setState(() {
             code = result.data['code'];
           });
-          _showCodeDialog(
-              code, idrecompense); // Afficher le dialogue avec le code
+          _showCodeDialog(code, idrecompense);
         } else {
           logger.e("La réponse 'data' ou la clé 'code' est nulle");
         }
@@ -331,7 +348,6 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
-//Confirmation de valider la recompense
   void _showCodeDialog(String code, int idRecompenseUser) {
     showDialog(
       context: context,
@@ -422,7 +438,6 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
 
-  //Fonction suppression recompense utilisateur
   Future<void> deleteRecompenseUser(int idRecompenseUser) async {
     var route = "recompense_user/delete-recompense_user/$idRecompenseUser";
     var result = await http_delete(route);
@@ -430,7 +445,6 @@ class _InventoryPageState extends State<InventoryPage> {
 
     if (result.ok) {
       if (result.data['success'] == true) {
-        // Appeler _fetchRecompensesUsers pour rafraîchir la liste
         _fetchRecompensesUsers();
       } else {
         setState(() {
@@ -440,7 +454,6 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
-  //Recuperer le nom du lieu
   Future<String> _fetchLieuName(int idLieu) async {
     try {
       final result = await http_get("lieu/getnomlieu/$idLieu");

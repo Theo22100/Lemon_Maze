@@ -84,7 +84,7 @@ class BarIntro1 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Image.asset(
-                            'assets/images/parkour/index_3.png',
+                            'assets/images/parkour/index3_1.png',
                             width: 80,
                             height: 80,
                           ),
