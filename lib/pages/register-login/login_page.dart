@@ -205,6 +205,18 @@ class LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Outfit',
                           ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xFFE9581B), width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xFFE9581B), width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                          ),
                         ),
                       ),
                     ),
@@ -226,6 +238,18 @@ class LoginPageState extends State<LoginPage> {
                             color: Color(0xFFE9581B),
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Outfit',
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xFFE9581B), width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xFFE9581B), width: 2.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
                           ),
                         ),
                         obscureText: true, // Pour masquer le mot de passe

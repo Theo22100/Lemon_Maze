@@ -205,6 +205,16 @@ class RegisterPageState extends State<RegisterPage> {
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
                       ),
                     ),
                   ),
@@ -224,6 +234,16 @@ class RegisterPageState extends State<RegisterPage> {
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                       ),
                     ),
@@ -245,6 +265,16 @@ class RegisterPageState extends State<RegisterPage> {
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                       ),
                       inputFormatters: <TextInputFormatter>[
@@ -272,6 +302,16 @@ class RegisterPageState extends State<RegisterPage> {
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
                       ),
                     ),
                   ),
@@ -290,6 +330,16 @@ class RegisterPageState extends State<RegisterPage> {
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w400,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                       ),
                       obscureText: true, // Masquer le mot de passe
@@ -311,6 +361,16 @@ class RegisterPageState extends State<RegisterPage> {
                           color: Color(0xFFE9581B),
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Outfit',
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xFFE9581B), width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
                         ),
                       ),
                       obscureText: true, // Masquer le mot de passe
