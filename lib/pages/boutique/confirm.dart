@@ -410,8 +410,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
         });
         return;
       }
-      logger.i(userId);
-      logger.i(citron);
       final body = {
         'userId': userId,
         'nombre':
@@ -462,7 +460,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
       if (result3.ok) {
         setState(() {
           if (result3.data['success'] == true) {
-            logger.i("Ajout réussi");
             responsemsg = 'Récompense ajoutée avec succès';
           } else {
             responsemsg = result3.data['message'];

@@ -75,7 +75,6 @@ class _HomePageState extends State<HomePage> {
                           onPageChanged: (index) {
                             setState(() {
                               _currentIndex = index;
-                              logger.i(_currentIndex);
                             });
                           },
                           itemBuilder: (context, index) {
@@ -97,7 +96,6 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   _currentIndex--;
-                                  logger.i(_currentIndex);
                                 });
                               },
                               icon: const Icon(Icons.arrow_back),
@@ -111,7 +109,6 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 setState(() {
                                   _currentIndex++;
-                                  logger.i(_currentIndex);
                                 });
                               },
                               icon: const Icon(Icons.arrow_forward),
@@ -199,17 +196,14 @@ class _HomePageState extends State<HomePage> {
             final Random random = Random();
             final int randomIdParkour =
                 idParkours[random.nextInt(idParkours.length)];
-            logger.i('randomidparkour $randomIdParkour');
             // Appeler la route pour créer une partie
             final RequestResult createPartyResult =
                 await http_post('party/create-party', {
               'id_parkour': randomIdParkour,
               'id_user': userId,
             });
-            logger.i("createParty ${createPartyResult.data['idparty']}");
             if (createPartyResult.ok) {
               // Gérer la réussite de la création de la partie
-              logger.i('Party created: ${createPartyResult.data}');
               // ignore: use_build_context_synchronously
               Navigator.push(
                 context,

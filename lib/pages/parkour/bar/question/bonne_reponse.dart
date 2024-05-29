@@ -79,7 +79,6 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
           if (result.data['success']) {
             etat = result.data['new_etat'];
             if (etat == 4) {
-              logger.i('etat $etat');
               Navigator.push(
                 context,
                 MaterialPageRoute(

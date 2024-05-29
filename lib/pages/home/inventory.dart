@@ -441,7 +441,6 @@ class _InventoryPageState extends State<InventoryPage> {
   Future<void> deleteRecompenseUser(int idRecompenseUser) async {
     var route = "recompense_user/delete-recompense_user/$idRecompenseUser";
     var result = await http_delete(route);
-    logger.i(result.data);
 
     if (result.ok) {
       if (result.data['success'] == true) {

@@ -51,7 +51,7 @@ class LoginPageState extends State<LoginPage> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       bool result = await prefs.setBool('isFirstLogin', false);
     } catch (e) {
-      logger.i('Erreur: $e');
+      logger.e('Erreur: $e');
     }
   }
 
