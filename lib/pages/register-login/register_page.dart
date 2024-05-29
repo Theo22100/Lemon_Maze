@@ -202,7 +202,7 @@ class RegisterPageState extends State<RegisterPage> {
                             Icon(Icons.person, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontFamily: 'Outfit',
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -232,7 +232,7 @@ class RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.email, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontFamily: 'Outfit',
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -263,7 +263,7 @@ class RegisterPageState extends State<RegisterPage> {
                             color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontFamily: 'Outfit',
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -299,7 +299,7 @@ class RegisterPageState extends State<RegisterPage> {
                             Icon(Icons.location_city, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontFamily: 'Outfit',
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -359,7 +359,7 @@ class RegisterPageState extends State<RegisterPage> {
                         prefixIcon: Icon(Icons.lock, color: Color(0xFFE9581B)),
                         labelStyle: TextStyle(
                           color: Color(0xFFE9581B),
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w400,
                           fontFamily: 'Outfit',
                         ),
                         focusedBorder: OutlineInputBorder(
