@@ -238,8 +238,12 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
     // final imageWidth = screenSize.width * 0.4;
     // final imageHeight = screenSize.height * 0.2;
-
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           // Background
@@ -348,7 +352,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                             textAlign: TextAlign.center,
                             responsemsg,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.red,
                               fontFamily: 'Outfit',
                               fontWeight: FontWeight.w500,
@@ -395,6 +399,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
           ),
         ],
       ),
+    ),
     );
   }
 

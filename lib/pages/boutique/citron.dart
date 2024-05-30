@@ -77,147 +77,147 @@ class _CitronPageState extends State<CitronPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Avoir taille ecran pour image pour responsive
-    // final screenSize = MediaQuery.of(context).size;
-
-    // final imageWidth = screenSize.width * 0.4;
-    // final imageHeight = screenSize.height * 0.2;
-
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Background
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // Bouton retour
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/boutique/backhomecitron.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Bravo à toi $pseudo !",
-                      style: const TextStyle(
-                        fontFamily: 'Outfit',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 40,
-                        color: Color(0xFFFAF6D0),
+            // Bouton retour
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/boutique/backhomecitron.png',
+                        width: 50,
+                        height: 50,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 10),
+                      Text(
+                        "Bravo à toi $pseudo !",
+                        style: const TextStyle(
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 40,
+                          color: Color(0xFFFAF6D0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
 
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  child: Container(
-                    color: const Color(0xFFFAF6D0),
-                    height: MediaQuery.of(context).size.height / 1.30,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Mes bons citrons',
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFFEB622B),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    child: Container(
+                      color: const Color(0xFFFAF6D0),
+                      height: MediaQuery.of(context).size.height / 1.30,
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Mes bons citrons',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFFEB622B),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          _buildInfoBox('assets/images/boutique/citronvert.png',
-                              'Citron Bibliothèque', '$citronvert PTS'),
-                          const SizedBox(height: 10),
-                          _buildInfoBox('assets/images/boutique/citronbleu.png',
-                              'Citron Musée', '$citronbleu PTS'),
-                          const SizedBox(height: 10),
-                          _buildInfoBox(
-                              'assets/images/boutique/citronrouge.png',
-                              'Citron Bar',
-                              '$citronrouge PTS'),
-                          const SizedBox(height: 10),
-                          _buildInfoBox(
-                              'assets/images/boutique/citronjaune.png',
-                              'Citron Restaurant',
-                              '$citronjaune PTS'),
-                          const SizedBox(height: 40),
-                          Text(
-                            response,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              color: Colors.red,
+                            const SizedBox(height: 20),
+                            _buildInfoBox('assets/images/boutique/citronvert.png',
+                                'Citron Bibliothèque', '$citronvert PTS'),
+                            const SizedBox(height: 10),
+                            _buildInfoBox('assets/images/boutique/citronbleu.png',
+                                'Citron Musée', '$citronbleu PTS'),
+                            const SizedBox(height: 10),
+                            _buildInfoBox(
+                                'assets/images/boutique/citronrouge.png',
+                                'Citron Bar',
+                                '$citronrouge PTS'),
+                            const SizedBox(height: 10),
+                            _buildInfoBox(
+                                'assets/images/boutique/citronjaune.png',
+                                'Citron Restaurant',
+                                '$citronjaune PTS'),
+                            const SizedBox(height: 40),
+                            Text(
+                              response,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Image.asset(
-                    'assets/images/boutique/shop-bot.png',
-                    fit: BoxFit.cover,
-                    alignment: Alignment.bottomCenter,
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Image.asset(
+                      'assets/images/boutique/shop-bot.png',
+                      fit: BoxFit.cover,
+                      alignment: Alignment.bottomCenter,
+                    ),
                   ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 90,
-                  child: _buildShopButton(),
-                ),
-              ],
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 90,
+                    child: _buildShopButton(),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildInfoBox(
-    String imagePath,
-    String title,
-    String points,
-  ) {
+      String imagePath,
+      String title,
+      String points,
+      ) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFEDE54F),

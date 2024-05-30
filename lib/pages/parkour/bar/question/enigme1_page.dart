@@ -85,7 +85,13 @@ class _EnigmePage1State extends State<EnigmePage1> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
@@ -188,6 +194,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
           ),
         ],
       ),
+    ),
     );
   }
 }

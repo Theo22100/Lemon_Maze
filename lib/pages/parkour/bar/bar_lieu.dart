@@ -108,7 +108,12 @@ class _BarLieuState extends State<BarLieu> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height; //responsive
 
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
@@ -219,11 +224,11 @@ class _BarLieuState extends State<BarLieu> {
                       ),
                       const SizedBox(height: 14),
                       const Text(
-                        "Vous voilà arrivés ! \nVotre mission, si vous l'acceptez, consiste à localiser le code soigneusement dissimulé dans l'établissement. \n\nN'oubliez pas que ce code est la clé pour résoudre les énigmes et accumuler des points. Bonne chance et que l'aventure continue !",
+                        "Préparez-vous à vivre une expérience mémorable dans l'un des établissements les plus appréciés de la ville. \n\nQue la soirée commence !",
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontFamily: 'Outfit',
-                          fontSize: 16,
+                          fontSize: 18,
                           fontWeight: FontWeight.w400,
                         ),
                         textAlign: TextAlign.left,
@@ -265,6 +270,7 @@ class _BarLieuState extends State<BarLieu> {
           ),
         ],
       ),
+    ),
     );
   }
 }

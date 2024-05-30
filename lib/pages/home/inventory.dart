@@ -27,6 +27,13 @@ class _InventoryPageState extends State<InventoryPage> {
     super.initState();
     _fetchRecompensesUsers();
   }
+  Future<void> navigateToInventory() async {
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const InventoryPage()),
+    );
+  }
 
   // Récupération des récompenses de l'utilisateur
   Future<void> _fetchRecompensesUsers() async {
@@ -46,7 +53,7 @@ class _InventoryPageState extends State<InventoryPage> {
 
     try {
       final result =
-          await http_get("recompense_user/list_user_recompenses/$userId");
+      await http_get("recompense_user/list_user_recompenses/$userId");
 
       if (result.data['success']) {
         setState(() {
@@ -71,7 +78,12 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child:  Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
@@ -84,6 +96,7 @@ class _InventoryPageState extends State<InventoryPage> {
           _buildRecompenseList(),
         ],
       ),
+    ),
     );
   }
 
@@ -145,25 +158,26 @@ class _InventoryPageState extends State<InventoryPage> {
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                        itemCount: recompenses.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final recompense = recompenses[index];
-                          return _buildRecompenseBox(recompense);
-                        },
-                      ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenHeight / 1.8),
-                child: Text(
-                  response,
-                  style: const TextStyle(
-                    fontFamily: 'Outfit',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 24,
-                    color: Color(0xFFEB622B),
-                  ),
+                  itemCount: recompenses.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final recompense = recompenses[index];
+                    return _buildRecompenseBox(recompense);
+                  },
                 ),
               ),
+              if (response.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.only(bottom: screenHeight / 1.8),
+                  child: Text(
+                    response,
+                    style: const TextStyle(
+                      fontFamily: 'Outfit',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 24,
+                      color: Color(0xFFEB622B),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -444,7 +458,12 @@ class _InventoryPageState extends State<InventoryPage> {
 
     if (result.ok) {
       if (result.data['success'] == true) {
-        _fetchRecompensesUsers();
+        setState(() {
+          recompenses.removeWhere((recompense) => recompense['id_recompense_user'] == idRecompenseUser);
+          if (recompenses.isEmpty) {
+            response = "Pas de récompenses :(";
+          }
+        });
       } else {
         setState(() {
           responsealert = result.data['message'];
@@ -452,6 +471,7 @@ class _InventoryPageState extends State<InventoryPage> {
       }
     }
   }
+
 
   Future<String> _fetchLieuName(int idLieu) async {
     try {

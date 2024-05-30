@@ -45,7 +45,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child:  Scaffold(
       body: Stack(
         children: [
           Container(
@@ -170,6 +175,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: const BottomNavigationBarWidget(),
+    ),
     );
   }
 

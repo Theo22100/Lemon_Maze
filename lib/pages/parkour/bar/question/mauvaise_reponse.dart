@@ -13,7 +13,12 @@ class BadAnswerPage extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child:  Scaffold(
       body: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -93,6 +98,7 @@ class BadAnswerPage extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

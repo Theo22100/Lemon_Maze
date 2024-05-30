@@ -121,7 +121,12 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
@@ -210,6 +215,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
           ),
         ],
       ),
+    ),
     );
   }
 }

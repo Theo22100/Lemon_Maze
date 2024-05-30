@@ -13,8 +13,12 @@ class BarIntro2 extends StatelessWidget {
     // Obtenir les dimensions écran responsive
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           // Image en arrière-plan
@@ -76,7 +80,7 @@ class BarIntro2 extends StatelessWidget {
                         style: TextStyle(
                           color: Color(0xFFEB622B),
                           fontFamily: 'Outfit',
-                          fontSize: 19,
+                          fontSize: 18,
                           fontWeight: FontWeight.w400,
                           height: 25 / 19, // Calculer le line-height
                         ),
@@ -119,6 +123,7 @@ class BarIntro2 extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

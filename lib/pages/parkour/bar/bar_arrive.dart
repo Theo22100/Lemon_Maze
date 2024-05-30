@@ -15,7 +15,12 @@ class BarArrive extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+      // Retourner false pour bloquer la touche retour
+      return false;
+    },
+    child: Scaffold(
       body: Stack(
         children: [
           // Image en arrière-plan
@@ -77,7 +82,6 @@ class BarArrive extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20), // Espace pour l'image
                       const Text(
                         'A la recherche du code cache...',
                         style: TextStyle(
@@ -85,7 +89,6 @@ class BarArrive extends StatelessWidget {
                           fontSize: 34,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Gustavo',
-                          height: 1.5,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -147,6 +150,7 @@ class BarArrive extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

@@ -201,7 +201,7 @@ class _AccountPageState extends State<AccountPage> {
             child: Text(
               '$title: $info',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 13,
                 color: Colors.white,
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.w400,
