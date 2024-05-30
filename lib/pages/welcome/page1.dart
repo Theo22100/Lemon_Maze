@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/welcome/page2.dart';
+import 'package:LemonMaze/pages/welcome/page2.dart';
 
 class Welcome1Page extends StatelessWidget {
   const Welcome1Page({super.key});

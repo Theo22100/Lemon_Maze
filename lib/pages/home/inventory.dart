@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart'; // Assurez-vous que ce package existe et contient les fonctions http_get et http_delete
-import 'package:my_app/pages/home/home.dart';
+import 'package:LemonMaze/modules/http.dart'; // Assurez-vous que ce package existe et contient les fonctions http_get et http_delete
+import 'package:LemonMaze/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
@@ -27,6 +27,7 @@ class _InventoryPageState extends State<InventoryPage> {
     super.initState();
     _fetchRecompensesUsers();
   }
+
   Future<void> navigateToInventory() async {
     await Future.delayed(const Duration(seconds: 2));
     Navigator.pushReplacement(
@@ -53,7 +54,7 @@ class _InventoryPageState extends State<InventoryPage> {
 
     try {
       final result =
-      await http_get("recompense_user/list_user_recompenses/$userId");
+          await http_get("recompense_user/list_user_recompenses/$userId");
 
       if (result.data['success']) {
         setState(() {
@@ -79,24 +80,24 @@ class _InventoryPageState extends State<InventoryPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child:  Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          _buildHeader(context),
-          _buildRecompenseList(),
-        ],
+            _buildHeader(context),
+            _buildRecompenseList(),
+          ],
+        ),
       ),
-    ),
     );
   }
 
@@ -158,12 +159,12 @@ class _InventoryPageState extends State<InventoryPage> {
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                  itemCount: recompenses.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final recompense = recompenses[index];
-                    return _buildRecompenseBox(recompense);
-                  },
-                ),
+                        itemCount: recompenses.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final recompense = recompenses[index];
+                          return _buildRecompenseBox(recompense);
+                        },
+                      ),
               ),
               if (response.isNotEmpty)
                 Padding(
@@ -459,7 +460,8 @@ class _InventoryPageState extends State<InventoryPage> {
     if (result.ok) {
       if (result.data['success'] == true) {
         setState(() {
-          recompenses.removeWhere((recompense) => recompense['id_recompense_user'] == idRecompenseUser);
+          recompenses.removeWhere((recompense) =>
+              recompense['id_recompense_user'] == idRecompenseUser);
           if (recompenses.isEmpty) {
             response = "Pas de récompenses :(";
           }
@@ -471,7 +473,6 @@ class _InventoryPageState extends State<InventoryPage> {
       }
     }
   }
-
 
   Future<String> _fetchLieuName(int idLieu) async {
     try {

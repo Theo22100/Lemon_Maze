@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/question/enigme2_page.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/parkour/bar/question/enigme2_page.dart';
 import 'package:logger/logger.dart';
 
 final Logger logger = Logger();
@@ -85,116 +85,117 @@ class _EnigmePage1State extends State<EnigmePage1> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child: Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
               ),
-              child: Container(
-                color: const Color(0xFFEB622B),
-                height: screenHeight / 1.35,
-                width: screenWidth,
-                child: Stack(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(24.0),
-                      child: Column(
-                        children: [],
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: const Color(0xFFECE450),
-                        height: (screenHeight / 1.35) / 4,
-                        width: screenWidth,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: screenHeight / 8,
-                      top: 0,
-                      child: Image.asset(
-                        'assets/images/parkour/enigme.png',
-                        width: screenWidth,
-                        height: screenHeight,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 20,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EnigmePage2(
-                                randomIdParkour: widget.randomIdParkour,
-                                idParty: widget.idParty,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/parkour/button.png',
-                          width: screenWidth / 8,
-                          height: screenHeight / 8,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                child: Container(
+                  color: const Color(0xFFEB622B),
+                  height: screenHeight / 1.35,
+                  width: screenWidth,
+                  child: Stack(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(24.0),
+                        child: Column(
+                          children: [],
                         ),
                       ),
-                    ),
-                    Positioned(
-                      bottom: screenHeight / 2.5,
-                      left: screenWidth * 0.3,
-                      right: screenWidth * 0.1,
-                      child: LayoutBuilder(
-                        builder:
-                            (BuildContext context, BoxConstraints constraints) {
-                          return CustomPaint(
-                            painter: OvalBubblePainter(const Color(0xFFFAF6D0)),
-                            child: Container(
-                              padding: const EdgeInsets.all(16.0),
-                              constraints: BoxConstraints(
-                                maxWidth: constraints.maxWidth,
-                                minHeight: 50.0,
-                              ),
-                              child: Text(
-                                currentQuestion?['question'] ?? 'Chargement...',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(0xFFEB622B),
-                                    fontFamily: 'Outfit'),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          );
-                        },
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          color: const Color(0xFFECE450),
+                          height: (screenHeight / 1.35) / 4,
+                          width: screenWidth,
+                        ),
                       ),
-                    ),
-                  ],
+                      Positioned(
+                        bottom: screenHeight / 8,
+                        top: 0,
+                        child: Image.asset(
+                          'assets/images/parkour/enigme.png',
+                          width: screenWidth,
+                          height: screenHeight,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EnigmePage2(
+                                  randomIdParkour: widget.randomIdParkour,
+                                  idParty: widget.idParty,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Image.asset(
+                            'assets/images/parkour/button.png',
+                            width: screenWidth / 8,
+                            height: screenHeight / 8,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: screenHeight / 2.5,
+                        left: screenWidth * 0.3,
+                        right: screenWidth * 0.1,
+                        child: LayoutBuilder(
+                          builder: (BuildContext context,
+                              BoxConstraints constraints) {
+                            return CustomPaint(
+                              painter:
+                                  OvalBubblePainter(const Color(0xFFFAF6D0)),
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                constraints: BoxConstraints(
+                                  maxWidth: constraints.maxWidth,
+                                  minHeight: 50.0,
+                                ),
+                                child: Text(
+                                  currentQuestion?['question'] ??
+                                      'Chargement...',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFFEB622B),
+                                      fontFamily: 'Outfit'),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }

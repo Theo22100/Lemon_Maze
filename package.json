@@ -1,5 +1,5 @@
 {
-  "name": "my_app",
+  "name": "LemonMaze",
   "version": "1.0.0",
   "description": "LemonMaze",
   "main": "server.js",

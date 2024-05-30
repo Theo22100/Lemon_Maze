@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/bar_lieu.dart';
-
-import '../../utils/retourWidget.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/parkour/bar/bar_lieu.dart';
 
 class BarMap extends StatefulWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarMap({super.key, required this.randomIdParkour, required this.idParty});
+  const BarMap(
+      {super.key, required this.randomIdParkour, required this.idParty});
 
   @override
   _BarMapState createState() => _BarMapState();
@@ -26,7 +25,8 @@ class _BarMapState extends State<BarMap> {
   }
 
   Future<void> fetchLieux() async {
-    var result = await http_get("parkour/getparkour/nomslieu/${widget.randomIdParkour}");
+    var result =
+        await http_get("parkour/getparkour/nomslieu/${widget.randomIdParkour}");
     if (result.ok) {
       var data = result.data['data'];
       if (data != null && data['lieux'] != null) {

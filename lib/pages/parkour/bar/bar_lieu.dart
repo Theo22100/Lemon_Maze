@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/bar_arrive.dart';
-import 'package:my_app/pages/parkour/bar/bar_map.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/parkour/bar/bar_arrive.dart';
+import 'package:LemonMaze/pages/parkour/bar/bar_map.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BarLieu extends StatefulWidget {
@@ -109,168 +109,168 @@ class _BarLieuState extends State<BarLieu> {
     final double screenHeight = MediaQuery.of(context).size.height; //responsive
 
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child: Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.02,
-            left: 32,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BarMap(
-                      randomIdParkour: widget.randomIdParkour,
-                      idParty: widget.idParty,
+            Positioned(
+              top: screenHeight * 0.02,
+              left: 32,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BarMap(
+                        randomIdParkour: widget.randomIdParkour,
+                        idParty: widget.idParty,
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: Image.asset(
-                'assets/images/parkour/backmap.png',
-                width: screenWidth * 0.15,
-                height: screenHeight * 0.05,
+                  );
+                },
+                child: Image.asset(
+                  'assets/images/parkour/backmap.png',
+                  width: screenWidth * 0.15,
+                  height: screenHeight * 0.05,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.04,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Image.asset(
-                'assets/images/home/homeparkour/bar.png',
-                width: screenWidth * 0.4,
-                height: screenHeight * 0.2,
-                fit: BoxFit.contain,
+            Positioned(
+              top: screenHeight * 0.04,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/home/homeparkour/bar.png',
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              child: Container(
-                color: const Color(0xFFFAF6D0),
-                height: screenHeight / 1.35,
-                width: screenWidth,
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Que l'aventure commence !",
-                        style: TextStyle(
-                          color: Color(0xFFEB622B),
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Gustavo',
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 14),
-                      const Text(
-                        "Rendez vous :",
-                        style: TextStyle(
-                          color: Color(0xFFEB622B),
-                          fontFamily: 'Outfit',
-                          fontSize: 19,
-                          fontWeight: FontWeight.w400,
-                          height: 25 / 19,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              lieu,
-                              style: const TextStyle(
-                                color: Color(0xFFEB622B),
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                                fontFamily: 'Outfit',
-                                height: 1.5,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                child: Container(
+                  color: const Color(0xFFFAF6D0),
+                  height: screenHeight / 1.35,
+                  width: screenWidth,
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Que l'aventure commence !",
+                          style: TextStyle(
+                            color: Color(0xFFEB622B),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Gustavo',
                           ),
-                          GestureDetector(
-                            onTap: () => _launchURL(onegps),
-                            child: const Icon(
-                              Icons.location_on,
-                              color: Color(0xFFFBBA2C),
-                              size: 48.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 14),
-                      const Text(
-                        "Préparez-vous à vivre une expérience mémorable dans l'un des établissements les plus appréciés de la ville. \n\nQue la soirée commence !",
-                        style: TextStyle(
-                          color: Color(0xFFEB622B),
-                          fontFamily: 'Outfit',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        textAlign: TextAlign.left,
-                      ),
-                      const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Image.asset(
-                            'assets/images/parkour/index3_3.png',
-                            width: 80,
-                            height: 80,
+                        const SizedBox(height: 14),
+                        const Text(
+                          "Rendez vous :",
+                          style: TextStyle(
+                            color: Color(0xFFEB622B),
+                            fontFamily: 'Outfit',
+                            fontSize: 19,
+                            fontWeight: FontWeight.w400,
+                            height: 25 / 19,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BarArrive(
-                                    randomIdParkour: widget.randomIdParkour,
-                                    idParty: widget.idParty,
-                                  ),
+                          textAlign: TextAlign.left,
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                lieu,
+                                style: const TextStyle(
+                                  color: Color(0xFFEB622B),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w500,
+                                  fontFamily: 'Outfit',
+                                  height: 1.5,
                                 ),
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/images/parkour/button.png',
-                              width: screenWidth * 0.2,
-                              height: screenHeight * 0.06,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
+                            GestureDetector(
+                              onTap: () => _launchURL(onegps),
+                              child: const Icon(
+                                Icons.location_on,
+                                color: Color(0xFFFBBA2C),
+                                size: 48.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        const Text(
+                          "Préparez-vous à vivre une expérience mémorable dans l'un des établissements les plus appréciés de la ville. \n\nQue la soirée commence !",
+                          style: TextStyle(
+                            color: Color(0xFFEB622B),
+                            fontFamily: 'Outfit',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
                           ),
-                        ],
-                      ),
-                    ],
+                          textAlign: TextAlign.left,
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Image.asset(
+                              'assets/images/parkour/index3_3.png',
+                              width: 80,
+                              height: 80,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BarArrive(
+                                      randomIdParkour: widget.randomIdParkour,
+                                      idParty: widget.idParty,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Image.asset(
+                                'assets/images/parkour/button.png',
+                                width: screenWidth * 0.2,
+                                height: screenHeight * 0.06,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }

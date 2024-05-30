@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/boutique.dart';
-import 'package:my_app/pages/home/home.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/boutique/boutique.dart';
+import 'package:LemonMaze/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:logger/logger.dart';
@@ -157,11 +157,15 @@ class _CitronPageState extends State<CitronPage> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            _buildInfoBox('assets/images/boutique/citronvert.png',
-                                'Citron Bibliothèque', '$citronvert PTS'),
+                            _buildInfoBox(
+                                'assets/images/boutique/citronvert.png',
+                                'Citron Bibliothèque',
+                                '$citronvert PTS'),
                             const SizedBox(height: 10),
-                            _buildInfoBox('assets/images/boutique/citronbleu.png',
-                                'Citron Musée', '$citronbleu PTS'),
+                            _buildInfoBox(
+                                'assets/images/boutique/citronbleu.png',
+                                'Citron Musée',
+                                '$citronbleu PTS'),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronrouge.png',
@@ -214,10 +218,10 @@ class _CitronPageState extends State<CitronPage> {
   }
 
   Widget _buildInfoBox(
-      String imagePath,
-      String title,
-      String points,
-      ) {
+    String imagePath,
+    String title,
+    String points,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFEDE54F),

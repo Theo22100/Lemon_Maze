@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/boutique.dart';
-import 'package:my_app/pages/boutique/succes.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/boutique/boutique.dart';
+import 'package:LemonMaze/pages/boutique/succes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
@@ -239,167 +239,167 @@ class _ConfirmPageState extends State<ConfirmPage> {
     // final imageWidth = screenSize.width * 0.4;
     // final imageHeight = screenSize.height * 0.2;
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child: Scaffold(
-      body: Stack(
-        children: [
-          // Background
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            // Background
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          // Back button at the top left
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const BoutiquePage()),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/boutique/backhomecitron.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      "Je veux regler ma commande...",
-                      style: TextStyle(
-                        fontFamily: 'Gustavo',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 36,
-                        color: Color(0xFFFAF6D0),
+            // Back button at the top left
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BoutiquePage()),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/images/boutique/backhomecitron.png',
+                        width: 50,
+                        height: 50,
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Je veux regler ma commande...",
+                        style: TextStyle(
+                          fontFamily: 'Gustavo',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 36,
+                          color: Color(0xFFFAF6D0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
 
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
-                  child: Container(
-                    color: const Color(0xFFFAF6D0),
-                    //Taille zone beige
-                    height: MediaQuery.of(context).size.height / 1.30,
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 10),
-                          const Text(
-                            //Texte titre
-                            'Achat de ma commande',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22,
-                              color: Color(0xFFEB622B),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          _buildRecompenseBox(),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () async {
-                              _removeCitron(citron);
-                            },
-                            //Bouton achete
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFE9581B),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 40,
-                                  vertical: 16), // Taille bouton
-                            ),
-                            child: const Text(
-                              'J\'achète',
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
+                    child: Container(
+                      color: const Color(0xFFFAF6D0),
+                      //Taille zone beige
+                      height: MediaQuery.of(context).size.height / 1.30,
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 10),
+                            const Text(
+                              //Texte titre
+                              'Achat de ma commande',
                               style: TextStyle(
                                 fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 22,
+                                color: Color(0xFFEB622B),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            textAlign: TextAlign.center,
-                            responsemsg,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.red,
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w500,
+                            const SizedBox(height: 20),
+                            _buildRecompenseBox(),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              onPressed: () async {
+                                _removeCitron(citron);
+                              },
+                              //Bouton achete
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFE9581B),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40,
+                                    vertical: 16), // Taille bouton
+                              ),
+                              child: const Text(
+                                'J\'achète',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            "Attention, après avoir cliqué sur \"J’achète\", aucun retour ou remboursement ne sera possible. \nVoir conditions d'utilisation.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFFEB622B),
-                              fontSize: 14,
+                            const SizedBox(height: 10),
+                            Text(
+                              textAlign: TextAlign.center,
+                              responsemsg,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            textAlign: TextAlign.center,
-                            responsemsg,
-                            style: const TextStyle(
-                              fontFamily: 'Outfit',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: Color(0xFFFAF6D0),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Attention, après avoir cliqué sur \"J’achète\", aucun retour ou remboursement ne sera possible. \nVoir conditions d'utilisation.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFFEB622B),
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            Text(
+                              textAlign: TextAlign.center,
+                              responsemsg,
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                color: Color(0xFFFAF6D0),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Image.asset(
-                    'assets/images/boutique/shop-bot.png',
-                    fit: BoxFit.cover,
-                    alignment: Alignment.bottomCenter,
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Image.asset(
+                      'assets/images/boutique/shop-bot.png',
+                      fit: BoxFit.cover,
+                      alignment: Alignment.bottomCenter,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 

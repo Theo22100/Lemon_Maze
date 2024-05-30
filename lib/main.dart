@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/home/home.dart';
-import 'package:my_app/pages/welcome/page1.dart';
+import 'package:LemonMaze/pages/home/home.dart';
+import 'package:LemonMaze/pages/welcome/page1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

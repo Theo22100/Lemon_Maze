@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/citron.dart';
-import 'package:my_app/pages/boutique/confirm.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/boutique/citron.dart';
+import 'package:LemonMaze/pages/boutique/confirm.dart';
 import 'dart:math';
 
 import 'package:logger/logger.dart';

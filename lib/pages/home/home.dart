@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/boutique/citron.dart';
-import 'package:my_app/pages/home/account.dart';
-import 'package:my_app/pages/home/inventory.dart';
-import 'package:my_app/pages/parkour/bar/bar_intro_1.dart';
-import 'package:my_app/pages/register-login/login_signup_page.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/boutique/citron.dart';
+import 'package:LemonMaze/pages/home/account.dart';
+import 'package:LemonMaze/pages/home/inventory.dart';
+import 'package:LemonMaze/pages/parkour/bar/bar_intro_1.dart';
+import 'package:LemonMaze/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
@@ -46,136 +46,136 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child:  Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            color: const Color(0xFFFAF6D0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 28,
-                  ),
-                  Image.asset(
-                    'assets/images/home/titre.png',
-                    width: MediaQuery.of(context).size.width * 0.4,
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: Stack(
-                      children: [
-                        //carrousel d'annonce
-                        PageView.builder(
-                          itemCount: images.length,
-                          controller: PageController(initialPage: 0),
-                          onPageChanged: (index) {
-                            setState(() {
-                              _currentIndex = index;
-                            });
-                          },
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Image.asset(
-                                images[_currentIndex],
-                                fit: BoxFit.fitHeight,
-                              ),
-                            );
-                          },
-                        ),
-                        if (_currentIndex > 0)
-                          Positioned(
-                            top: 70,
-                            left: 0,
-                            child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _currentIndex--;
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back),
-                            ),
-                          ),
-                        if (_currentIndex < images.length - 1)
-                          Positioned(
-                            top: 70,
-                            right: 0,
-                            child: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _currentIndex++;
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_forward),
-                            ),
-                          ),
-                      ],
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Container(
+              color: const Color(0xFFFAF6D0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 28,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  //carré des 4 choix
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
+                    Image.asset(
+                      'assets/images/home/titre.png',
+                      width: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    SizedBox(
+                      height: 200,
+                      child: Stack(
                         children: [
-                          _buildClickableImage(
-                            context,
-                            image: 'bar.png',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const CitronPage()),
+                          //carrousel d'annonce
+                          PageView.builder(
+                            itemCount: images.length,
+                            controller: PageController(initialPage: 0),
+                            onPageChanged: (index) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Image.asset(
+                                  images[_currentIndex],
+                                  fit: BoxFit.fitHeight,
+                                ),
                               );
                             },
                           ),
-                          const SizedBox(height: 16),
-                          _buildUnavailableImage(context, 'bibliotheque.png')
+                          if (_currentIndex > 0)
+                            Positioned(
+                              top: 70,
+                              left: 0,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _currentIndex--;
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back),
+                              ),
+                            ),
+                          if (_currentIndex < images.length - 1)
+                            Positioned(
+                              top: 70,
+                              right: 0,
+                              child: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _currentIndex++;
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_forward),
+                              ),
+                            ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          _buildUnavailableImage(context, 'restaurant.png'),
-                          const SizedBox(height: 16),
-                          _buildUnavailableImage(context, 'musee.png'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    //carré des 4 choix
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            _buildClickableImage(
+                              context,
+                              image: 'bar.png',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const CitronPage()),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 16),
+                            _buildUnavailableImage(context, 'bibliotheque.png')
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            _buildUnavailableImage(context, 'restaurant.png'),
+                            const SizedBox(height: 16),
+                            _buildUnavailableImage(context, 'musee.png'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            top: 30,
-            right: 20,
-            child: IconButton(
-              onPressed: () {
-                _showLogoutDialog(context);
-              },
-              icon: const Icon(
-                Icons.logout,
-                color: Color(0xFFEB622B),
+            Positioned(
+              top: 30,
+              right: 20,
+              child: IconButton(
+                onPressed: () {
+                  _showLogoutDialog(context);
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: Color(0xFFEB622B),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: const BottomNavigationBarWidget(),
       ),
-      bottomNavigationBar: const BottomNavigationBarWidget(),
-    ),
     );
   }
 

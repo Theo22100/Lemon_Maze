@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/modules/http.dart';
-import 'package:my_app/pages/parkour/bar/bar_map.dart';
-import 'package:my_app/pages/parkour/bar/question/fin_parkour.dart';
+import 'package:LemonMaze/modules/http.dart';
+import 'package:LemonMaze/pages/parkour/bar/bar_map.dart';
+import 'package:LemonMaze/pages/parkour/bar/question/fin_parkour.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
@@ -122,100 +122,100 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
 
     return WillPopScope(
-        onWillPop: () async {
-      // Retourner false pour bloquer la touche retour
-      return false;
-    },
-    child: Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/welcome/wallpaper.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            top: screenHeight * 0.04,
-            left: 0,
-            right: 0,
-            child: Center(
+      onWillPop: () async {
+        // Retourner false pour bloquer la touche retour
+        return false;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
               child: Image.asset(
-                'assets/images/home/homeparkour/bar.png',
-                width: screenWidth * 0.4,
-                height: screenHeight * 0.2,
-                fit: BoxFit.contain,
+                'assets/images/welcome/wallpaper.png',
+                fit: BoxFit.cover,
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
-              ),
-              child: Container(
-                color: const Color(0xFFADD18C),
-                height: screenHeight / 1.35,
-                width: screenWidth,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        color: const Color(0xFFEDE54F),
-                        height: screenHeight / 10,
-                        width: screenWidth,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: screenHeight / 18,
-                      top: 0,
-                      child: Image.asset(
-                        'assets/images/parkour/bonnereponse.png',
-                        width: screenWidth,
-                        height: screenHeight,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 20,
-                      child: GestureDetector(
-                        onTap: () {
-                          addEtat();
-                        },
-                        child: Image.asset(
-                          'assets/images/parkour/button.png',
-                          width: screenWidth / 8,
-                          height: screenHeight / 8,
-                        ),
-                      ),
-                    ),
-                    if (responsemsg != null)
-                      Positioned(
-                        bottom: screenHeight / 2.03,
-                        left: 0,
-                        right: 0,
-                        child: Text(
-                          responsemsg!,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF13A388),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Outfit',
-                          ),
-                        ),
-                      ),
-                  ],
+            Positioned(
+              top: screenHeight * 0.04,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/home/homeparkour/bar.png',
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                child: Container(
+                  color: const Color(0xFFADD18C),
+                  height: screenHeight / 1.35,
+                  width: screenWidth,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          color: const Color(0xFFEDE54F),
+                          height: screenHeight / 10,
+                          width: screenWidth,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: screenHeight / 18,
+                        top: 0,
+                        child: Image.asset(
+                          'assets/images/parkour/bonnereponse.png',
+                          width: screenWidth,
+                          height: screenHeight,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 20,
+                        child: GestureDetector(
+                          onTap: () {
+                            addEtat();
+                          },
+                          child: Image.asset(
+                            'assets/images/parkour/button.png',
+                            width: screenWidth / 8,
+                            height: screenHeight / 8,
+                          ),
+                        ),
+                      ),
+                      if (responsemsg != null)
+                        Positioned(
+                          bottom: screenHeight / 2.03,
+                          left: 0,
+                          right: 0,
+                          child: Text(
+                            responsemsg!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Color(0xFF13A388),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: 'Outfit',
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 }
