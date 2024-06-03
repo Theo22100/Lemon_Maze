@@ -46,6 +46,7 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  // enregistrer isFirstLogin dans SharedPreferences
   Future<void> setFirstLoginDone() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -55,12 +56,6 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<bool> isFirstLogin() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstLogin = prefs.getBool('isFirstLogin') ?? true;
-    return isFirstLogin;
-  }
-
   Future<void> loginUser() async {
     try {
       // Validation des champs
@@ -68,6 +63,7 @@ class LoginPageState extends State<LoginPage> {
         setState(() {
           response = "Veuillez remplir tous les champs !";
         });
+        showSnackBar(response);
         return;
       }
 
@@ -109,18 +105,39 @@ class LoginPageState extends State<LoginPage> {
           setState(() {
             response = result.data['status'];
           });
+          showSnackBar(response);
         }
       } else {
         // Gérer erreurs de connexion
         setState(() {
           response = result.data['status'];
         });
+        showSnackBar(response);
       }
     } catch (error) {
       setState(() {
         response = "Vérifiez vos informations d'identification.";
       });
+      showSnackBar(response);
     }
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFFE9581B),
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Color(0xFFFAF6D0),
+            fontFamily: 'Outfit',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
@@ -282,17 +299,6 @@ class LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 8), // Ajoute espace
-                    Text(
-                      textAlign: TextAlign.center,
-                      response,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFFFAF6D0),
-                        fontFamily: 'Outfit',
-                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
