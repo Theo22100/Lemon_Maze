@@ -181,7 +181,6 @@ class _CodePageState extends State<CodePage> {
                             fontSize: 24,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Outfit',
-                            height: 1,
                           ),
                         ),
                         const SizedBox(height: 5),
@@ -198,7 +197,7 @@ class _CodePageState extends State<CodePage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: List.generate(4, (index) {
@@ -220,6 +219,7 @@ class _CodePageState extends State<CodePage> {
                             );
                           }),
                         ),
+                        const SizedBox(height: 5),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: screenHeight /
@@ -244,10 +244,12 @@ class _CodePageState extends State<CodePage> {
                                   ),
                                   fixedSize: const Size(60, 60),
                                 ),
-                                child: const Icon(
-                                  Icons.backspace,
-                                  color: Colors.white,
-                                  size: 24,
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.backspace,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ],

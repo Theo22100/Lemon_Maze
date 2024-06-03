@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/modules/http.dart';
-import 'package:LemonMaze/pages/parkour/bar/bar_intro_2.dart';
 import 'package:logger/logger.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/bonne_reponse.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/mauvaise_reponse.dart';
@@ -28,7 +27,8 @@ class _EnigmePage2State extends State<EnigmePage2> {
   Map<String, dynamic>? currentQuestion;
   bool buttonsDisabled = false;
   int selectedAnswer = -1;
-//preparation page
+
+  // préparation de la page
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
     getQuestion();
   }
 
-  //recuperation de la question+reponse
+  // récupération de la question+réponse
   Future<void> getQuestion() async {
     try {
       var result = await http_get("partyquestion/${widget.idParty}");
@@ -50,17 +50,17 @@ class _EnigmePage2State extends State<EnigmePage2> {
             }
           });
         } else {
-          logger.e("The response data or 'questions' key is null");
+          logger.e("La réponse 'data' ou la clé 'questions' est nulle");
         }
       } else {
-        logger.e("Failed to fetch questions data");
+        logger.e("Échec extraction des données relatives aux questions");
       }
     } catch (error) {
       logger.e("Error fetching questions: $error");
     }
   }
 
-  //recuperation etat
+  // récupération de l'état de la partie
   Future<void> getEtatParty() async {
     try {
       var result = await http_get("party/getpartyetat/${widget.idParty}");
@@ -74,17 +74,17 @@ class _EnigmePage2State extends State<EnigmePage2> {
             }
           });
         } else {
-          logger.e("The response data or 'etat' key is null");
+          logger.e("La réponse 'data' ou la clé 'etat' est nulle");
         }
       } else {
-        logger.e("Failed to fetch party state data");
+        logger.e("Échec extraction des données relatives à l'état");
       }
     } catch (error) {
       logger.e("Error fetching party state: $error");
     }
   }
 
-  //recuperation reponse
+  // gestion de la réponse
   void handleAnswer(int answerIndex) {
     if (buttonsDisabled) return;
 
@@ -92,7 +92,8 @@ class _EnigmePage2State extends State<EnigmePage2> {
       buttonsDisabled = true;
       selectedAnswer = answerIndex;
     });
-    // Délai pour montrer la répone
+
+    // Délai pour montrer la réponse
     Future.delayed(const Duration(seconds: 1), () {
       if (selectedAnswer == currentQuestion!['bonnereponse']) {
         Navigator.push(
@@ -166,7 +167,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
                       children: [
                         const SizedBox(height: 5),
                         const Text(
-                          'Trouve la bonne reponse !',
+                          'Trouve la bonne réponse !',
                           style: TextStyle(
                             color: Color(0xFFEB622B),
                             fontSize: 34,
@@ -178,60 +179,66 @@ class _EnigmePage2State extends State<EnigmePage2> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 5),
-                        if (currentQuestion != null)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Text(
-                                  currentQuestion!['question'],
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w300,
-                                      fontFamily: 'Outfit',
-                                      color: Color(0xFFEB622B)),
-                                ),
-                              ),
-                              const SizedBox(height: 30),
-                              ...List.generate(4, (index) {
-                                String answerKey = 'reponse${index + 1}';
-                                Color buttonColor = const Color(0xFFFBBA2C);
-                                if (buttonsDisabled) {
-                                  if (selectedAnswer == index + 1) {
-                                    buttonColor = (selectedAnswer ==
-                                            currentQuestion!['bonnereponse'])
-                                        ? const Color(0xFF17A489)
-                                        : const Color(0xFFEB622B);
-                                  }
-                                }
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12.0),
-                                  child: Center(
-                                    child: ElevatedButton(
-                                      onPressed: buttonsDisabled
-                                          ? null
-                                          : () => handleAnswer(index + 1),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: buttonColor,
-                                        minimumSize:
-                                            const Size(double.infinity, 50),
-                                      ),
-                                      child: Text(
-                                        currentQuestion![answerKey],
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w200,
-                                            fontFamily: 'Outfit',
-                                            color: Colors.white),
-                                      ),
+                        Center(
+                          child: currentQuestion == null
+                              ? const CircularProgressIndicator(
+                                  color: Color(0xFFEB622B),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      currentQuestion!['question'],
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w300,
+                                          fontFamily: 'Outfit',
+                                          color: Color(0xFFEB622B)),
                                     ),
-                                  ),
-                                );
-                              }),
-                            ],
-                          ),
+                                    const SizedBox(height: 30),
+                                    ...List.generate(4, (index) {
+                                      String answerKey = 'reponse${index + 1}';
+                                      Color buttonColor =
+                                          const Color(0xFFFBBA2C);
+                                      if (buttonsDisabled) {
+                                        if (selectedAnswer == index + 1) {
+                                          buttonColor = (selectedAnswer ==
+                                                  currentQuestion![
+                                                      'bonnereponse'])
+                                              ? const Color(0xFF17A489)
+                                              : const Color(0xFFEB622B);
+                                        }
+                                      }
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12.0),
+                                        child: Center(
+                                          child: ElevatedButton(
+                                            onPressed: buttonsDisabled
+                                                ? null
+                                                : () => handleAnswer(index + 1),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: buttonColor,
+                                              minimumSize: const Size(
+                                                  double.infinity, 50),
+                                            ),
+                                            child: Text(
+                                              currentQuestion![answerKey],
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w200,
+                                                  fontFamily: 'Outfit',
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ],
+                                ),
+                        ),
                       ],
                     ),
                   ),

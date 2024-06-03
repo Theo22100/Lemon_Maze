@@ -3,13 +3,19 @@ import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_arrive.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_map.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 class BarLieu extends StatefulWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarLieu(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const BarLieu({
+    super.key,
+    required this.randomIdParkour,
+    required this.idParty,
+  });
 
   @override
   _BarLieuState createState() => _BarLieuState();
@@ -27,7 +33,7 @@ class _BarLieuState extends State<BarLieu> {
     getEtatParty();
   }
 
-  //Affice le bon lieu
+  // Affiche le bon lieu
   Future<void> fetchLieux() async {
     try {
       var result = await http_get(
@@ -170,100 +176,108 @@ class _BarLieuState extends State<BarLieu> {
                   width: screenWidth,
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "Que l'aventure commence !",
-                          style: TextStyle(
-                            color: Color(0xFFEB622B),
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'Gustavo',
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 14),
-                        const Text(
-                          "Rendez vous :",
-                          style: TextStyle(
-                            color: Color(0xFFEB622B),
-                            fontFamily: 'Outfit',
-                            fontSize: 19,
-                            fontWeight: FontWeight.w400,
-                            height: 25 / 19,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                lieu,
-                                style: const TextStyle(
+                    child: lieux.isEmpty || gps.isEmpty
+                        ? const Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFFEB622B),
+                            ),
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Que l'aventure commence !",
+                                style: TextStyle(
                                   color: Color(0xFFEB622B),
-                                  fontSize: 24,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: 'Outfit',
-                                  height: 1.5,
+                                  fontFamily: 'Gustavo',
                                 ),
+                                maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () => _launchURL(onegps),
-                              child: const Icon(
-                                Icons.location_on,
-                                color: Color(0xFFFBBA2C),
-                                size: 48.0,
+                              const SizedBox(height: 14),
+                              const Text(
+                                "Rendez vous :",
+                                style: TextStyle(
+                                  color: Color(0xFFEB622B),
+                                  fontFamily: 'Outfit',
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w400,
+                                  height: 25 / 19,
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 14),
-                        const Text(
-                          "Préparez-vous à vivre une expérience mémorable dans l'un des établissements les plus appréciés de la ville. \n\nQue la soirée commence !",
-                          style: TextStyle(
-                            color: Color(0xFFEB622B),
-                            fontFamily: 'Outfit',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                        const Spacer(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.asset(
-                              'assets/images/parkour/index3_3.png',
-                              width: 80,
-                              height: 80,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BarArrive(
-                                      randomIdParkour: widget.randomIdParkour,
-                                      idParty: widget.idParty,
+                              const SizedBox(height: 20),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      lieu,
+                                      style: const TextStyle(
+                                        color: Color(0xFFEB622B),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'Outfit',
+                                        height: 1.5,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                );
-                              },
-                              child: Image.asset(
-                                'assets/images/parkour/button.png',
-                                width: screenWidth * 0.2,
-                                height: screenHeight * 0.06,
+                                  GestureDetector(
+                                    onTap: () => _launchURL(onegps),
+                                    child: const Icon(
+                                      Icons.location_on,
+                                      color: Color(0xFFFBBA2C),
+                                      size: 48.0,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              const SizedBox(height: 14),
+                              const Text(
+                                "Préparez-vous à vivre une expérience mémorable dans l'un des établissements les plus appréciés de la ville. \n\nQue la soirée commence !",
+                                style: TextStyle(
+                                  color: Color(0xFFEB622B),
+                                  fontFamily: 'Outfit',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              const Spacer(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/parkour/index3_3.png',
+                                    width: 80,
+                                    height: 80,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BarArrive(
+                                            randomIdParkour:
+                                                widget.randomIdParkour,
+                                            idParty: widget.idParty,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Image.asset(
+                                      'assets/images/parkour/button.png',
+                                      width: screenWidth * 0.2,
+                                      height: screenHeight * 0.06,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                   ),
                 ),
               ),

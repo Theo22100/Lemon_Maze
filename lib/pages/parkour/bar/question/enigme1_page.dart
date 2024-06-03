@@ -24,7 +24,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
   List<dynamic> questions = [];
   Map<String, dynamic>? currentQuestion;
 
-// préparation de la page
+  // préparation de la page
   @override
   void initState() {
     super.initState();
@@ -32,7 +32,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
     getQuestion();
   }
 
-  //recuperation de la question
+  // récupération de la question
   Future<void> getQuestion() async {
     try {
       var result = await http_get("partyquestion/${widget.idParty}");
@@ -46,17 +46,17 @@ class _EnigmePage1State extends State<EnigmePage1> {
             }
           });
         } else {
-          logger.e("The response data or 'questions' key is null");
+          logger.e("La réponse 'questions' ou la clé 'code' est nulle");
         }
       } else {
-        logger.e("Failed to fetch questions data");
+        logger.e("Échec extraction des données relatives aux questions");
       }
     } catch (error) {
       logger.e("Error fetching questions: $error");
     }
   }
 
-  //Recuperation etat party
+  // récupération de l'état de la partie
   Future<void> getEtatParty() async {
     try {
       var result = await http_get("party/getpartyetat/${widget.idParty}");
@@ -70,10 +70,10 @@ class _EnigmePage1State extends State<EnigmePage1> {
             }
           });
         } else {
-          logger.e("The response data or 'etat' key is null");
+          logger.e("La réponse 'data' ou la clé 'etat' est nulle");
         }
       } else {
-        logger.e("Failed to fetch party state data");
+        logger.e("Échec extraction des données relatives à l'état");
       }
     } catch (error) {
       logger.e("Error fetching party state: $error");
@@ -173,15 +173,19 @@ class _EnigmePage1State extends State<EnigmePage1> {
                                   maxWidth: constraints.maxWidth,
                                   minHeight: 50.0,
                                 ),
-                                child: Text(
-                                  currentQuestion?['question'] ??
-                                      'Chargement...',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xFFEB622B),
-                                      fontFamily: 'Outfit'),
-                                  textAlign: TextAlign.center,
+                                child: Center(
+                                  child: currentQuestion == null
+                                      ? const CircularProgressIndicator(
+                                          color: Color(0xFFEB622B))
+                                      : Text(
+                                          currentQuestion?['question'],
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color(0xFFEB622B),
+                                              fontFamily: 'Outfit'),
+                                          textAlign: TextAlign.center,
+                                        ),
                                 ),
                               ),
                             );
@@ -200,7 +204,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
   }
 }
 
-//Forme question
+// Forme question
 class OvalBubblePainter extends CustomPainter {
   final Color color;
 

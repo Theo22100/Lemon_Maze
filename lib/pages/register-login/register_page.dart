@@ -43,6 +43,23 @@ class RegisterPageState extends State<RegisterPage> {
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFFE9581B),
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Color(0xFFFAF6D0),
+            fontFamily: 'Outfit',
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 
   Future<void> createUser() async {
     try {
@@ -56,6 +73,7 @@ class RegisterPageState extends State<RegisterPage> {
         setState(() {
           response = "Veuillez remplir tous les champs !";
         });
+        showSnackBar(response);
         return;
       }
 
@@ -65,12 +83,14 @@ class RegisterPageState extends State<RegisterPage> {
           response =
               "Mot de passe doit contenir au moins 8 caractères avec un chiffre et un caractère spécial.";
         });
+        showSnackBar(response);
         return;
       }
       if (passwordController.text != password2Controller.text) {
         setState(() {
           response = "Les mots de passes ne sont pas les mêmes";
         });
+        showSnackBar(response);
         return;
       }
 
@@ -79,12 +99,14 @@ class RegisterPageState extends State<RegisterPage> {
         setState(() {
           response = "Le pseudo ne doit pas dépasser 30 caractères.";
         });
+        showSnackBar(response);
         return;
       }
       if (!(mailController.text.length <= 60)) {
         setState(() {
           response = "Le mail ne doit pas dépasser 60 caractères.";
         });
+        showSnackBar(response);
         return;
       }
       //Valide mail
@@ -93,6 +115,7 @@ class RegisterPageState extends State<RegisterPage> {
         setState(() {
           response = "Le mail n'est pas valide.";
         });
+        showSnackBar(response);
         return;
       }
 
@@ -111,13 +134,15 @@ class RegisterPageState extends State<RegisterPage> {
         if (result.data['success'] == true) {
           setState(() {
             response = "Inscription réussie !";
-            navigateToLogin();
           });
+          showSnackBar(response);
+          navigateToLogin();
         } else {
           // erreur
           setState(() {
             response = result.data['error'];
           });
+          showSnackBar(response);
         }
       }
     } catch (error) {
@@ -407,17 +432,6 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 8), // Ajoute espace
-                  Text(
-                    textAlign: TextAlign.center,
-                    response,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFFFAF6D0),
-                      fontWeight: FontWeight.w500,
-                      fontFamily: 'Outfit',
-                    ),
-                  ),
                 ],
               ),
             ),

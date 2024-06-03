@@ -124,7 +124,7 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                                     'Vous devez accepter les conditions d'
                                     'utilisation pour continuer.',
                                   ),
-                                  duration: Duration(seconds: 5),
+                                  duration: Duration(seconds: 2),
                                 ),
                               );
                             } else {

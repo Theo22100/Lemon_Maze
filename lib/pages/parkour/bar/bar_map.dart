@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_lieu.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 class BarMap extends StatefulWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarMap(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const BarMap({
+    super.key,
+    required this.randomIdParkour,
+    required this.idParty,
+  });
 
   @override
   _BarMapState createState() => _BarMapState();
@@ -34,11 +40,9 @@ class _BarMapState extends State<BarMap> {
           lieux = List<String>.from(data['lieux']);
         });
       } else {
-        //mettre msg erreur
-        logger.e("The response data or 'lieux' key is null");
+        logger.e("La réponse 'data' ou la clé 'lieux' est nulle");
       }
     } else {
-      // Handle error
       logger.e("Failed to fetch parkour data");
     }
   }
@@ -52,11 +56,9 @@ class _BarMapState extends State<BarMap> {
           etat = data['etat'];
         });
       } else {
-        //mettre msg erreur
-        logger.e("The response data or 'etat' key is null");
+        logger.e("La réponse 'data' ou la clé 'etat' est nulle");
       }
     } else {
-      // Handle error
       logger.e("Failed to fetch parkour data");
     }
   }
@@ -68,7 +70,6 @@ class _BarMapState extends State<BarMap> {
 
     return WillPopScope(
       onWillPop: () async {
-        // Retourner false pour bloquer la touche retour
         return false;
       },
       child: Scaffold(
@@ -104,58 +105,64 @@ class _BarMapState extends State<BarMap> {
                   color: const Color(0xFFFAF6D0),
                   height: screenHeight / 1.35,
                   width: screenWidth,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: CustomPaint(
-                            painter: SnakePainter(lieux, etat),
+                  child: lieux.isEmpty
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFFEB622B),
                           ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 20,
-                        right: 20,
-                        child: Image.asset(
-                          'assets/images/parkour/start.png',
-                          width: 100,
-                          height: 100,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: screenWidth / 8,
-                        child: Image.asset(
-                          'assets/images/parkour/finish.png',
-                          width: 105,
-                          height: 105,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 20,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BarLieu(
-                                  randomIdParkour: widget.randomIdParkour,
-                                  idParty: widget.idParty,
+                        )
+                      : Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Padding(
+                                padding: const EdgeInsets.all(24.0),
+                                child: CustomPaint(
+                                  painter: SnakePainter(lieux, etat),
                                 ),
                               ),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/images/parkour/button.png',
-                            width: screenWidth / 8,
-                            height: screenHeight / 8,
-                          ),
+                            ),
+                            Positioned(
+                              top: 20,
+                              right: 20,
+                              child: Image.asset(
+                                'assets/images/parkour/start.png',
+                                width: 100,
+                                height: 100,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              left: screenWidth / 8,
+                              child: Image.asset(
+                                'assets/images/parkour/finish.png',
+                                width: 105,
+                                height: 105,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 20,
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BarLieu(
+                                        randomIdParkour: widget.randomIdParkour,
+                                        idParty: widget.idParty,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Image.asset(
+                                  'assets/images/parkour/button.png',
+                                  width: screenWidth / 8,
+                                  height: screenHeight / 8,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
             ),
@@ -187,11 +194,11 @@ class SnakePainter extends CustomPainter {
         ],
         stops: [0.0, 0.17, 0.42, 0.73, 1.0],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..strokeWidth = 8.0 //Épaisseur du trait
+      ..strokeWidth = 8.0
       ..style = PaintingStyle.stroke;
 
     Path path = Path();
-    path.moveTo(size.width - 50, 72); //Départ
+    path.moveTo(size.width - 50, 72);
 
     double stepX = size.width / 5.8;
     double stepY = size.height / 5;

@@ -3,7 +3,6 @@ import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/boutique/boutique.dart';
 import 'package:LemonMaze/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:logger/logger.dart';
 
 var logger = Logger();
@@ -48,7 +47,7 @@ class _CitronPageState extends State<CitronPage> {
       // Extraire les données de l'utilisateur à partir de la réponse
       final userData = response.data["data"];
 
-      // Extraire le pseudo de l'utilisateur
+      // Extraire le pseudo et les citrons de l'utilisateur
       final pseudo = userData["pseudo"];
       final citronvert = userData["citronVert"].toString();
       final citronjaune = userData["citronJaune"].toString();
@@ -59,7 +58,7 @@ class _CitronPageState extends State<CitronPage> {
       await prefs.setInt('citronVert', userData['citronVert']);
       await prefs.setInt('citronBleu', userData['citronBleu']);
 
-      // Mettre à jour l'état de l'utilisateur avec le pseudo récupéré
+      // Mettre à jour l'état de l'utilisateur avec les données récupérées
       setState(() {
         this.userId = userId;
         this.pseudo = pseudo;
@@ -113,15 +112,19 @@ class _CitronPageState extends State<CitronPage> {
                         height: 50,
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        "Bravo à toi $pseudo !",
-                        style: const TextStyle(
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 40,
-                          color: Color(0xFFFAF6D0),
-                        ),
-                      ),
+                      pseudo == null
+                          ? const CircularProgressIndicator(
+                              color: Color(0xFFFAF6D0),
+                            )
+                          : Text(
+                              "Bravo à toi $pseudo !",
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 40,
+                                color: Color(0xFFFAF6D0),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -160,22 +163,22 @@ class _CitronPageState extends State<CitronPage> {
                             _buildInfoBox(
                                 'assets/images/boutique/citronvert.png',
                                 'Citron Bibliothèque',
-                                '$citronvert PTS'),
+                                citronvert),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronbleu.png',
                                 'Citron Musée',
-                                '$citronbleu PTS'),
+                                citronbleu),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronrouge.png',
                                 'Citron Bar',
-                                '$citronrouge PTS'),
+                                citronrouge),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronjaune.png',
                                 'Citron Restaurant',
-                                '$citronjaune PTS'),
+                                citronjaune),
                             const SizedBox(height: 40),
                             Text(
                               response,
@@ -220,7 +223,7 @@ class _CitronPageState extends State<CitronPage> {
   Widget _buildInfoBox(
     String imagePath,
     String title,
-    String points,
+    String? points,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -247,7 +250,11 @@ class _CitronPageState extends State<CitronPage> {
               ),
             ),
           ),
-          _buildPointsBox(points),
+          points == null
+              ? const CircularProgressIndicator(
+                  color: Color(0xFFEB622B),
+                )
+              : _buildPointsBox('$points PTS'),
         ],
       ),
     );
