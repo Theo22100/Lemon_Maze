@@ -3,6 +3,8 @@ import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/enigme2_page.dart';
 import 'package:logger/logger.dart';
 
+import '../../../home/home.dart';
+
 final Logger logger = Logger();
 
 class EnigmePage1 extends StatefulWidget {
@@ -31,6 +33,8 @@ class _EnigmePage1State extends State<EnigmePage1> {
     getEtatParty();
     getQuestion();
   }
+
+
 
   // récupération de la question
   Future<void> getQuestion() async {
@@ -87,8 +91,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
 
     return WillPopScope(
       onWillPop: () async {
-        // Retourner false pour bloquer la touche retour
-        return false;
+        return await _showExitConfirmationDialog(context) ?? false;
       },
       child: Scaffold(
         body: Stack(
@@ -199,6 +202,48 @@ class _EnigmePage1State extends State<EnigmePage1> {
             ),
           ],
         ),
+      ),
+    );
+  }
+  Future<void> _abandonParty(BuildContext context) async {
+    try {
+      final body = {};
+      final result = await http_put('party/abandon/${widget.idParty}', body);
+
+      if (result.data['success']) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+              (route) => false,
+        );
+      } else {
+        logger.e('Erreur pour abandonner une partie');
+      }
+    } catch (error) {
+      logger.e('Erreur interne: $error');
+    }
+  }
+
+  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
+        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non'),
+          ),
+          TextButton(
+            onPressed: () {
+              _abandonParty(context);
+            },
+            child: const Text('Oui'),
+          ),
+        ],
       ),
     );
   }

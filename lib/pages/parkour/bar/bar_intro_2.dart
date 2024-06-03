@@ -1,48 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_map.dart';
+import '../../../modules/http.dart';
+import '../../home/home.dart';
+import 'package:logger/logger.dart';
+
+final Logger logger = Logger();
 
 class BarIntro2 extends StatelessWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarIntro2(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const BarIntro2({
+    super.key,
+    required this.randomIdParkour,
+    required this.idParty
+  });
 
   @override
   Widget build(BuildContext context) {
-    // Obtenir les dimensions écran responsive
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+
+
+
     return WillPopScope(
       onWillPop: () async {
-        // Retourner false pour bloquer la touche retour
-        return false;
+        return await _showExitConfirmationDialog(context) ?? false;
       },
       child: Scaffold(
         body: Stack(
           children: [
-            // Image en arrière-plan
             Positioned.fill(
               child: Image.asset(
                 'assets/images/welcome/wallpaper.png',
                 fit: BoxFit.cover,
               ),
             ),
-            // Image bar.png en haut et alignée au centre
             Positioned(
-              top: screenHeight * 0.04, // responsive
+              top: screenHeight * 0.04,
               left: 0,
               right: 0,
               child: Center(
                 child: Image.asset(
                   'assets/images/home/homeparkour/bar.png',
-                  width: screenWidth * 0.4, // responsive
-                  height: screenHeight * 0.2, // responsive
+                  width: screenWidth * 0.4,
+                  height: screenHeight * 0.2,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
-            // Conteneur avec couleur et forme arrondie en bas
             Align(
               alignment: Alignment.bottomCenter,
               child: ClipRRect(
@@ -59,7 +65,7 @@ class BarIntro2 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20), // Espace pour l'image
+                        const SizedBox(height: 20),
                         const Text(
                           'Votre carte secrete...',
                           style: TextStyle(
@@ -72,17 +78,15 @@ class BarIntro2 extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(
-                            height: 16), // Espacement entre les deux textes
+                        const SizedBox(height: 16),
                         const Text(
-                          'Avec notre itinéraire soigneusement sélectionné, vous aurez l'
-                          'occasion de déguster des boissons locales, de rencontrer des habitants et de vous immerger dans la culture nocturne rennaise. ',
+                          'Avec notre itinéraire soigneusement sélectionné, vous aurez l\'occasion de déguster des boissons locales, de rencontrer des habitants et de vous immerger dans la culture nocturne rennaise.',
                           style: TextStyle(
                             color: Color(0xFFEB622B),
                             fontFamily: 'Outfit',
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
-                            height: 25 / 19, // Calculer le line-height
+                            height: 1.32,
                           ),
                           textAlign: TextAlign.left,
                         ),
@@ -123,6 +127,48 @@ class BarIntro2 extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+  Future<void> _abandonParty(BuildContext context) async {
+    try {
+      final body = {};
+      final result = await http_put('party/abandon/$idParty', body);
+
+      if (result.data['success']) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+              (route) => false,
+        );
+      } else {
+        logger.e('Erreur pour abandonner une partie');
+      }
+    } catch (error) {
+      logger.e('Erreur interne: $error');
+    }
+  }
+
+  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
+        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non'),
+          ),
+          TextButton(
+            onPressed: () {
+              _abandonParty(context);
+            },
+            child: const Text('Oui'),
+          ),
+        ],
       ),
     );
   }

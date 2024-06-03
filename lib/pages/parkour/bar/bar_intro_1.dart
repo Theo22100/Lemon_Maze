@@ -1,34 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_intro_2.dart';
+import 'package:logger/logger.dart';
+
+import '../../../modules/http.dart';
+import '../../home/home.dart';
+
+final Logger logger = Logger();
 
 class BarIntro1 extends StatelessWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarIntro1(
-      {super.key, required this.randomIdParkour, required this.idParty});
+  const BarIntro1({super.key, required this.randomIdParkour, required this.idParty});
+
+  // Function to abandon the party
+  Future<void> _abandonParty(BuildContext context) async {
+    try {
+      final body = {};
+      logger.i(idParty);
+      final result = await http_put('party/abandon/$idParty', body);
+
+      if (result.data['success']) {
+        logger.i("Partie abandonnée");
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+              (route) => false,
+        );
+      } else {
+        logger.e('Erreur pour abandonner une partie');
+      }
+    } catch (error) {
+      logger.e('Erreur interne: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Obtenir dimensions écran pour responsive
+    // Obtain screen dimensions for responsive design
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+
     return WillPopScope(
       onWillPop: () async {
-        // Retourner false pour bloquer la touche retour
-        return false;
+        return await _showExitConfirmationDialog(context) ?? false;
       },
       child: Scaffold(
         body: Stack(
           children: [
-            // Image arrière-plan
+            // Background image
             Positioned.fill(
               child: Image.asset(
                 'assets/images/welcome/wallpaper.png',
                 fit: BoxFit.cover,
               ),
             ),
-            // Image bar.png en haut et alignée au centre
+            // Bar image at the top and centered
             Positioned(
               top: screenHeight * 0.04,
               left: 0,
@@ -37,12 +64,12 @@ class BarIntro1 extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/home/homeparkour/bar.png',
                   width: screenWidth * 0.4,
-                  height: screenHeight * 0.2, //responsive
+                  height: screenHeight * 0.2,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
-            // Conteneur avec couleur et forme arrondie en bas
+            // Container with rounded shape at the bottom
             Align(
               alignment: Alignment.bottomCenter,
               child: ClipRRect(
@@ -59,7 +86,7 @@ class BarIntro1 extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 20), // Espace pour l'image
+                        const SizedBox(height: 20),
                         const Text(
                           'Bienvenue a toi, jeune aventurier !',
                           style: TextStyle(
@@ -120,6 +147,30 @@ class BarIntro1 extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
+        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non'),
+          ),
+          TextButton(
+            onPressed: () {
+              _abandonParty(context);
+            },
+            child: const Text('Oui'),
+          ),
+        ],
       ),
     );
   }
