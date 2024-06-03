@@ -45,6 +45,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async {
         // Retourner false pour bloquer la touche retour
@@ -64,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Image.asset(
                       'assets/images/home/titre.png',
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: screenWidth * 0.4,
                     ),
                     const SizedBox(
                       height: 32,
@@ -83,20 +85,16 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             itemBuilder: (context, index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Image.asset(
-                                  images[_currentIndex],
-                                  fit: BoxFit.fitHeight,
-                                ),
+                              return Image.asset(
+                                images[_currentIndex],
+                                fit: BoxFit.fitHeight,
                               );
                             },
                           ),
                           if (_currentIndex > 0)
                             Positioned(
                               top: 70,
-                              left: 0,
+                              left: screenHeight * 0.02,
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -109,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                           if (_currentIndex < images.length - 1)
                             Positioned(
                               top: 70,
-                              right: 0,
+                              right: screenHeight * 0.02,
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -181,6 +179,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildClickableImage(BuildContext context,
       {required String image, required VoidCallback onTap}) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () async {
         try {
@@ -235,22 +235,24 @@ class _HomePageState extends State<HomePage> {
       },
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.2,
+        width: screenWidth * 0.4,
+        height: screenHeight * 0.2,
       ),
     );
   }
 
   //Resto Musee Biblio
   Widget _buildUnavailableImage(BuildContext context, String image) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         _showUnavailableAlert(context);
       },
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.2,
+        width: screenWidth * 0.4,
+        height: screenHeight * 0.2,
       ),
     );
   }
@@ -388,11 +390,12 @@ class BottomNavigationBarWidget extends StatelessWidget {
       {required IconData icon,
       required String label,
       required VoidCallback onPressed}) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          icon: Icon(icon, size: MediaQuery.of(context).size.width * 0.08),
+          icon: Icon(icon, size: screenWidth * 0.08),
           onPressed: onPressed,
           color: const Color(0xFFFAF6D0),
         ),
