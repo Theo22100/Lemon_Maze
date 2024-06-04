@@ -162,7 +162,7 @@ class _InventoryPageState extends State<InventoryPage> {
                         itemCount: recompenses.length,
                         itemBuilder: (BuildContext context, int index) {
                           final recompense = recompenses[index];
-                          return _buildRecompenseBox(recompense);
+                          return _buildRecompenseBox(recompense,context);
                         },
                       ),
               ),
@@ -186,7 +186,7 @@ class _InventoryPageState extends State<InventoryPage> {
     );
   }
 
-  Widget _buildRecompenseBox(dynamic recompense) {
+  Widget _buildRecompenseBox(dynamic recompense, BuildContext context) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
     String citronVert = (recompense['citronVert'] ?? 0).toString();
@@ -197,6 +197,10 @@ class _InventoryPageState extends State<InventoryPage> {
     int idType = recompense['id_type'] ?? 0;
     int idRecompense = recompense['id_recompense'] ?? 0;
     int idRecompenseUser = recompense['id_recompense_user'] ?? 0;
+
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     if (idRecompense == 0) {
       logger.w("Récompense avec id_recompense 0 trouvée : $recompense");
@@ -257,18 +261,18 @@ class _InventoryPageState extends State<InventoryPage> {
                 Center(
                   child: Image.asset(
                     imagePath,
-                    width: 80,
-                    height: 80,
+                    width: screenHeight*0.1,
+                    height: screenWidth*0.3,
                   ),
                 ),
                 Positioned(
-                  top: 0,
-                  right: 15,
+                  top: screenHeight*0.015,
+                  right: screenWidth*0.04,
                   child: Transform.rotate(
                     angle: -pi / 9,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
                       color: const Color(0xFFFAF6D0),
                       child: Text(
                         citronText,

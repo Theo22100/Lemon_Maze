@@ -6,6 +6,8 @@ class Welcome1Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -30,18 +32,19 @@ class Welcome1Page extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: screenHeight * 0.2,
                     ),
                     Image.asset(
                       'assets/images/welcome/lemonmaze.png',
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      width: screenWidth * 0.6,
                     ),
                     const SizedBox(
                       height: 40,
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 110),
-                      child: Text(
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                      child: const Text(
                         "Le jeu de piste à Rennes pour s'éclater avec tes amis !",
                         textAlign: TextAlign.center,
                         style: TextStyle(

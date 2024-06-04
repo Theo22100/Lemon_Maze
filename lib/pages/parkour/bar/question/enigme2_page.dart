@@ -126,7 +126,6 @@ class _EnigmePage2State extends State<EnigmePage2> {
 
     return WillPopScope(
       onWillPop: () async {
-
         return await _showExitConfirmationDialog(context) ?? false;
       },
       child: Scaffold(
@@ -169,10 +168,10 @@ class _EnigmePage2State extends State<EnigmePage2> {
                       children: [
                         const SizedBox(height: 5),
                         const Text(
-                          'Trouve la bonne réponse !',
+                          'Trouve la bonne reponse !',
                           style: TextStyle(
                             color: Color(0xFFEB622B),
-                            fontSize: 34,
+                            fontSize: 28,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Gustavo',
                             height: 1.5,
@@ -194,7 +193,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.w300,
+                                          fontWeight: FontWeight.w400,
                                           fontFamily: 'Outfit',
                                           color: Color(0xFFEB622B)),
                                     ),
@@ -229,8 +228,8 @@ class _EnigmePage2State extends State<EnigmePage2> {
                                               currentQuestion![answerKey],
                                               textAlign: TextAlign.center,
                                               style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w200,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w300,
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white),
                                             ),
@@ -252,6 +251,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -261,7 +261,7 @@ class _EnigmePage2State extends State<EnigmePage2> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -275,20 +275,37 @@ class _EnigmePage2State extends State<EnigmePage2> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),

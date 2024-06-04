@@ -11,7 +11,8 @@ class BarIntro1 extends StatelessWidget {
   final int randomIdParkour;
   final int idParty;
 
-  const BarIntro1({super.key, required this.randomIdParkour, required this.idParty});
+  const BarIntro1(
+      {super.key, required this.randomIdParkour, required this.idParty});
 
   // Function to abandon the party
   Future<void> _abandonParty(BuildContext context) async {
@@ -25,7 +26,7 @@ class BarIntro1 extends StatelessWidget {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -82,7 +83,7 @@ class BarIntro1 extends StatelessWidget {
                   height: screenHeight / 1.35,
                   width: screenWidth,
                   child: Padding(
-                    padding: const EdgeInsets.all(24.0),
+                    padding: EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -94,7 +95,6 @@ class BarIntro1 extends StatelessWidget {
                             fontSize: 34,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Gustavo',
-                            height: 1.5,
                           ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -105,7 +105,7 @@ class BarIntro1 extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFEB622B),
                             fontFamily: 'Outfit',
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight: FontWeight.w400,
                           ),
                           textAlign: TextAlign.left,
@@ -116,8 +116,7 @@ class BarIntro1 extends StatelessWidget {
                           children: [
                             Image.asset(
                               'assets/images/parkour/index3_1.png',
-                              width: 80,
-                              height: 80,
+                              height: screenHeight * 0.01,
                             ),
                             GestureDetector(
                               onTap: () {
@@ -133,8 +132,7 @@ class BarIntro1 extends StatelessWidget {
                               },
                               child: Image.asset(
                                 'assets/images/parkour/button.png',
-                                width: 50,
-                                height: 50,
+                                height: screenHeight * 0.06,
                               ),
                             ),
                           ],
@@ -155,20 +153,37 @@ class BarIntro1 extends StatelessWidget {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),

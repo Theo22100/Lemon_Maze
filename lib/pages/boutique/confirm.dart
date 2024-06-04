@@ -110,7 +110,9 @@ class _ConfirmPageState extends State<ConfirmPage> {
   };
 
   // Fonction pour construire la boîte de récompense
-  Widget _buildRecompenseBox() {
+  Widget _buildRecompenseBox(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     if (recompense == null) {
       return const Center(
         child: Text(
@@ -151,18 +153,18 @@ class _ConfirmPageState extends State<ConfirmPage> {
               Center(
                 child: Image.asset(
                   imagePath,
-                  width: 80,
-                  height: 80,
+                  width: screenHeight*0.1,
+                  height: screenWidth*0.3,
                 ),
               ),
               Positioned(
-                top: 0,
-                right: 15,
+                top: screenHeight*0.015,
+                right: screenWidth*0.04,
                 child: Transform.rotate(
                   angle: -pi / 9, // Rotation
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
                     color: const Color(0xFFFAF6D0),
                     child: Text(
                       citronText,
@@ -274,13 +276,13 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         width: 50,
                         height: 50,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 2),
                       const Text(
                         "Je veux regler ma commande...",
                         style: TextStyle(
                           fontFamily: 'Gustavo',
                           fontWeight: FontWeight.w500,
-                          fontSize: 36,
+                          fontSize: 32,
                           color: Color(0xFFFAF6D0),
                         ),
                       ),
@@ -321,7 +323,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            _buildRecompenseBox(),
+                            _buildRecompenseBox(context),
                             const SizedBox(height: 20),
                             ElevatedButton(
                               onPressed: () async {

@@ -71,7 +71,7 @@ class _SuccesPageState extends State<SuccesPage> {
     }
   }
 
-  Widget _buildRecompenseBox(Map<String, dynamic> recompense) {
+  Widget _buildRecompenseBox(Map<String, dynamic> recompense, BuildContext context) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
     String citronVert = (recompense['citronVert'] ?? 0).toString();
@@ -81,6 +81,9 @@ class _SuccesPageState extends State<SuccesPage> {
     int id_lieu = recompense['id_lieu'] ?? 0;
     int id_type = recompense['id_type'] ?? 0;
     int idrecompense = recompense['idrecompense'] ?? 0;
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
 
     if (idrecompense == 0) {
       return const SizedBox.shrink();
@@ -132,18 +135,18 @@ class _SuccesPageState extends State<SuccesPage> {
               Center(
                 child: Image.asset(
                   imagePath,
-                  width: 80,
-                  height: 80,
+                  width: screenHeight*0.1,
+                  height: screenWidth*0.3,
                 ),
               ),
               Positioned(
-                top: 0,
-                right: 15,
+                top: screenHeight*0.015,
+                right: screenWidth*0.04,
                 child: Transform.rotate(
                   angle: -pi / 9,
                   child: Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
                     color: const Color(0xFFFAF6D0),
                     child: Text(
                       citronText,
@@ -306,7 +309,7 @@ class _SuccesPageState extends State<SuccesPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                _buildRecompenseBox(response),
+                                _buildRecompenseBox(response,context),
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                   onPressed: () {

@@ -73,6 +73,8 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     // Avoir taille ecran pour responsive
     final screenSize = MediaQuery.of(context).size;
 
@@ -109,7 +111,7 @@ class _AccountPageState extends State<AccountPage> {
           ),
           // Profile
           Positioned(
-            top: 40,
+            top: screenHeight * 0.04,
             left: 0,
             right: 0,
             child: Center(
@@ -148,19 +150,19 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                       ),
                       const SizedBox(height: 40),
-                      _buildInfoBox(
-                          Icons.person, 'Pseudo', pseudo ?? 'Chargement...'),
+                      _buildInfoBox(Icons.person, 'Pseudo',
+                          pseudo ?? 'Chargement...', context),
                       const SizedBox(height: 10),
-                      _buildInfoBox(
-                          Icons.email, 'Email', email ?? 'Chargement...'),
+                      _buildInfoBox(Icons.email, 'Email',
+                          email ?? 'Chargement...', context),
                       const SizedBox(height: 10),
                       _buildInfoBox(Icons.location_city, 'Ville',
-                          ville ?? 'Chargement...'),
+                          ville ?? 'Chargement...', context),
                       const SizedBox(height: 10),
                       _buildInfoBox(Icons.cake, 'Age',
-                          age != null ? '$age ans' : 'Chargement...'),
+                          age != null ? '$age ans' : 'Chargement...', context),
                       const SizedBox(height: 30),
-                      _buildDeleteButton(),
+                      _buildDeleteButton(context),
                       Text(
                         textAlign: TextAlign.center,
                         response,
@@ -183,16 +185,15 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget _buildInfoBox(
-    IconData icon,
-    String title,
-    String info,
-  ) {
+      IconData icon, String title, String info, BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFFBBA2C),
         borderRadius: BorderRadius.circular(30),
       ),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(screenHeight * 0.02),
       child: Row(
         children: [
           Icon(icon, color: Colors.white),
@@ -213,7 +214,9 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _buildDeleteButton() {
+  Widget _buildDeleteButton(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ElevatedButton.icon(
@@ -231,7 +234,8 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ),
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 55, vertical: 20),
+          padding: EdgeInsets.symmetric(
+              horizontal: screenHeight * 0.05, vertical: 20),
           backgroundColor: const Color(0xFFFB512C),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

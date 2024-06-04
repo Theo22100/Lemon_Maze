@@ -5,6 +5,7 @@ import '../../../modules/http.dart';
 import 'package:logger/logger.dart';
 
 import '../../home/home.dart';
+
 final Logger logger = Logger();
 
 class BarArrive extends StatelessWidget {
@@ -22,7 +23,6 @@ class BarArrive extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
-
         return await _showExitConfirmationDialog(context) ?? false;
       },
       child: Scaffold(
@@ -91,7 +91,7 @@ class BarArrive extends StatelessWidget {
                           'A la recherche du code cache...',
                           style: TextStyle(
                             color: Color(0xFFEB622B),
-                            fontSize: 34,
+                            fontSize: 32,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Gustavo',
                           ),
@@ -105,9 +105,8 @@ class BarArrive extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFFEB622B),
                             fontFamily: 'Outfit',
-                            fontSize: 19,
+                            fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            height: 25 / 19, // Calculer le line-height
                           ),
                           textAlign: TextAlign.left,
                         ),
@@ -132,10 +131,11 @@ class BarArrive extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 24),
-                              child: Text(
+                                  vertical: screenHeight * 0.01,
+                                  horizontal: screenWidth * 0.05),
+                              child: const Text(
                                 "J’ai trouvé où il se cache :)",
                                 style: TextStyle(
                                   color: Colors.white, // Couleur du texte
@@ -158,6 +158,7 @@ class BarArrive extends StatelessWidget {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -166,8 +167,8 @@ class BarArrive extends StatelessWidget {
       if (result.data['success']) {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -181,20 +182,37 @@ class BarArrive extends StatelessWidget {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),

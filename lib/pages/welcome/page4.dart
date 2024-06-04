@@ -6,6 +6,8 @@ class Welcome4Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         color: const Color(0xFFFAF6D0),
@@ -49,7 +51,7 @@ class Welcome4Page extends StatelessWidget {
                               'Explore de nouveaux lieux',
                               style: TextStyle(
                                   color: Color(0xFFFAF6D0),
-                                  fontSize: 40,
+                                  fontSize: 32,
                                   fontWeight: FontWeight.w400,
                                   height: 1.5,
                                   fontFamily: 'Gustavo'),
@@ -66,7 +68,6 @@ class Welcome4Page extends StatelessWidget {
                                 fontFamily: 'Outfit',
                                 fontSize: 19,
                                 fontWeight: FontWeight.w400,
-                                height: 25 / 19, // Calculer le line-height
                               ),
                               textAlign: TextAlign.left,
                             ),
@@ -75,12 +76,11 @@ class Welcome4Page extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 1,
+                      bottom: screenHeight * 0.03,
                       left: 16,
                       child: Image.asset(
                         'assets/images/welcome/index_page4.png',
-                        width: 80,
-                        height: 80,
+                        height: screenHeight * 0.01,
                       ),
                     ),
                     Positioned(
@@ -96,8 +96,7 @@ class Welcome4Page extends StatelessWidget {
                         },
                         child: Image.asset(
                           'assets/images/welcome/circle_arrow.png',
-                          width: 50,
-                          height: 50,
+                          height: screenHeight * 0.06,
                         ),
                       ),
                     ),

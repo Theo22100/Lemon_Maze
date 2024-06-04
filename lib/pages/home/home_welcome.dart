@@ -28,14 +28,14 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                   ),
                   Image.asset(
                     'assets/images/welcomehome/lemonmaze-orange.png',
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.width * 0.06,
                   ),
                   const SizedBox(
                     height: 40,
                   ),
                   Image.asset(
                     'assets/images/welcomehome/home-lemonmaze.png',
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
                   const SizedBox(
                     height: 40,
@@ -122,8 +122,10 @@ class _WelcomeHomePageState extends State<WelcomeHomePage> {
                                   backgroundColor: Color(0xFFE9581B),
                                   content: Text(
                                     'Vous devez accepter les conditions d'
-                                    'utilisation pour continuer.',
-                                  ),
+                                    'utilisation pour continuer.', style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Outfit',
+                                  )),
                                   duration: Duration(seconds: 2),
                                 ),
                               );

@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                       height: 32,
                     ),
                     SizedBox(
-                      height: 200,
+                      height: screenHeight * 0.2,
                       child: Stack(
                         children: [
                           //carrousel d'annonce
@@ -86,16 +86,19 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                             itemBuilder: (context, index) {
-                              return Image.asset(
-                                images[_currentIndex],
-                                fit: BoxFit.fitHeight,
+                              return Container(
+                                width:
+                                    screenWidth * 0.2, // Ajuster la largeur ici
+                                child: Image.asset(
+                                  images[index], // Utilisez l'index actuel
+                                ),
                               );
                             },
                           ),
                           if (_currentIndex > 0)
                             Positioned(
-                              top: 70,
-                              left: screenHeight * 0.02,
+                              top: screenHeight * 0.07,
+                              left: screenWidth * 0.035,
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -107,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           if (_currentIndex < images.length - 1)
                             Positioned(
-                              top: 70,
-                              right: screenHeight * 0.02,
+                              top: screenHeight * 0.07,
+                              right: screenWidth * 0.035,
                               child: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -263,15 +266,25 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Non disponible pour le moment'),
+          title: const Text('Non disponible', style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Outfit',
+          )),
           content:
-              const Text('Cette fonctionnalité n\'est pas encore disponible.'),
+              const Text('Cette fonctionnalité n\'est pas encore disponible.', style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontFamily: 'Outfit',
+              )),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK'),
+              child: const Text('OK', style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Outfit',
+                color: Color(0xFFEB622B),
+              )),
             ),
           ],
         );
@@ -285,14 +298,24 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmer la déconnexion'),
-          content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?'),
+          title: const Text('Confirmer la déconnexion', style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Outfit',
+          )),
+          content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?', style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontFamily: 'Outfit',
+          )),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Annuler'),
+              child: const Text('Non', style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Outfit',
+                color: Colors.red,
+              )),
             ),
             TextButton(
               onPressed: () {
@@ -304,7 +327,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              child: const Text('Déconnexion'),
+              child: const Text('Oui', style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Outfit',
+                color: Colors.green,
+              )),
             ),
           ],
         );
@@ -322,8 +349,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Material(
-          color:
-              const Color(0xFFFAF6D0), // Set the desired background color here
+          color: const Color(0xFFFAF6D0), //Fond bords arrondis
           child: Container(
             decoration: const BoxDecoration(
               color: Color(0xFFEB622B),
@@ -397,11 +423,12 @@ class BottomNavigationBarWidget extends StatelessWidget {
       required String label,
       required VoidCallback onPressed}) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          icon: Icon(icon, size: screenWidth * 0.08),
+          icon: Icon(icon, size: screenHeight * 0.029),
           onPressed: onPressed,
           color: const Color(0xFFFAF6D0),
         ),
@@ -409,7 +436,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
           label,
           style: const TextStyle(
             color: Color(0xFFFAF6D0),
-            fontSize: 14.0,
+            fontSize: 13.0,
             fontWeight: FontWeight.w400,
             fontFamily: 'Outfit',
           ),

@@ -140,7 +140,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
                               itemCount: recompenses.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final recompense = recompenses[index];
-                                return _buildRecompenseBox(recompense);
+                                return _buildRecompenseBox(recompense,context);
                               },
                             ),
                     ),
@@ -155,7 +155,11 @@ class _BoutiquePageState extends State<BoutiquePage> {
   }
 
   // Fonction pour construire la boîte de récompense
-  Widget _buildRecompenseBox(dynamic recompense) {
+  Widget _buildRecompenseBox(dynamic recompense, BuildContext context) {
+
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
     String citronVert = (recompense['citronVert'] ?? 0).toString();
@@ -212,8 +216,8 @@ class _BoutiquePageState extends State<BoutiquePage> {
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: const Color(0xFFFAB92C),
           borderRadius: BorderRadius.circular(20),
@@ -224,21 +228,23 @@ class _BoutiquePageState extends State<BoutiquePage> {
             // Centrer verticalement l'image
             Stack(
               children: [
-                Center(
+                Container(
+        padding: EdgeInsets.symmetric(
+        horizontal: screenWidth*0.02, vertical: screenHeight*0.02),
                   child: Image.asset(
                     imagePath,
-                    width: 80,
-                    height: 80,
+                    width: screenWidth*0.2,
+                    height: screenHeight*0.1,
                   ),
                 ),
                 Positioned(
-                  top: 0,
-                  right: 15,
+                  top: screenHeight*0.015,
+                  right: screenWidth*0.07,
                   child: Transform.rotate(
                     angle: -pi / 9, // Rotation
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
                       color: const Color(0xFFFAF6D0),
                       child: Text(
                         citronText,

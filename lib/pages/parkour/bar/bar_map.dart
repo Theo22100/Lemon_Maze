@@ -32,8 +32,6 @@ class _BarMapState extends State<BarMap> {
     getEtatParty();
   }
 
-
-
   Future<void> fetchLieux() async {
     var result =
         await http_get("parkour/getparkour/nomslieu/${widget.randomIdParkour}");
@@ -144,7 +142,7 @@ class _BarMapState extends State<BarMap> {
                               ),
                             ),
                             Positioned(
-                              bottom: 0,
+                              bottom: 10,
                               right: 20,
                               child: GestureDetector(
                                 onTap: () {
@@ -161,7 +159,7 @@ class _BarMapState extends State<BarMap> {
                                 child: Image.asset(
                                   'assets/images/parkour/button.png',
                                   width: screenWidth / 8,
-                                  height: screenHeight / 8,
+                                  height: screenHeight * 0.06,
                                 ),
                               ),
                             ),
@@ -175,6 +173,7 @@ class _BarMapState extends State<BarMap> {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -184,7 +183,7 @@ class _BarMapState extends State<BarMap> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -198,20 +197,37 @@ class _BarMapState extends State<BarMap> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),
@@ -227,7 +243,7 @@ class SnakePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     const Color couleurOrange = Color(0xFFEB632B);
-    const Color couleurVerte = Color(0xFFA1CD91);
+    const Color couleurVerte = Color.fromARGB(255, 33, 121, 0);
     Color couleurFinale;
     Paint paint = Paint()
       ..shader = const LinearGradient(
@@ -273,7 +289,7 @@ class SnakePainter extends CustomPainter {
         ..color = couleurFinale
         ..style = PaintingStyle.fill;
 
-      canvas.drawCircle(Offset(circleX, circleY), 15, circlePaint);
+      canvas.drawCircle(Offset(circleX, circleY), 13, circlePaint);
 
       if (i - 1 < lieux.length) {
         TextSpan span = TextSpan(
@@ -293,7 +309,9 @@ class SnakePainter extends CustomPainter {
         );
 
         tp.layout();
-        if (i == 1 || i == 2) {
+        if (i == 1) {
+          tp.paint(canvas, Offset(circleX - 100, circleY + 10));
+        } else if (i == 2) {
           tp.paint(canvas, Offset(circleX - 100, circleY - 30));
         } else {
           tp.paint(canvas, Offset(circleX + 16, circleY + 12));

@@ -34,8 +34,6 @@ class _EnigmePage1State extends State<EnigmePage1> {
     getQuestion();
   }
 
-
-
   // récupération de la question
   Future<void> getQuestion() async {
     try {
@@ -205,6 +203,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -214,7 +213,7 @@ class _EnigmePage1State extends State<EnigmePage1> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -228,20 +227,40 @@ class _EnigmePage1State extends State<EnigmePage1> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontFamily: 'Outfit',
+            )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.',
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui',
+                style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Outfit',
+                )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Outfit',
+                )),
           ),
         ],
       ),

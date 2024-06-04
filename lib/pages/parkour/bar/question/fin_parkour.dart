@@ -152,7 +152,7 @@ class _FinalParkourPageState extends State<FinalParkourPage> {
                       ),
                       if (responsemsg != null)
                         Positioned(
-                          bottom: screenHeight / 2.3,
+                          bottom: screenHeight / 2.32,
                           left: 0,
                           right: 0,
                           child: Text(

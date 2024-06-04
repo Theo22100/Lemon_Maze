@@ -23,6 +23,7 @@ class _CitronPageState extends State<CitronPage> {
   String? citronrouge;
   String? citronbleu;
 
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +77,9 @@ class _CitronPageState extends State<CitronPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
+
     return WillPopScope(
       onWillPop: () async {
         // Retourner false pour bloquer la touche retour
@@ -121,7 +125,7 @@ class _CitronPageState extends State<CitronPage> {
                               style: const TextStyle(
                                 fontFamily: 'Outfit',
                                 fontWeight: FontWeight.w500,
-                                fontSize: 40,
+                                fontSize: 34,
                                 color: Color(0xFFFAF6D0),
                               ),
                             ),
@@ -142,10 +146,10 @@ class _CitronPageState extends State<CitronPage> {
                     ),
                     child: Container(
                       color: const Color(0xFFFAF6D0),
-                      height: MediaQuery.of(context).size.height / 1.30,
-                      width: MediaQuery.of(context).size.width,
+                      height: screenHeight / 1.30,
+                      width: screenWidth,
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(screenWidth*0.03),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -163,22 +167,26 @@ class _CitronPageState extends State<CitronPage> {
                             _buildInfoBox(
                                 'assets/images/boutique/citronvert.png',
                                 'Citron Bibliothèque',
-                                citronvert),
+                                citronvert,
+                                context),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronbleu.png',
                                 'Citron Musée',
-                                citronbleu),
+                                citronbleu,
+                                context),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronrouge.png',
                                 'Citron Bar',
-                                citronrouge),
+                                citronrouge,
+                            context),
                             const SizedBox(height: 10),
                             _buildInfoBox(
                                 'assets/images/boutique/citronjaune.png',
                                 'Citron Restaurant',
-                                citronjaune),
+                                citronjaune,
+                                context),
                             const SizedBox(height: 40),
                             Text(
                               response,
@@ -208,8 +216,8 @@ class _CitronPageState extends State<CitronPage> {
                   Positioned(
                     left: 0,
                     right: 0,
-                    bottom: 90,
-                    child: _buildShopButton(),
+                    bottom: screenHeight*0.12,
+                    child: _buildShopButton(context),
                   ),
                 ],
               ),
@@ -224,19 +232,22 @@ class _CitronPageState extends State<CitronPage> {
     String imagePath,
     String title,
     String? points,
+      BuildContext context
+
   ) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFEDE54F),
         borderRadius: BorderRadius.circular(30),
       ),
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(screenWidth*0.025),
       child: Row(
         children: [
           Image.asset(
             imagePath,
-            width: 48,
-            height: 48,
+            width: screenWidth*0.13,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -254,19 +265,22 @@ class _CitronPageState extends State<CitronPage> {
               ? const CircularProgressIndicator(
                   color: Color(0xFFEB622B),
                 )
-              : _buildPointsBox('$points PTS'),
+              : _buildPointsBox('$points PTS',context),
         ],
       ),
     );
   }
 
-  Widget _buildPointsBox(String points) {
+  Widget _buildPointsBox(String points,
+      BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFFAF6D0),
         borderRadius: BorderRadius.circular(15),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(screenWidth*0.03),
       child: Text(
         points,
         style: const TextStyle(
@@ -278,9 +292,11 @@ class _CitronPageState extends State<CitronPage> {
     );
   }
 
-  Widget _buildShopButton() {
+  Widget _buildShopButton(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth*0.2),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
@@ -289,7 +305,7 @@ class _CitronPageState extends State<CitronPage> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 15),
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.02),
           backgroundColor: const Color(0xFFEB622B).withOpacity(0.9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

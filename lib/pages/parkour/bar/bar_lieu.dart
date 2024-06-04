@@ -35,7 +35,6 @@ class _BarLieuState extends State<BarLieu> {
     getEtatParty();
   }
 
-
   // Affiche le bon lieu
   Future<void> fetchLieux() async {
     try {
@@ -242,7 +241,7 @@ class _BarLieuState extends State<BarLieu> {
                                 style: TextStyle(
                                   color: Color(0xFFEB622B),
                                   fontFamily: 'Outfit',
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w400,
                                 ),
                                 textAlign: TextAlign.left,
@@ -254,8 +253,7 @@ class _BarLieuState extends State<BarLieu> {
                                 children: [
                                   Image.asset(
                                     'assets/images/parkour/index3_3.png',
-                                    width: 80,
-                                    height: 80,
+                                    height: screenHeight * 0.01,
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -272,7 +270,6 @@ class _BarLieuState extends State<BarLieu> {
                                     },
                                     child: Image.asset(
                                       'assets/images/parkour/button.png',
-                                      width: screenWidth * 0.2,
                                       height: screenHeight * 0.06,
                                     ),
                                   ),
@@ -289,6 +286,7 @@ class _BarLieuState extends State<BarLieu> {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -298,7 +296,7 @@ class _BarLieuState extends State<BarLieu> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -312,20 +310,37 @@ class _BarLieuState extends State<BarLieu> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),

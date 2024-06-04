@@ -6,6 +6,8 @@ class Welcome2Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         color: const Color(0xFFFAF6D0),
@@ -34,7 +36,7 @@ class Welcome2Page extends StatelessWidget {
                         'assets/images/welcome/wallpaper.png',
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height / 2.5,
+                        height: screenHeight / 2.5,
                       ),
                     ),
                     Positioned(
@@ -43,30 +45,29 @@ class Welcome2Page extends StatelessWidget {
                       right: 16,
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Amuse-toi avec tes amis',
                               style: TextStyle(
                                   color: Color(0xFFFAF6D0),
-                                  fontSize: 40,
+                                  fontSize: 32,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'Gustavo'),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
                             SizedBox(
-                              height: 16,
+                              height: screenHeight * 0.02,
                             ), // Espacement entre les deux textes
-                            Text(
+                            const Text(
                               'Rejoins des jeux de piste exclusifs pour passer du bon temps avec tous tes amis.',
                               style: TextStyle(
                                 color: Color(0xFFFAF6D0),
                                 fontFamily: 'Inter',
                                 fontSize: 19,
                                 fontWeight: FontWeight.w400,
-                                height: 25 / 19, // Calculer le line-height
                               ),
                               textAlign: TextAlign.left,
                             ),
@@ -75,12 +76,11 @@ class Welcome2Page extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 1,
+                      bottom: screenHeight * 0.03,
                       left: 16,
                       child: Image.asset(
                         'assets/images/welcome/index_page2.png',
-                        width: 80,
-                        height: 80,
+                        height: screenHeight * 0.01,
                       ),
                     ),
                     Positioned(
@@ -96,8 +96,7 @@ class Welcome2Page extends StatelessWidget {
                         },
                         child: Image.asset(
                           'assets/images/welcome/circle_arrow.png',
-                          width: 50,
-                          height: 50,
+                          height: screenHeight * 0.06,
                         ),
                       ),
                     ),

@@ -82,7 +82,6 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
             etat = result.data['new_etat'];
             if (etat == 4) {
               _finParty(context);
-
             } else {
               Navigator.push(
                 context,
@@ -188,7 +187,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
                       ),
                       if (responsemsg != null)
                         Positioned(
-                          bottom: screenHeight / 2.03,
+                          bottom: screenHeight / 2.05,
                           left: 0,
                           right: 0,
                           child: Text(
@@ -212,6 +211,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
       ),
     );
   }
+
   Future<void> _abandonParty(BuildContext context) async {
     try {
       final body = {};
@@ -221,7 +221,7 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
+          (route) => false,
         );
       } else {
         logger.e('Erreur pour abandonner une partie');
@@ -241,12 +241,11 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
           context,
           MaterialPageRoute(
             builder: (context) => const FinalParkourPage(
-              /*randomIdParkour: widget.randomIdParkour,
+                /*randomIdParkour: widget.randomIdParkour,
                     idParty: widget.idParty,*/
-            ), //TODOV2 AJOUTER INFO PARCOURS
+                ), //TODOV2 AJOUTER INFO PARCOURS
           ),
         );
-
       } else {
         logger.e('Erreur pour abandonner une partie');
       }
@@ -259,20 +258,37 @@ class _GoodAnswerPageState extends State<GoodAnswerPage> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?'),
-        content: const Text('Vous allez être renvoyé à l\'accueil.'),
+        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontFamily: 'Outfit',
+        )),
+        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Outfit',
+        )),
         actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non'),
-          ),
+
           TextButton(
             onPressed: () {
               _abandonParty(context);
             },
-            child: const Text('Oui'),
+            child: const Text('Oui', style: TextStyle(
+              color: Colors.green,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text('Non', style: TextStyle(
+              color: Colors.red,
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: 'Outfit',
+            )),
           ),
         ],
       ),
