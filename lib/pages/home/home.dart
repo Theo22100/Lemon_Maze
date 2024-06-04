@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
+
     return WillPopScope(
       onWillPop: () async {
         // Retourner false pour bloquer la touche retour
@@ -320,65 +321,70 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFEB622B),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        return Material(
+          color:
+              const Color(0xFFFAF6D0), // Set the desired background color here
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFFEB622B),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
-          ),
-          height: constraints.maxWidth * 0.18,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildNavItem(
-                context,
-                icon: Icons.home,
-                label: 'Accueil',
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomePage()),
-                  );
-                },
-              ),
-              _buildNavItem(
-                context,
-                icon: Icons.shopping_bag,
-                label: 'Boutique',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CitronPage()),
-                  );
-                },
-              ),
-              _buildNavItem(
-                context,
-                icon: Icons.archive,
-                label: 'Inventaire',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const InventoryPage()),
-                  );
-                },
-              ),
-              _buildNavItem(
-                context,
-                icon: Icons.person,
-                label: 'Profil',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AccountPage()),
-                  );
-                },
-              ),
-            ],
+            height: constraints.maxWidth * 0.18,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(
+                  context,
+                  icon: Icons.home,
+                  label: 'Accueil',
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                    );
+                  },
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.shopping_bag,
+                  label: 'Boutique',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CitronPage()),
+                    );
+                  },
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.archive,
+                  label: 'Inventaire',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const InventoryPage()),
+                    );
+                  },
+                ),
+                _buildNavItem(
+                  context,
+                  icon: Icons.person,
+                  label: 'Profil',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AccountPage()),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },
