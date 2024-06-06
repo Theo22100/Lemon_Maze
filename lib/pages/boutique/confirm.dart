@@ -153,18 +153,19 @@ class _ConfirmPageState extends State<ConfirmPage> {
               Center(
                 child: Image.asset(
                   imagePath,
-                  width: screenHeight*0.1,
-                  height: screenWidth*0.3,
+                  width: screenHeight * 0.1,
+                  height: screenWidth * 0.3,
                 ),
               ),
               Positioned(
-                top: screenHeight*0.015,
-                right: screenWidth*0.04,
+                top: screenHeight * 0.015,
+                right: screenWidth * 0.04,
                 child: Transform.rotate(
                   angle: -pi / 9, // Rotation
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.02,
+                        vertical: screenHeight * 0.005),
                     color: const Color(0xFFFAF6D0),
                     child: Text(
                       citronText,
@@ -200,7 +201,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator(
-                        color: Color(0xFFEB622B),); // Indicateur de chargement
+                        color: Color(0xFFEB622B),
+                      ); // Indicateur de chargement
                     } else if (snapshot.hasError) {
                       return const Text("Erreur de chargement du nom du lieu");
                     } else {
@@ -236,11 +238,6 @@ class _ConfirmPageState extends State<ConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    // // Avoir taille ecran pour image
-    // final screenSize = MediaQuery.of(context).size;
-
-    // final imageWidth = screenSize.width * 0.4;
-    // final imageHeight = screenSize.height * 0.2;
     return WillPopScope(
       onWillPop: () async {
         // Retourner false pour bloquer la touche retour
@@ -256,7 +253,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            // Back button at the top left
+            // Bouton retour
             Align(
               alignment: Alignment.topLeft,
               child: Padding(

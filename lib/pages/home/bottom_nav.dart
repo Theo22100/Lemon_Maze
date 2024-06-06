@@ -22,7 +22,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
                 topRight: Radius.circular(20),
               ),
             ),
-            height: constraints.maxWidth * 0.18,
+            height: constraints.maxHeight * 0.1,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

@@ -50,7 +50,7 @@ class LoginPageState extends State<LoginPage> {
   Future<void> setFirstLoginDone() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool result = await prefs.setBool('isFirstLogin', false);
+      await prefs.setBool('isFirstLogin', false);
     } catch (e) {
       logger.e('Erreur: $e');
     }

@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 
 import 'bottom_nav.dart';
 
-var logger = Logger(); // Initialisation de l'instance Logger
+var logger = Logger();
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +22,7 @@ class HomePageState extends State<HomePage> {
     'assets/images/home/announce/announce1.png',
     'assets/images/home/announce/announce2.png',
     'assets/images/home/announce/announce3.png'
-  ]; // Liste des images pour le carrousel d'annonces
+  ]; // Liste des images pour carrousel annonces
 
   int _currentIndex = 0; // Index actuel du carrousel annonces
   late PageController
@@ -32,13 +32,13 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _pageController = PageController(
-        initialPage: _currentIndex); // Initialisation du contrôleur de la page
+        initialPage: _currentIndex); // Initialisation contrôleur la page
   }
 
   @override
   void dispose() {
     _pageController
-        .dispose(); // Dispose du contrôleur de la page lorsqu'il n'est plus utilisé
+        .dispose(); // Dispose contrôleur page lorsqu'il n'est plus utilisé
     super.dispose();
   }
 
@@ -64,47 +64,53 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).size.height; // Hauteur écran
 
     return WillPopScope(
-      onWillPop: () async => false, // Désactive le bouton de retour
+      onWillPop: () async => false, // Désactive bouton retour
       child: Scaffold(
-        body: Stack(
-          children: [
-            Container(
-              color: const Color(0xFFFAF6D0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 28),
-                    Image.asset('assets/images/home/titre.png',
-                        width: screenWidth * 0.4),
-                    const SizedBox(height: 32),
-                    _buildAnnouncementCarousel(
-                        screenWidth, screenHeight), // Carrousel d'annonces
-                    const SizedBox(height: 32),
-                    _buildChoiceGrid(
-                        context, screenWidth, screenHeight), // Grille de choix
-                  ],
-                ),
+        body: Container(
+          color: const Color(0xFFFAF6D0),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Image.asset(
+                          'assets/images/home/titre.png',
+                          width: screenWidth * 0.4,
+                        ),
+                      ),
+                      Positioned(
+                        right: screenWidth * 0.05,
+                        top: 0,
+                        child: IconButton(
+                          onPressed: () => _showLogoutDialog(context),
+                          icon: const Icon(Icons.logout,
+                              color: Color(0xFFEB622B)),
+                          iconSize: screenHeight * 0.033,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  _buildAnnouncementCarousel(
+                      screenWidth, screenHeight), // Carrousel annonces
+                  const SizedBox(height: 32),
+                  _buildChoiceGrid(
+                      context, screenWidth, screenHeight), // Grille de choix
+                ],
               ),
             ),
-            Positioned(
-              top: 30,
-              right: 20,
-              child: IconButton(
-                onPressed: () => _showLogoutDialog(
-                    context), // Affiche la boîte de dialogue de déconnexion
-                icon: const Icon(Icons.logout, color: Color(0xFFEB622B)),
-              ),
-            ),
-          ],
+          ),
         ),
-        bottomNavigationBar:
-            BottomNavigationBarWidget(), // Barre de navigation inférieure
+        bottomNavigationBar: const BottomNavigationBarWidget(),
       ),
     );
   }
 
-  // Widget pour construire le carrousel d'annonces
+  // Widget pour construire carrousel
   Widget _buildAnnouncementCarousel(double screenWidth, double screenHeight) {
     return SizedBox(
       height: screenHeight * 0.2,
@@ -115,22 +121,20 @@ class HomePageState extends State<HomePage> {
             controller: _pageController,
             onPageChanged: (index) {
               setState(() {
-                _currentIndex =
-                    index; // Met à jour l'index actuel lors du changement de page
+                _currentIndex = index; // MAJ index actuel lors changement page
               });
             },
             itemBuilder: (context, index) {
               return SizedBox(
                 width: screenWidth * 0.2,
-                child: Image.asset(images[index]), // Affiche l'image actuelle
+                child: Image.asset(images[index]),
               );
             },
           ),
-          // Affiche le bouton précédent si l'index actuel est supérieur à 0
           if (_currentIndex > 0)
             Positioned(
               top: screenHeight * 0.07,
-              left: screenWidth * 0.035,
+              left: screenWidth * 0.01,
               child: IconButton(
                 onPressed: () {
                   _pageController.previousPage(
@@ -139,13 +143,13 @@ class HomePageState extends State<HomePage> {
                   ); // Passe à la page précédente
                 },
                 icon: const Icon(Icons.arrow_back),
+                iconSize: screenHeight * 0.036,
               ),
             ),
-          // Affiche le bouton suivant si l'index actuel est inférieur à la longueur de la liste des images
           if (_currentIndex < images.length - 1)
             Positioned(
               top: screenHeight * 0.07,
-              right: screenWidth * 0.035,
+              right: screenWidth * 0.01,
               child: IconButton(
                 onPressed: () {
                   _pageController.nextPage(
@@ -154,6 +158,7 @@ class HomePageState extends State<HomePage> {
                   ); // Passe à la page suivante
                 },
                 icon: const Icon(Icons.arrow_forward),
+                iconSize: screenHeight * 0.04,
               ),
             ),
         ],
@@ -161,7 +166,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget pour construire la grille de choix
+  // Widget pour construire grille choix
   Widget _buildChoiceGrid(
       BuildContext context, double screenWidth, double screenHeight) {
     return Row(
@@ -173,32 +178,28 @@ class HomePageState extends State<HomePage> {
               context,
               image: 'bar.png',
               onTap: () async {
-                await _navigateToRandomParkour(
-                    context); // Navigue vers un parkour aléatoire
+                await _navigateToRandomParkour(context);
               },
             ),
             const SizedBox(height: 16),
-            _buildUnavailableImage(context,
-                'bibliotheque.png') // Image de fonctionnalité non disponible
+            _buildUnavailableImage(context, 'bibliotheque.png')
           ],
         ),
         Column(
           children: [
-            _buildUnavailableImage(context,
-                'restaurant.png'), // Image de fonctionnalité non disponible
+            _buildUnavailableImage(context, 'restaurant.png'),
             const SizedBox(height: 16),
-            _buildUnavailableImage(
-                context, 'musee.png'), // Image de fonctionnalité non disponible
+            _buildUnavailableImage(context, 'musee.png'),
           ],
         ),
       ],
     );
   }
 
-  // Fonction pour naviguer vers un parkour aléatoire
+  // Fonction pour naviguer vers parkour aléatoire
   Future<void> _navigateToRandomParkour(BuildContext context) async {
     try {
-      final String? userId = await getUserId(); // Obtient l'ID utilisateur
+      final String? userId = await getUserId();
       if (userId == null || userId.isEmpty) {
         logger.e('User ID est null ou vide');
         return;
@@ -219,7 +220,7 @@ class HomePageState extends State<HomePage> {
             await http_post('party/create-party', {
           'id_parkour': randomIdParkour,
           'id_user': userId,
-        }); // Crée une nouvelle partie avec l'ID de parkour et l'ID utilisateur
+        }); // Crée nouvelle partie
 
         if (createPartyResult.ok) {
           Navigator.push(
@@ -242,17 +243,17 @@ class HomePageState extends State<HomePage> {
       logger.e('Erreur pendant requête : $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Erreur trouvé: $e')),
-      ); // Affiche une notification d'erreur
+      ); // Affiche une notification drreur
     }
   }
 
-  // Widget pour construire une image cliquable
+  // Widget pour construire image cliquable
   Widget _buildClickableImage(BuildContext context,
       {required String image, required VoidCallback onTap}) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: onTap, // Définit la fonction à appeler lors du clic
+      onTap: onTap, // fonction à appeler lors clic
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
         width: screenWidth * 0.4,
@@ -261,13 +262,13 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Widget pour construire une image non disponible
+  // Widget pour construire image non disponible
   Widget _buildUnavailableImage(BuildContext context, String image) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () => _showUnavailableAlert(
-          context), // Affiche une alerte d'indisponibilité
+      onTap: () =>
+          _showUnavailableAlert(context), // Affiche alerte d'indisponibilité
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
         width: screenWidth * 0.4,
@@ -276,7 +277,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Fonction pour afficher une alerte d'indisponibilité
+  // Fonction pour afficher alerte d'indisponibilité
   void _showUnavailableAlert(BuildContext context) {
     showDialog(
       context: context,
@@ -304,7 +305,7 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  // Fonction pour afficher la boîte de dialogue de déconnexion
+  // Fonction pour afficher déconnexion
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -318,8 +319,7 @@ class HomePageState extends State<HomePage> {
                   TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Outfit')),
           actions: [
             TextButton(
-              onPressed: () =>
-                  Navigator.of(context).pop(), // Ferme la boîte de dialogue
+              onPressed: () => Navigator.of(context).pop(), // Ferme
               child: const Text('Non',
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -328,12 +328,11 @@ class HomePageState extends State<HomePage> {
             ),
             TextButton(
               onPressed: () {
-                _clearSharedPreferences(); // Efface les préférences partagées
+                _clearSharedPreferences(); // Efface SP
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          const LoginSignUpPage()), // Navigue vers la page de connexion
+                      builder: (context) => const LoginSignUpPage()),
                 );
               },
               child: const Text('Oui',

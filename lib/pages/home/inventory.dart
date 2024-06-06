@@ -99,7 +99,7 @@ class InventoryPageState extends State<InventoryPage> {
             _buildRecompenseList(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBarWidget(),
+        bottomNavigationBar: const BottomNavigationBarWidget(),
       ),
     );
   }
@@ -160,7 +160,10 @@ class InventoryPageState extends State<InventoryPage> {
               const SizedBox(height: 20),
               Expanded(
                 child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                        color: Color(0xFFEB622B),
+                      ))
                     : ListView.builder(
                         itemCount: recompenses.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -335,7 +338,7 @@ class InventoryPageState extends State<InventoryPage> {
                     info,
                     style: const TextStyle(
                       fontFamily: 'Outfit',
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       fontSize: 14,
                       color: Color(0xFFFAF6D0),
                     ),

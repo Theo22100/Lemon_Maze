@@ -126,7 +126,7 @@ class BoutiquePageState extends State<BoutiquePage> {
                   children: [
                     const SizedBox(height: 20),
                     const Text(
-                      'La boutique',
+                      'Les offres',
                       style: TextStyle(
                         fontFamily: 'Outfit',
                         fontWeight: FontWeight.w600,
@@ -137,7 +137,10 @@ class BoutiquePageState extends State<BoutiquePage> {
                     const SizedBox(height: 10),
                     Expanded(
                       child: isLoading
-                          ? const Center(child: CircularProgressIndicator())
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                              color: Color(0xFFEB622B),
+                            ))
                           : ListView.builder(
                               itemCount: recompenses.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -153,7 +156,7 @@ class BoutiquePageState extends State<BoutiquePage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(),
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 
@@ -283,7 +286,9 @@ class BoutiquePageState extends State<BoutiquePage> {
                     future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
+                        return const CircularProgressIndicator(
+                          color: Color(0xFFEB622B),
+                        ); // indicateur de chargement si la connexion est en attente
                       } else {
                         if (snapshot.hasError) {
                           return const Text(

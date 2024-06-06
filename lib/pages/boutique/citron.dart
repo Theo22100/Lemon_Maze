@@ -19,12 +19,10 @@ class CitronPage extends StatefulWidget {
 
 class _CitronPageState extends State<CitronPage> {
   String? userId;
-  String? pseudo;
   String? citronvert;
   String? citronjaune;
   String? citronrouge;
   String? citronbleu;
-
 
   @override
   void initState() {
@@ -36,22 +34,21 @@ class _CitronPageState extends State<CitronPage> {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('id');
 
-    // Vérifier d'abord si userId est null ou vide
+    // Vérif
     if (userId == null || userId.isEmpty) {
-      // Gérer le cas où userId est null ou vide
+      logger.e("Impossible de récupérer l'ID de l'utilisateur");
       return;
     }
 
-    // Effectuer une requête HTTP GET pour récupérer les données de l'utilisateur
+    // requête HTTP GET pour récup données user
     final response = await http_get("user/getuser/$userId");
 
-    // Vérifier si la requête a réussi
+    // Vérifier sirequête a réussi
     if (response.data['success']) {
-      // Extraire les données de l'utilisateur à partir de la réponse
+      // Extraire données user de la réponse
       final userData = response.data["data"];
 
-      // Extraire le pseudo et les citrons de l'utilisateur
-      final pseudo = userData["pseudo"];
+      // Extrairecitrons user
       final citronvert = userData["citronVert"].toString();
       final citronjaune = userData["citronJaune"].toString();
       final citronrouge = userData["citronRouge"].toString();
@@ -61,10 +58,9 @@ class _CitronPageState extends State<CitronPage> {
       await prefs.setInt('citronVert', userData['citronVert']);
       await prefs.setInt('citronBleu', userData['citronBleu']);
 
-      // Mettre à jour l'état de l'utilisateur avec les données récupérées
+      // MAJ état user avec données récupérées
       setState(() {
         this.userId = userId;
-        this.pseudo = pseudo;
         this.citronvert = citronvert;
         this.citronjaune = citronjaune;
         this.citronrouge = citronrouge;
@@ -118,14 +114,10 @@ class _CitronPageState extends State<CitronPage> {
                         height: 50,
                       ),
                       const SizedBox(height: 10),
-                      pseudo == null
-                          ? const CircularProgressIndicator(
-                        color: Color(0xFFFAF6D0),
-                      )
-                          : Text(
-                        "Bravo à toi $pseudo !",
-                        style: const TextStyle(
-                          fontFamily: 'Outfit',
+                      const Text(
+                        "Amuse-toi bien !",
+                        style: TextStyle(
+                          fontFamily: 'Gustavo',
                           fontWeight: FontWeight.w500,
                           fontSize: 34,
                           color: Color(0xFFFAF6D0),
@@ -151,7 +143,7 @@ class _CitronPageState extends State<CitronPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.02),
                         const Text(
                           'Mes bons citrons',
                           style: TextStyle(
@@ -161,30 +153,18 @@ class _CitronPageState extends State<CitronPage> {
                             color: Color(0xFFEB622B),
                           ),
                         ),
-                        const SizedBox(height: 30),
-                        _buildInfoBox(
-                            'assets/images/boutique/citronvert.png',
-                            'Citron Bibliothèque',
-                            citronvert,
-                            context),
+                        SizedBox(height: screenHeight * 0.03),
+                        _buildInfoBox('assets/images/boutique/citronvert.png',
+                            'Citron Bibliothèque', citronvert, context),
                         const SizedBox(height: 10),
-                        _buildInfoBox(
-                            'assets/images/boutique/citronbleu.png',
-                            'Citron Musée',
-                            citronbleu,
-                            context),
+                        _buildInfoBox('assets/images/boutique/citronbleu.png',
+                            'Citron Musée', citronbleu, context),
                         const SizedBox(height: 10),
-                        _buildInfoBox(
-                            'assets/images/boutique/citronrouge.png',
-                            'Citron Bar',
-                            citronrouge,
-                            context),
+                        _buildInfoBox('assets/images/boutique/citronrouge.png',
+                            'Citron Bar', citronrouge, context),
                         const SizedBox(height: 10),
-                        _buildInfoBox(
-                            'assets/images/boutique/citronjaune.png',
-                            'Citron Restaurant',
-                            citronjaune,
-                            context),
+                        _buildInfoBox('assets/images/boutique/citronjaune.png',
+                            'Citron Restaurant', citronjaune, context),
                         const SizedBox(height: 10),
                         Text(
                           response,
@@ -211,33 +191,27 @@ class _CitronPageState extends State<CitronPage> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBarWidget(),
+        bottomNavigationBar: const BottomNavigationBarWidget(),
       ),
     );
   }
 
-
   Widget _buildInfoBox(
-    String imagePath,
-    String title,
-    String? points,
-      BuildContext context
-
-  ) {
+      String imagePath, String title, String? points, BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    // final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFEDE54F),
         borderRadius: BorderRadius.circular(30),
       ),
-      padding: EdgeInsets.all(screenWidth*0.025),
-      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.015),
+      padding: EdgeInsets.all(screenWidth * 0.025),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.015),
       child: Row(
         children: [
           Image.asset(
             imagePath,
-            width: screenWidth*0.15,
+            width: screenWidth * 0.15,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -255,22 +229,21 @@ class _CitronPageState extends State<CitronPage> {
               ? const CircularProgressIndicator(
                   color: Color(0xFFEB622B),
                 )
-              : _buildPointsBox('$points Pts',context),
+              : _buildPointsBox('$points Pts', context),
         ],
       ),
     );
   }
 
-  Widget _buildPointsBox(String points,
-      BuildContext context) {
+  Widget _buildPointsBox(String points, BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    //final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFFFAF6D0),
         borderRadius: BorderRadius.circular(15),
       ),
-      padding: EdgeInsets.all(screenWidth*0.03),
+      padding: EdgeInsets.all(screenWidth * 0.03),
       child: Text(
         points,
         style: const TextStyle(
@@ -286,7 +259,7 @@ class _CitronPageState extends State<CitronPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth*0.2),
+      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.2),
       child: ElevatedButton(
         onPressed: () {
           Navigator.push(
@@ -295,7 +268,8 @@ class _CitronPageState extends State<CitronPage> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: screenHeight*0.02, horizontal: screenWidth*0.15),
+          padding: EdgeInsets.symmetric(
+              vertical: screenHeight * 0.02, horizontal: screenWidth * 0.15),
           backgroundColor: const Color(0xFFEB622B).withOpacity(0.9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

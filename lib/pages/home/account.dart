@@ -140,7 +140,7 @@ class AccountPageState extends State<AccountPage> {
                         const Text(
                           'Mon profil',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 30,
                             fontWeight: FontWeight.w500,
                             fontFamily: 'Gustavo',
                             color: Color(0xFFFBBA2C),
@@ -182,7 +182,7 @@ class AccountPageState extends State<AccountPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBarWidget(),
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 
