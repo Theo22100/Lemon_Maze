@@ -182,7 +182,7 @@ class AccountPageState extends State<AccountPage> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavigationBarWidget(),
+      bottomNavigationBar: BottomNavigationBarWidget(),
     );
   }
 

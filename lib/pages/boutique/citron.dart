@@ -5,6 +5,8 @@ import 'package:LemonMaze/pages/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
+import '../home/bottom_nav.dart';
+
 var logger = Logger();
 String response = "";
 
@@ -118,115 +120,102 @@ class _CitronPageState extends State<CitronPage> {
                       const SizedBox(height: 10),
                       pseudo == null
                           ? const CircularProgressIndicator(
-                              color: Color(0xFFFAF6D0),
-                            )
+                        color: Color(0xFFFAF6D0),
+                      )
                           : Text(
-                              "Bravo à toi $pseudo !",
-                              style: const TextStyle(
-                                fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 34,
-                                color: Color(0xFFFAF6D0),
-                              ),
-                            ),
+                        "Bravo à toi $pseudo !",
+                        style: const TextStyle(
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 34,
+                          color: Color(0xFFFAF6D0),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
-
             Align(
               alignment: Alignment.bottomCenter,
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    ),
-                    child: Container(
-                      color: const Color(0xFFFAF6D0),
-                      height: screenHeight / 1.30,
-                      width: screenWidth,
-                      child: Padding(
-                        padding: EdgeInsets.all(screenWidth*0.03),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const SizedBox(height: 5),
-                            const Text(
-                              'Mes bons citrons',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFFEB622B),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            _buildInfoBox(
-                                'assets/images/boutique/citronvert.png',
-                                'Citron Bibliothèque',
-                                citronvert,
-                                context),
-                            const SizedBox(height: 10),
-                            _buildInfoBox(
-                                'assets/images/boutique/citronbleu.png',
-                                'Citron Musée',
-                                citronbleu,
-                                context),
-                            const SizedBox(height: 10),
-                            _buildInfoBox(
-                                'assets/images/boutique/citronrouge.png',
-                                'Citron Bar',
-                                citronrouge,
-                            context),
-                            const SizedBox(height: 10),
-                            _buildInfoBox(
-                                'assets/images/boutique/citronjaune.png',
-                                'Citron Restaurant',
-                                citronjaune,
-                                context),
-                            const SizedBox(height: 40),
-                            Text(
-                              response,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontFamily: 'Outfit',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ],
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+                child: Container(
+                  color: const Color(0xFFFAF6D0),
+                  height: screenHeight / 1.45,
+                  width: screenWidth,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Mes bons citrons',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFEB622B),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 30),
+                        _buildInfoBox(
+                            'assets/images/boutique/citronvert.png',
+                            'Citron Bibliothèque',
+                            citronvert,
+                            context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(
+                            'assets/images/boutique/citronbleu.png',
+                            'Citron Musée',
+                            citronbleu,
+                            context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(
+                            'assets/images/boutique/citronrouge.png',
+                            'Citron Bar',
+                            citronrouge,
+                            context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(
+                            'assets/images/boutique/citronjaune.png',
+                            'Citron Restaurant',
+                            citronjaune,
+                            context),
+                        const SizedBox(height: 10),
+                        Text(
+                          response,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Colors.red,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        _buildShopButton(context),
+                        Image.asset(
+                          'assets/images/boutique/shop-bot.png',
+                          fit: BoxFit.cover,
+                          alignment: Alignment.bottomCenter,
+                        ),
+                      ],
                     ),
                   ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Image.asset(
-                      'assets/images/boutique/shop-bot.png',
-                      fit: BoxFit.cover,
-                      alignment: Alignment.bottomCenter,
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: screenHeight*0.12,
-                    child: _buildShopButton(context),
-                  ),
-                ],
+                ),
               ),
             ),
           ],
         ),
+        bottomNavigationBar: BottomNavigationBarWidget(),
       ),
     );
   }
+
 
   Widget _buildInfoBox(
     String imagePath,
@@ -243,11 +232,12 @@ class _CitronPageState extends State<CitronPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       padding: EdgeInsets.all(screenWidth*0.025),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth*0.015),
       child: Row(
         children: [
           Image.asset(
             imagePath,
-            width: screenWidth*0.13,
+            width: screenWidth*0.15,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -256,7 +246,7 @@ class _CitronPageState extends State<CitronPage> {
               style: const TextStyle(
                 fontFamily: 'Outfit',
                 fontWeight: FontWeight.w400,
-                fontSize: 16,
+                fontSize: 17,
                 color: Color(0xFFEB622B),
               ),
             ),
@@ -265,7 +255,7 @@ class _CitronPageState extends State<CitronPage> {
               ? const CircularProgressIndicator(
                   color: Color(0xFFEB622B),
                 )
-              : _buildPointsBox('$points PTS',context),
+              : _buildPointsBox('$points Pts',context),
         ],
       ),
     );
@@ -305,7 +295,7 @@ class _CitronPageState extends State<CitronPage> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(vertical: screenHeight*0.02),
+          padding: EdgeInsets.symmetric(vertical: screenHeight*0.02, horizontal: screenWidth*0.15),
           backgroundColor: const Color(0xFFEB622B).withOpacity(0.9),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),

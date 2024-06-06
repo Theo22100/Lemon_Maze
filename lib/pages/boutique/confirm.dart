@@ -199,7 +199,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator(); // Indicateur de chargement
+                      return const CircularProgressIndicator(
+                        color: Color(0xFFEB622B),); // Indicateur de chargement
                     } else if (snapshot.hasError) {
                       return const Text("Erreur de chargement du nom du lieu");
                     } else {

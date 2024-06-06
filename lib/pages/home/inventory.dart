@@ -99,7 +99,7 @@ class InventoryPageState extends State<InventoryPage> {
             _buildRecompenseList(),
           ],
         ),
-        bottomNavigationBar: const BottomNavigationBarWidget(),
+        bottomNavigationBar: BottomNavigationBarWidget(),
       ),
     );
   }

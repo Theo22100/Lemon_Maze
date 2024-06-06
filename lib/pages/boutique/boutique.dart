@@ -6,6 +6,8 @@ import 'dart:math';
 
 import 'package:logger/logger.dart';
 
+import '../home/bottom_nav.dart';
+
 var logger = Logger();
 String response = "";
 
@@ -118,11 +120,11 @@ class BoutiquePageState extends State<BoutiquePage> {
               ),
               child: Container(
                 color: const Color(0xFFFAF6D0),
-                height: MediaQuery.of(context).size.height / 1.30,
+                height: MediaQuery.of(context).size.height / 1.45,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     const Text(
                       'La boutique',
                       style: TextStyle(
@@ -151,6 +153,7 @@ class BoutiquePageState extends State<BoutiquePage> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBarWidget(),
     );
   }
 

@@ -99,7 +99,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
         bottomNavigationBar:
-            const BottomNavigationBarWidget(), // Barre de navigation inférieure
+            BottomNavigationBarWidget(), // Barre de navigation inférieure
       ),
     );
   }
