@@ -258,9 +258,9 @@ class SuccesPageState extends State<SuccesPage> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        "Commande réglée, succès !",
+                        "C'est parti !",
                         style: TextStyle(
-                          fontFamily: 'Outfit',
+                          fontFamily: 'Gustavo',
                           fontWeight: FontWeight.w500,
                           fontSize: 40,
                           color: Color(0xFFFAF6D0),

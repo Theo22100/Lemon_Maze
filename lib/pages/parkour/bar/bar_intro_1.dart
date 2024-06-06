@@ -16,13 +16,11 @@ class BarIntro1 extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return PopScope(
-      onPopInvoked: (popIntent) async {
+    return WillPopScope(
+      onWillPop: () async {
         final exitConfirmed =
-            await showExitConfirmationDialog(context, idParty);
-        if (exitConfirmed ?? false) {
-          Navigator.of(context).pop(true);
-        }
+        await showExitConfirmationDialog(context, idParty);
+        return exitConfirmed ?? false;
       },
       child: Scaffold(
         body: Stack(

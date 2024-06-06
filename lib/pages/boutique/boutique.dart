@@ -41,23 +41,23 @@ class BoutiquePageState extends State<BoutiquePage> {
       if (result.data['success']) {
         setState(() {
           recompenses =
-              result.data['message']; // Mettre à jour la liste des récompenses
+              result.data['message']; // MAJ liste des récompenses
         });
       } else {
         setState(() {
           response =
-              result.data['message']; // Mettre à jour le message d'erreur
+              result.data['message']; // MAJ message erreur
         });
       }
     } catch (error) {
       setState(() {
         response =
-            "Erreur lors de la récupération des récompenses"; // Mettre à jour le message d'erreur
+            "Erreur lors de la récupération des récompenses"; // MAJ lmessage erreur
       });
     } finally {
       setState(() {
         isLoading =
-            false; // Définir l'indicateur de chargement sur faux une fois terminé
+            false; // Définir indicateur de chargement sur faux une fois terminé
       });
     }
   }
@@ -288,14 +288,14 @@ class BoutiquePageState extends State<BoutiquePage> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator(
                           color: Color(0xFFEB622B),
-                        ); // indicateur de chargement si la connexion est en attente
+                        ); // indicateur de chargement si connexion en attente
                       } else {
                         if (snapshot.hasError) {
                           return const Text(
-                              "Erreur de chargement du nom du lieu"); // Afficher message d'erreur
+                              "Erreur de chargement du nom du lieu"); // Afficher message erreur
                         } else {
                           String lieuNom = snapshot.data
-                              .toString(); // Récupérer le nom du lieu depuis le snapshot
+                              .toString(); // Récupérer nom du lieu depuis snapshot
                           return Text(
                             lieuNom,
                             style: const TextStyle(
@@ -328,7 +328,7 @@ class BoutiquePageState extends State<BoutiquePage> {
     );
   }
 
-  // Fonction pour récupérer le nom du lieu en fonction de l'ID de lieu
+  // Fonction pour récupérer le nom lieu en fonction de l'ID lieu
   Future<String> _fetchLieuName(int idLieu) async {
     try {
       final result = await http_get("lieu/getnomlieu/$idLieu");
