@@ -6,16 +6,18 @@ import 'dart:math';
 
 import 'package:logger/logger.dart';
 
+import 'bottom_nav.dart';
+
 var logger = Logger();
 
 class InventoryPage extends StatefulWidget {
   const InventoryPage({super.key});
 
   @override
-  _InventoryPageState createState() => _InventoryPageState();
+  InventoryPageState createState() => InventoryPageState();
 }
 
-class _InventoryPageState extends State<InventoryPage> {
+class InventoryPageState extends State<InventoryPage> {
   List<dynamic> recompenses = [];
   bool isLoading = false;
   String response = "";
@@ -97,6 +99,7 @@ class _InventoryPageState extends State<InventoryPage> {
             _buildRecompenseList(),
           ],
         ),
+        bottomNavigationBar: const BottomNavigationBarWidget(),
       ),
     );
   }
@@ -150,7 +153,7 @@ class _InventoryPageState extends State<InventoryPage> {
         ),
         child: Container(
           color: const Color(0xFFFAF6D0),
-          height: screenHeight / 1.30,
+          height: screenHeight / 1.45,
           width: screenWidth,
           child: Column(
             children: [
@@ -162,7 +165,7 @@ class _InventoryPageState extends State<InventoryPage> {
                         itemCount: recompenses.length,
                         itemBuilder: (BuildContext context, int index) {
                           final recompense = recompenses[index];
-                          return _buildRecompenseBox(recompense,context);
+                          return _buildRecompenseBox(recompense, context);
                         },
                       ),
               ),
@@ -197,7 +200,6 @@ class _InventoryPageState extends State<InventoryPage> {
     int idType = recompense['id_type'] ?? 0;
     int idRecompense = recompense['id_recompense'] ?? 0;
     int idRecompenseUser = recompense['id_recompense_user'] ?? 0;
-
 
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -261,18 +263,19 @@ class _InventoryPageState extends State<InventoryPage> {
                 Center(
                   child: Image.asset(
                     imagePath,
-                    width: screenHeight*0.1,
-                    height: screenWidth*0.3,
+                    width: screenHeight * 0.1,
+                    height: screenWidth * 0.3,
                   ),
                 ),
                 Positioned(
-                  top: screenHeight*0.015,
-                  right: screenWidth*0.04,
+                  top: screenHeight * 0.015,
+                  right: screenWidth * 0.04,
                   child: Transform.rotate(
                     angle: -pi / 9,
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
+                          horizontal: screenWidth * 0.02,
+                          vertical: screenHeight * 0.005),
                       color: const Color(0xFFFAF6D0),
                       child: Text(
                         citronText,

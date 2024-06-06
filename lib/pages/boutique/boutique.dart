@@ -13,10 +13,10 @@ class BoutiquePage extends StatefulWidget {
   const BoutiquePage({super.key});
 
   @override
-  _BoutiquePageState createState() => _BoutiquePageState();
+  BoutiquePageState createState() => BoutiquePageState();
 }
 
-class _BoutiquePageState extends State<BoutiquePage> {
+class BoutiquePageState extends State<BoutiquePage> {
   List<dynamic> recompenses = []; // Liste des récompenses
   bool isLoading = false; // Indicateur de chargement
 
@@ -140,7 +140,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
                               itemCount: recompenses.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final recompense = recompenses[index];
-                                return _buildRecompenseBox(recompense,context);
+                                return _buildRecompenseBox(recompense, context);
                               },
                             ),
                     ),
@@ -156,7 +156,6 @@ class _BoutiquePageState extends State<BoutiquePage> {
 
   // Fonction pour construire la boîte de récompense
   Widget _buildRecompenseBox(dynamic recompense, BuildContext context) {
-
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
@@ -166,8 +165,8 @@ class _BoutiquePageState extends State<BoutiquePage> {
     String citronJaune = (recompense['citronJaune'] ?? 0).toString();
     String citronRouge = (recompense['citronRouge'] ?? 0).toString();
     String citronBleu = (recompense['citronBleu'] ?? 0).toString();
-    int id_lieu = recompense['id_lieu'] ?? 0;
-    int id_type = recompense['id_type'] ?? 0;
+    int idLieu = recompense['id_lieu'] ?? 0;
+    int idType = recompense['id_type'] ?? 0;
     int idrecompense = recompense['idrecompense'] ?? 0;
 
     if (idrecompense == 0) {
@@ -179,7 +178,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
     String citronText;
 
     // Assigner le chemin de 'image et les valeurs de la boîte en fonction de l'ID de type
-    switch (id_type) {
+    switch (idType) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
         citronColor = Colors.red;
@@ -229,22 +228,24 @@ class _BoutiquePageState extends State<BoutiquePage> {
             Stack(
               children: [
                 Container(
-        padding: EdgeInsets.symmetric(
-        horizontal: screenWidth*0.02, vertical: screenHeight*0.02),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.02,
+                      vertical: screenHeight * 0.02),
                   child: Image.asset(
                     imagePath,
-                    width: screenWidth*0.2,
-                    height: screenHeight*0.1,
+                    width: screenWidth * 0.2,
+                    height: screenHeight * 0.1,
                   ),
                 ),
                 Positioned(
-                  top: screenHeight*0.015,
-                  right: screenWidth*0.07,
+                  top: screenHeight * 0.015,
+                  right: screenWidth * 0.07,
                   child: Transform.rotate(
                     angle: -pi / 9, // Rotation
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
+                          horizontal: screenWidth * 0.02,
+                          vertical: screenHeight * 0.005),
                       color: const Color(0xFFFAF6D0),
                       child: Text(
                         citronText,
@@ -276,7 +277,7 @@ class _BoutiquePageState extends State<BoutiquePage> {
                   ),
                   const SizedBox(height: 5),
                   FutureBuilder(
-                    future: _fetchLieuName(id_lieu), // Récupérer le nom du lieu
+                    future: _fetchLieuName(idLieu), // Récupérer le nom du lieu
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const CircularProgressIndicator(); // indicateur de chargement si la connexion est en attente
@@ -320,9 +321,9 @@ class _BoutiquePageState extends State<BoutiquePage> {
   }
 
   // Fonction pour récupérer le nom du lieu en fonction de l'ID de lieu
-  Future<String> _fetchLieuName(int id_lieu) async {
+  Future<String> _fetchLieuName(int idLieu) async {
     try {
-      final result = await http_get("lieu/getnomlieu/$id_lieu");
+      final result = await http_get("lieu/getnomlieu/$idLieu");
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {

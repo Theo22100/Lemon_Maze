@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_intro_2.dart';
-import 'package:logger/logger.dart';
 
-import '../../../modules/http.dart';
-import '../../home/home.dart';
-
-final Logger logger = Logger();
+import '../dialog_abandon.dart';
 
 class BarIntro1 extends StatelessWidget {
   final int randomIdParkour;
@@ -14,37 +10,19 @@ class BarIntro1 extends StatelessWidget {
   const BarIntro1(
       {super.key, required this.randomIdParkour, required this.idParty});
 
-  // Function to abandon the party
-  Future<void> _abandonParty(BuildContext context) async {
-    try {
-      final body = {};
-      logger.i(idParty);
-      final result = await http_put('party/abandon/$idParty', body);
-
-      if (result.data['success']) {
-        logger.i("Partie abandonnée");
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (route) => false,
-        );
-      } else {
-        logger.e('Erreur pour abandonner une partie');
-      }
-    } catch (error) {
-      logger.e('Erreur interne: $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     // Obtain screen dimensions for responsive design
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    return WillPopScope(
-      onWillPop: () async {
-        return await _showExitConfirmationDialog(context) ?? false;
+    return PopScope(
+      onPopInvoked: (popIntent) async {
+        final exitConfirmed =
+            await showExitConfirmationDialog(context, idParty);
+        if (exitConfirmed ?? false) {
+          Navigator.of(context).pop(true);
+        }
       },
       child: Scaffold(
         body: Stack(
@@ -83,7 +61,7 @@ class BarIntro1 extends StatelessWidget {
                   height: screenHeight / 1.35,
                   width: screenWidth,
                   child: Padding(
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -145,47 +123,6 @@ class BarIntro1 extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Outfit',
-        )),
-        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-        )),
-        actions: <Widget>[
-
-          TextButton(
-            onPressed: () {
-              _abandonParty(context);
-            },
-            child: const Text('Oui', style: TextStyle(
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non', style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-        ],
       ),
     );
   }

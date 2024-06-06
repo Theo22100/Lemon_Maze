@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/enigme2_page.dart';
-
-import '../../../../modules/http.dart';
-import '../../../home/home.dart';
 import 'package:logger/logger.dart';
+
+import '../../dialog_abandon.dart';
+
 final Logger logger = Logger();
 
 class BadAnswerPage extends StatelessWidget {
@@ -18,29 +18,11 @@ class BadAnswerPage extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
 
-    // Fonction pour abandonner la partie
-    Future<void> _abandonParty(BuildContext context) async {
-      try {
-        final body = {};
-        final result = await http_put('party/abandon/$idParty', body);
-
-        if (result.data['success']) {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => HomePage()),
-                (route) => false,
-          );
-        } else {
-          logger.e('Erreur pour abandonner une partie');
-        }
-      } catch (error) {
-        logger.e('Erreur interne: $error');
-      }
-    }
-
     return WillPopScope(
       onWillPop: () async {
-        return await _showExitConfirmationDialog(context) ?? false;
+        final exitConfirmed =
+            await showExitConfirmationDialog(context, idParty);
+        return exitConfirmed ?? false;
       },
       child: Scaffold(
         body: GestureDetector(
@@ -122,65 +104,6 @@ class BadAnswerPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-  Future<void> _abandonParty(BuildContext context) async {
-    try {
-      final body = {};
-      final result = await http_put('party/abandon/$idParty', body);
-
-      if (result.data['success']) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-              (route) => false,
-        );
-      } else {
-        logger.e('Erreur pour abandonner une partie');
-      }
-    } catch (error) {
-      logger.e('Erreur interne: $error');
-    }
-  }
-
-  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Outfit',
-        )),
-        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-        )),
-        actions: <Widget>[
-
-          TextButton(
-            onPressed: () {
-              _abandonParty(context);
-            },
-            child: const Text('Oui', style: TextStyle(
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non', style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-        ],
       ),
     );
   }

@@ -1,58 +1,70 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:LemonMaze/modules/http.dart';
-import 'package:LemonMaze/pages/boutique/citron.dart';
-import 'package:LemonMaze/pages/home/account.dart';
-import 'package:LemonMaze/pages/home/inventory.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_intro_1.dart';
 import 'package:LemonMaze/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
 
-var logger = Logger();
+import 'bottom_nav.dart';
+
+var logger = Logger(); // Initialisation de l'instance Logger
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-//annonce list
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   final List<String> images = [
     'assets/images/home/announce/announce1.png',
     'assets/images/home/announce/announce2.png',
     'assets/images/home/announce/announce3.png'
-  ];
-  //annonce
-  int _currentIndex = 0;
-  //fonction deconnexion
+  ]; // Liste des images pour le carrousel d'annonces
+
+  int _currentIndex = 0; // Index actuel du carrousel annonces
+  late PageController
+      _pageController; // Contrôleur page pour carrousel annonces
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(
+        initialPage: _currentIndex); // Initialisation du contrôleur de la page
+  }
+
+  @override
+  void dispose() {
+    _pageController
+        .dispose(); // Dispose du contrôleur de la page lorsqu'il n'est plus utilisé
+    super.dispose();
+  }
+
+  // Fonction pour effacer SharedPreferences
   void _clearSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     bool isFirstLogin = prefs.getBool('isFirstLogin') ?? false;
-    prefs.clear();
+    await prefs.clear();
     await prefs.setBool('isFirstLogin', isFirstLogin);
   }
 
+  // Fonction pour obtenir ID user
   Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getString('id');
-    return userId;
+    return prefs.getString('id');
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth =
+        MediaQuery.of(context).size.width; // Largeur écran
+    final double screenHeight =
+        MediaQuery.of(context).size.height; // Hauteur écran
 
     return WillPopScope(
-      onWillPop: () async {
-        // Retourner false pour bloquer la touche retour
-        return false;
-      },
+      onWillPop: () async => false, // Désactive le bouton de retour
       child: Scaffold(
         body: Stack(
           children: [
@@ -62,101 +74,15 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 28,
-                    ),
-                    Image.asset(
-                      'assets/images/home/titre.png',
-                      width: screenWidth * 0.4,
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    SizedBox(
-                      height: screenHeight * 0.2,
-                      child: Stack(
-                        children: [
-                          //carrousel d'annonce
-                          PageView.builder(
-                            itemCount: images.length,
-                            controller: PageController(initialPage: 0),
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentIndex = index;
-                              });
-                            },
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width:
-                                    screenWidth * 0.2, // Ajuster la largeur ici
-                                child: Image.asset(
-                                  images[index], // Utilisez l'index actuel
-                                ),
-                              );
-                            },
-                          ),
-                          if (_currentIndex > 0)
-                            Positioned(
-                              top: screenHeight * 0.07,
-                              left: screenWidth * 0.035,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _currentIndex--;
-                                  });
-                                },
-                                icon: const Icon(Icons.arrow_back),
-                              ),
-                            ),
-                          if (_currentIndex < images.length - 1)
-                            Positioned(
-                              top: screenHeight * 0.07,
-                              right: screenWidth * 0.035,
-                              child: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _currentIndex++;
-                                  });
-                                },
-                                icon: const Icon(Icons.arrow_forward),
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    //carré des 4 choix
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            _buildClickableImage(
-                              context,
-                              image: 'bar.png',
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const CitronPage()),
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            _buildUnavailableImage(context, 'bibliotheque.png')
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            _buildUnavailableImage(context, 'restaurant.png'),
-                            const SizedBox(height: 16),
-                            _buildUnavailableImage(context, 'musee.png'),
-                          ],
-                        ),
-                      ],
-                    ),
+                    const SizedBox(height: 28),
+                    Image.asset('assets/images/home/titre.png',
+                        width: screenWidth * 0.4),
+                    const SizedBox(height: 32),
+                    _buildAnnouncementCarousel(
+                        screenWidth, screenHeight), // Carrousel d'annonces
+                    const SizedBox(height: 32),
+                    _buildChoiceGrid(
+                        context, screenWidth, screenHeight), // Grille de choix
                   ],
                 ),
               ),
@@ -165,78 +91,168 @@ class _HomePageState extends State<HomePage> {
               top: 30,
               right: 20,
               child: IconButton(
-                onPressed: () {
-                  _showLogoutDialog(context);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Color(0xFFEB622B),
-                ),
+                onPressed: () => _showLogoutDialog(
+                    context), // Affiche la boîte de dialogue de déconnexion
+                icon: const Icon(Icons.logout, color: Color(0xFFEB622B)),
               ),
             ),
           ],
         ),
-        bottomNavigationBar: const BottomNavigationBarWidget(),
+        bottomNavigationBar:
+            const BottomNavigationBarWidget(), // Barre de navigation inférieure
       ),
     );
   }
 
+  // Widget pour construire le carrousel d'annonces
+  Widget _buildAnnouncementCarousel(double screenWidth, double screenHeight) {
+    return SizedBox(
+      height: screenHeight * 0.2,
+      child: Stack(
+        children: [
+          PageView.builder(
+            itemCount: images.length,
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex =
+                    index; // Met à jour l'index actuel lors du changement de page
+              });
+            },
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: screenWidth * 0.2,
+                child: Image.asset(images[index]), // Affiche l'image actuelle
+              );
+            },
+          ),
+          // Affiche le bouton précédent si l'index actuel est supérieur à 0
+          if (_currentIndex > 0)
+            Positioned(
+              top: screenHeight * 0.07,
+              left: screenWidth * 0.035,
+              child: IconButton(
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  ); // Passe à la page précédente
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+          // Affiche le bouton suivant si l'index actuel est inférieur à la longueur de la liste des images
+          if (_currentIndex < images.length - 1)
+            Positioned(
+              top: screenHeight * 0.07,
+              right: screenWidth * 0.035,
+              child: IconButton(
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  ); // Passe à la page suivante
+                },
+                icon: const Icon(Icons.arrow_forward),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // Widget pour construire la grille de choix
+  Widget _buildChoiceGrid(
+      BuildContext context, double screenWidth, double screenHeight) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: [
+            _buildClickableImage(
+              context,
+              image: 'bar.png',
+              onTap: () async {
+                await _navigateToRandomParkour(
+                    context); // Navigue vers un parkour aléatoire
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildUnavailableImage(context,
+                'bibliotheque.png') // Image de fonctionnalité non disponible
+          ],
+        ),
+        Column(
+          children: [
+            _buildUnavailableImage(context,
+                'restaurant.png'), // Image de fonctionnalité non disponible
+            const SizedBox(height: 16),
+            _buildUnavailableImage(
+                context, 'musee.png'), // Image de fonctionnalité non disponible
+          ],
+        ),
+      ],
+    );
+  }
+
+  // Fonction pour naviguer vers un parkour aléatoire
+  Future<void> _navigateToRandomParkour(BuildContext context) async {
+    try {
+      final String? userId = await getUserId(); // Obtient l'ID utilisateur
+      if (userId == null || userId.isEmpty) {
+        logger.e('User ID est null ou vide');
+        return;
+      }
+
+      final RequestResult parkourIdsResult = await http_get(
+          'parkour/parkoursidbar'); // Requête HTTP pour obtenir les IDs de parkour
+      if (parkourIdsResult.ok) {
+        final List<int> idParkours = List<int>.from(
+          parkourIdsResult.data.map((item) => item['idparkour'] as int),
+        );
+
+        final Random random = Random();
+        final int randomIdParkour = idParkours[random.nextInt(
+            idParkours.length)]; // Sélectionne un ID de parkour aléatoire
+
+        final RequestResult createPartyResult =
+            await http_post('party/create-party', {
+          'id_parkour': randomIdParkour,
+          'id_user': userId,
+        }); // Crée une nouvelle partie avec l'ID de parkour et l'ID utilisateur
+
+        if (createPartyResult.ok) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BarIntro1(
+                randomIdParkour: randomIdParkour,
+                idParty: createPartyResult.data['idparty'],
+              ),
+            ),
+          ); // Navigue vers la page BarIntro1
+        } else {
+          logger.e('Fail pour création Party: ${createPartyResult.data}');
+        }
+      } else {
+        logger.e(
+            'Échec de la récupération des IDs du parkour: ${parkourIdsResult.data}');
+      }
+    } catch (e) {
+      logger.e('Erreur pendant requête : $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur trouvé: $e')),
+      ); // Affiche une notification d'erreur
+    }
+  }
+
+  // Widget pour construire une image cliquable
   Widget _buildClickableImage(BuildContext context,
       {required String image, required VoidCallback onTap}) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () async {
-        try {
-          // Récupérer l'ID de l'utilisateur
-          final String? userId = await getUserId();
-          if (userId == null || userId.isEmpty) {
-            logger.e('User ID is null or empty');
-            return;
-          }
-
-          // Appeler la route pour obtenir la liste des idparkour
-          final RequestResult parkourIdsResult =
-              await http_get('parkour/parkoursidbar');
-          if (parkourIdsResult.ok) {
-            final List<int> idParkours = List<int>.from(
-                parkourIdsResult.data.map((item) => item['idparkour'] as int));
-
-            // Choisir un idparkour aléatoire
-            final Random random = Random();
-            final int randomIdParkour =
-                idParkours[random.nextInt(idParkours.length)];
-            // Appeler la route pour créer une partie
-            final RequestResult createPartyResult =
-                await http_post('party/create-party', {
-              'id_parkour': randomIdParkour,
-              'id_user': userId,
-            });
-            if (createPartyResult.ok) {
-              // Gérer la réussite de la création de la partie
-              // ignore: use_build_context_synchronously
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => BarIntro1(
-                    randomIdParkour: randomIdParkour,
-                    idParty: createPartyResult.data['idparty'],
-                  ),
-                ),
-              );
-            } else {
-              // Gérer l'échec de la création de la partie
-              logger.e('Failed to create party: ${createPartyResult.data}');
-            }
-          } else {
-            // Gérer l'échec de l'obtention des idparkour
-            logger.e('Failed to fetch parkour ids: ${parkourIdsResult.data}');
-          }
-        } catch (e) {
-          // Gérer les erreurs
-          logger.e('Error while processing request: $e');
-        }
-      },
+      onTap: onTap, // Définit la fonction à appeler lors du clic
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
         width: screenWidth * 0.4,
@@ -245,14 +261,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //Resto Musee Biblio
+  // Widget pour construire une image non disponible
   Widget _buildUnavailableImage(BuildContext context, String image) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () {
-        _showUnavailableAlert(context);
-      },
+      onTap: () => _showUnavailableAlert(
+          context), // Affiche une alerte d'indisponibilité
       child: Image.asset(
         'assets/images/home/homeparkour/$image',
         width: screenWidth * 0.4,
@@ -261,30 +276,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Fonction pour afficher une alerte d'indisponibilité
   void _showUnavailableAlert(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Non disponible', style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Outfit',
-          )),
-          content:
-              const Text('Cette fonctionnalité n\'est pas encore disponible.', style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Outfit',
-              )),
+          title: const Text('Non disponible',
+              style:
+                  TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Outfit')),
+          content: const Text(
+              'Cette fonctionnalité n\'est pas encore disponible.',
+              style:
+                  TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Outfit')),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK', style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Outfit',
-                color: Color(0xFFEB622B),
-              )),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Outfit',
+                      color: Color(0xFFEB622B))),
             ),
           ],
         );
@@ -292,156 +304,47 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //Confirmation deconnexion
+  // Fonction pour afficher la boîte de dialogue de déconnexion
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmer la déconnexion', style: TextStyle(
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Outfit',
-          )),
-          content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?', style: TextStyle(
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Outfit',
-          )),
+          title: const Text('Confirmer la déconnexion',
+              style:
+                  TextStyle(fontWeight: FontWeight.w500, fontFamily: 'Outfit')),
+          content: const Text('Êtes-vous sûr de vouloir vous déconnecter ?',
+              style:
+                  TextStyle(fontWeight: FontWeight.w400, fontFamily: 'Outfit')),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Non', style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Outfit',
-                color: Colors.red,
-              )),
+              onPressed: () =>
+                  Navigator.of(context).pop(), // Ferme la boîte de dialogue
+              child: const Text('Non',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Outfit',
+                      color: Colors.red)),
             ),
             TextButton(
               onPressed: () {
-                _clearSharedPreferences();
-                Navigator.push(
+                _clearSharedPreferences(); // Efface les préférences partagées
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const LoginSignUpPage(),
-                  ),
+                      builder: (context) =>
+                          const LoginSignUpPage()), // Navigue vers la page de connexion
                 );
               },
-              child: const Text('Oui', style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontFamily: 'Outfit',
-                color: Colors.green,
-              )),
+              child: const Text('Oui',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Outfit',
+                      color: Colors.green)),
             ),
           ],
         );
       },
-    );
-  }
-}
-
-//Bouton en bas de l'écran
-class BottomNavigationBarWidget extends StatelessWidget {
-  const BottomNavigationBarWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Material(
-          color: const Color(0xFFFAF6D0), //Fond bords arrondis
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Color(0xFFEB622B),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              ),
-            ),
-            height: constraints.maxWidth * 0.18,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(
-                  context,
-                  icon: Icons.home,
-                  label: 'Accueil',
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.shopping_bag,
-                  label: 'Boutique',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CitronPage()),
-                    );
-                  },
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.archive,
-                  label: 'Inventaire',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const InventoryPage()),
-                    );
-                  },
-                ),
-                _buildNavItem(
-                  context,
-                  icon: Icons.person,
-                  label: 'Profil',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AccountPage()),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-// Creation de barre nav
-  Widget _buildNavItem(BuildContext context,
-      {required IconData icon,
-      required String label,
-      required VoidCallback onPressed}) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: Icon(icon, size: screenHeight * 0.029),
-          onPressed: onPressed,
-          color: const Color(0xFFFAF6D0),
-        ),
-        Text(
-          label,
-          style: const TextStyle(
-            color: Color(0xFFFAF6D0),
-            fontSize: 13.0,
-            fontWeight: FontWeight.w400,
-            fontFamily: 'Outfit',
-          ),
-        ),
-      ],
     );
   }
 }

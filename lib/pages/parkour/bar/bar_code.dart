@@ -3,7 +3,8 @@ import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_arrive.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/enigme1_page.dart';
 import 'package:logger/logger.dart';
-import '../../home/home.dart';
+
+import '../dialog_abandon.dart';
 
 final Logger logger = Logger();
 
@@ -18,10 +19,10 @@ class CodePage extends StatefulWidget {
   });
 
   @override
-  _CodePageState createState() => _CodePageState();
+  CodePageState createState() => CodePageState();
 }
 
-class _CodePageState extends State<CodePage> {
+class CodePageState extends State<CodePage> {
   List<String> code = ["", "", "", ""]; // code en haut
   int currentIndex = 0; // Index actuel pour code
   int etat = 0;
@@ -89,23 +90,26 @@ class _CodePageState extends State<CodePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Mauvais Code", style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontFamily: 'Outfit',
-            )),
-            content: const Text("Le code que vous avez entré est incorrect.", style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
+            title: const Text("Mauvais Code",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Outfit',
+                )),
+            content: const Text("Le code que vous avez entré est incorrect.",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Outfit',
+                )),
             actions: [
               TextButton(
-                child: const Text("OK", style: TextStyle(
-          color: Color(0xFFEB622B),
-          fontSize: 18,
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-          )),
+                child: const Text("OK",
+                    style: TextStyle(
+                      color: Color(0xFFEB622B),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Outfit',
+                    )),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -124,7 +128,9 @@ class _CodePageState extends State<CodePage> {
 
     return WillPopScope(
       onWillPop: () async {
-        return await _showExitConfirmationDialog(context) ?? false;
+        final exitConfirmed =
+            await showExitConfirmationDialog(context, widget.idParty);
+        return exitConfirmed ?? false;
       },
       child: Scaffold(
         body: Stack(
@@ -251,7 +257,7 @@ class _CodePageState extends State<CodePage> {
                                 onPressed: removeDigit,
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Color.fromARGB(255, 238, 66, 60),
+                                      const Color.fromARGB(255, 238, 66, 60),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -280,7 +286,7 @@ class _CodePageState extends State<CodePage> {
                             ),
                             padding: EdgeInsets.symmetric(
                               vertical: screenHeight * 0.01,
-                              horizontal: screenWidth *0.08,
+                              horizontal: screenWidth * 0.08,
                             ),
                           ),
                           child: const Text(
@@ -305,66 +311,6 @@ class _CodePageState extends State<CodePage> {
     );
   }
 
-  Future<void> _abandonParty(BuildContext context) async {
-    try {
-      final body = {};
-      final result = await http_put('party/abandon/${widget.idParty}', body);
-
-      if (result.data['success']) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (route) => false,
-        );
-      } else {
-        logger.e('Erreur pour abandonner une partie');
-      }
-    } catch (error) {
-      logger.e('Erreur interne: $error');
-    }
-  }
-
-  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Outfit',
-        )),
-        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-        )),
-        actions: <Widget>[
-
-          TextButton(
-            onPressed: () {
-              _abandonParty(context);
-            },
-            child: const Text('Oui', style: TextStyle(
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non', style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildDigitButton(String digit) {
     return DigitButton(
       digit: digit,
@@ -384,10 +330,10 @@ class DigitButton extends StatefulWidget {
   });
 
   @override
-  _DigitButtonState createState() => _DigitButtonState();
+  DigitButtonState createState() => DigitButtonState();
 }
 
-class _DigitButtonState extends State<DigitButton> {
+class DigitButtonState extends State<DigitButton> {
   bool isPressed = false;
 
   @override

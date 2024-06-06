@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/parkour/bar/bar_lieu.dart';
 import 'package:logger/logger.dart';
-
-import '../../home/home.dart';
+import '../dialog_abandon.dart';
 
 final Logger logger = Logger();
 
@@ -18,10 +17,10 @@ class BarMap extends StatefulWidget {
   });
 
   @override
-  _BarMapState createState() => _BarMapState();
+  BarMapState createState() => BarMapState();
 }
 
-class _BarMapState extends State<BarMap> {
+class BarMapState extends State<BarMap> {
   List<String> lieux = [];
   int etat = 0;
 
@@ -45,7 +44,7 @@ class _BarMapState extends State<BarMap> {
         logger.e("La réponse 'data' ou la clé 'lieux' est nulle");
       }
     } else {
-      logger.e("Failed to fetch parkour data");
+      logger.e("Erreur récupérération données parkour");
     }
   }
 
@@ -61,7 +60,7 @@ class _BarMapState extends State<BarMap> {
         logger.e("La réponse 'data' ou la clé 'etat' est nulle");
       }
     } else {
-      logger.e("Failed to fetch parkour data");
+      logger.e("Erreur récupérération données parkour");
     }
   }
 
@@ -72,7 +71,9 @@ class _BarMapState extends State<BarMap> {
 
     return WillPopScope(
       onWillPop: () async {
-        return await _showExitConfirmationDialog(context) ?? false;
+        final exitConfirmed =
+            await showExitConfirmationDialog(context, widget.idParty);
+        return exitConfirmed ?? false;
       },
       child: Scaffold(
         body: Stack(
@@ -170,66 +171,6 @@ class _BarMapState extends State<BarMap> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _abandonParty(BuildContext context) async {
-    try {
-      final body = {};
-      final result = await http_put('party/abandon/${widget.idParty}', body);
-
-      if (result.data['success']) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (route) => false,
-        );
-      } else {
-        logger.e('Erreur pour abandonner une partie');
-      }
-    } catch (error) {
-      logger.e('Erreur interne: $error');
-    }
-  }
-
-  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Outfit',
-        )),
-        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-        )),
-        actions: <Widget>[
-
-          TextButton(
-            onPressed: () {
-              _abandonParty(context);
-            },
-            child: const Text('Oui', style: TextStyle(
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non', style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-        ],
       ),
     );
   }

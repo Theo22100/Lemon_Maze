@@ -3,8 +3,9 @@ import 'package:LemonMaze/modules/http.dart';
 import 'package:LemonMaze/pages/home/home.dart';
 import 'package:LemonMaze/pages/register-login/login_signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:logger/logger.dart';
+
+import 'bottom_nav.dart';
 
 var logger = Logger();
 String response = "";
@@ -13,10 +14,10 @@ class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  AccountPageState createState() => AccountPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class AccountPageState extends State<AccountPage> {
   String? userId;
   String? pseudo;
   String? email;
@@ -75,11 +76,6 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    // Avoir taille ecran pour responsive
-    final screenSize = MediaQuery.of(context).size;
-
-    final imageWidth = screenSize.width * 0.4;
-    final imageHeight = screenSize.height * 0.2;
 
     return Scaffold(
       body: Stack(
@@ -91,7 +87,7 @@ class _AccountPageState extends State<AccountPage> {
               fit: BoxFit.cover,
             ),
           ),
-          // Back button at the top left
+          // Bouton retour
           Positioned(
             top: 40,
             left: 16,
@@ -117,12 +113,11 @@ class _AccountPageState extends State<AccountPage> {
             child: Center(
               child: Image.asset(
                 'assets/images/account/picture.png',
-                width: imageWidth,
-                height: imageHeight,
+                width: screenWidth * 0.4,
+                height: screenHeight * 0.2,
               ),
             ),
           ),
-
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -132,48 +127,54 @@ class _AccountPageState extends State<AccountPage> {
               ),
               child: Container(
                 color: const Color(0xFFFAF6D0),
-                height: MediaQuery.of(context).size.height / 1.35,
+                height: MediaQuery.of(context).size.height / 1.55,
                 width: MediaQuery.of(context).size.width,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Mon profil',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Gustavo',
-                          color: Color(0xFFFBBA2C),
+                  child: SingleChildScrollView(
+                    // Added SingleChildScrollView
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Mon profil',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Gustavo',
+                            color: Color(0xFFFBBA2C),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 40),
-                      _buildInfoBox(Icons.person, 'Pseudo',
-                          pseudo ?? 'Chargement...', context),
-                      const SizedBox(height: 10),
-                      _buildInfoBox(Icons.email, 'Email',
-                          email ?? 'Chargement...', context),
-                      const SizedBox(height: 10),
-                      _buildInfoBox(Icons.location_city, 'Ville',
-                          ville ?? 'Chargement...', context),
-                      const SizedBox(height: 10),
-                      _buildInfoBox(Icons.cake, 'Age',
-                          age != null ? '$age ans' : 'Chargement...', context),
-                      const SizedBox(height: 30),
-                      _buildDeleteButton(context),
-                      Text(
-                        textAlign: TextAlign.center,
-                        response,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.red,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                        const SizedBox(height: 40),
+                        _buildInfoBox(Icons.person, 'Pseudo',
+                            pseudo ?? 'Chargement...', context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(Icons.email, 'Email',
+                            email ?? 'Chargement...', context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(Icons.location_city, 'Ville',
+                            ville ?? 'Chargement...', context),
+                        const SizedBox(height: 10),
+                        _buildInfoBox(
+                            Icons.cake,
+                            'Age',
+                            age != null ? '$age ans' : 'Chargement...',
+                            context),
+                        const SizedBox(height: 30),
+                        _buildDeleteButton(context),
+                        Text(
+                          textAlign: TextAlign.center,
+                          response,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.red,
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -181,12 +182,13 @@ class _AccountPageState extends State<AccountPage> {
           ),
         ],
       ),
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 
   Widget _buildInfoBox(
       IconData icon, String title, String info, BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    //final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Container(
       decoration: BoxDecoration(
@@ -215,7 +217,7 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   Widget _buildDeleteButton(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    //final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -251,21 +253,41 @@ class _AccountPageState extends State<AccountPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Confirmation"),
+          title: const Text("Confirmation",
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Outfit',
+              )),
           content:
-              const Text("Êtes-vous sûr de vouloir supprimer votre compte ?"),
+              const Text("Êtes-vous sûr de vouloir supprimer votre compte ?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontFamily: 'Outfit',
+                  )),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Annuler"),
-            ),
             TextButton(
               onPressed: () {
                 deleteUser();
               },
-              child: const Text("Supprimer"),
+              child: const Text("Supprimer",
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Outfit',
+                  )),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Annuler",
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Outfit',
+                  )),
             ),
           ],
         );

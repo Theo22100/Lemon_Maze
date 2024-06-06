@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/bonne_reponse.dart';
 import 'package:LemonMaze/pages/parkour/bar/question/mauvaise_reponse.dart';
 
-import '../../../home/home.dart';
+import '../../dialog_abandon.dart';
 
 final Logger logger = Logger();
 
@@ -19,10 +19,10 @@ class EnigmePage2 extends StatefulWidget {
   });
 
   @override
-  _EnigmePage2State createState() => _EnigmePage2State();
+  EnigmePage2State createState() => EnigmePage2State();
 }
 
-class _EnigmePage2State extends State<EnigmePage2> {
+class EnigmePage2State extends State<EnigmePage2> {
   int etat = 0;
   int currentGoodAnswer = 0;
   List<dynamic> questions = [];
@@ -126,7 +126,9 @@ class _EnigmePage2State extends State<EnigmePage2> {
 
     return WillPopScope(
       onWillPop: () async {
-        return await _showExitConfirmationDialog(context) ?? false;
+        final exitConfirmed =
+            await showExitConfirmationDialog(context, widget.idParty);
+        return exitConfirmed ?? false;
       },
       child: Scaffold(
         body: Stack(
@@ -248,66 +250,6 @@ class _EnigmePage2State extends State<EnigmePage2> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future<void> _abandonParty(BuildContext context) async {
-    try {
-      final body = {};
-      final result = await http_put('party/abandon/${widget.idParty}', body);
-
-      if (result.data['success']) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-          (route) => false,
-        );
-      } else {
-        logger.e('Erreur pour abandonner une partie');
-      }
-    } catch (error) {
-      logger.e('Erreur interne: $error');
-    }
-  }
-
-  Future<bool?> _showExitConfirmationDialog(BuildContext context) {
-    return showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Êtes-vous sûr de vouloir quitter la partie ?', style: TextStyle(
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Outfit',
-        )),
-        content: const Text('Vous allez être renvoyé à l\'accueil.', style: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontFamily: 'Outfit',
-        )),
-        actions: <Widget>[
-
-          TextButton(
-            onPressed: () {
-              _abandonParty(context);
-            },
-            child: const Text('Oui', style: TextStyle(
-              color: Colors.green,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Non', style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Outfit',
-            )),
-          ),
-        ],
       ),
     );
   }

@@ -13,10 +13,10 @@ class SuccesPage extends StatefulWidget {
   const SuccesPage({super.key, required this.idRecompense});
 
   @override
-  _SuccesPageState createState() => _SuccesPageState();
+  SuccesPageState createState() => SuccesPageState();
 }
 
-class _SuccesPageState extends State<SuccesPage> {
+class SuccesPageState extends State<SuccesPage> {
   bool isLoading = false;
   Map<String, dynamic> response = {};
 
@@ -57,9 +57,9 @@ class _SuccesPageState extends State<SuccesPage> {
     }
   }
 
-  Future<String> _fetchLieuName(int id_lieu) async {
+  Future<String> _fetchLieuName(int idLieu) async {
     try {
-      final result = await http_get("lieu/getnomlieu/$id_lieu");
+      final result = await http_get("lieu/getnomlieu/$idLieu");
       if (result.data['success']) {
         return result.data['data']['nom'];
       } else {
@@ -71,15 +71,16 @@ class _SuccesPageState extends State<SuccesPage> {
     }
   }
 
-  Widget _buildRecompenseBox(Map<String, dynamic> recompense, BuildContext context) {
+  Widget _buildRecompenseBox(
+      Map<String, dynamic> recompense, BuildContext context) {
     String nom = recompense['nom'] ?? 'Nom inconnu';
     String info = recompense['info'] ?? 'Info indisponible';
     String citronVert = (recompense['citronVert'] ?? 0).toString();
     String citronJaune = (recompense['citronJaune'] ?? 0).toString();
     String citronRouge = (recompense['citronRouge'] ?? 0).toString();
     String citronBleu = (recompense['citronBleu'] ?? 0).toString();
-    int id_lieu = recompense['id_lieu'] ?? 0;
-    int id_type = recompense['id_type'] ?? 0;
+    int idLieu = recompense['id_lieu'] ?? 0;
+    int idType = recompense['id_type'] ?? 0;
     int idrecompense = recompense['idrecompense'] ?? 0;
 
     final double screenWidth = MediaQuery.of(context).size.width;
@@ -93,7 +94,7 @@ class _SuccesPageState extends State<SuccesPage> {
     Color citronColor;
     String citronText;
 
-    switch (id_type) {
+    switch (idType) {
       case 1:
         imagePath = 'assets/images/boutique/bar.png';
         citronColor = Colors.red;
@@ -135,18 +136,19 @@ class _SuccesPageState extends State<SuccesPage> {
               Center(
                 child: Image.asset(
                   imagePath,
-                  width: screenHeight*0.1,
-                  height: screenWidth*0.3,
+                  width: screenHeight * 0.1,
+                  height: screenWidth * 0.3,
                 ),
               ),
               Positioned(
-                top: screenHeight*0.015,
-                right: screenWidth*0.04,
+                top: screenHeight * 0.015,
+                right: screenWidth * 0.04,
                 child: Transform.rotate(
                   angle: -pi / 9,
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth*0.02, vertical: screenHeight*0.005),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.02,
+                        vertical: screenHeight * 0.005),
                     color: const Color(0xFFFAF6D0),
                     child: Text(
                       citronText,
@@ -178,7 +180,7 @@ class _SuccesPageState extends State<SuccesPage> {
                 ),
                 const SizedBox(height: 5),
                 FutureBuilder(
-                  future: _fetchLieuName(id_lieu),
+                  future: _fetchLieuName(idLieu),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
@@ -309,7 +311,7 @@ class _SuccesPageState extends State<SuccesPage> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                _buildRecompenseBox(response,context),
+                                _buildRecompenseBox(response, context),
                                 const SizedBox(height: 20),
                                 ElevatedButton(
                                   onPressed: () {

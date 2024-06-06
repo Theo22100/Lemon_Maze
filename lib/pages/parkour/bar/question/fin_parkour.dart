@@ -10,10 +10,10 @@ class FinalParkourPage extends StatefulWidget {
   const FinalParkourPage({super.key});
 
   @override
-  _FinalParkourPageState createState() => _FinalParkourPageState();
+  FinalParkourPageState createState() => FinalParkourPageState();
 }
 
-class _FinalParkourPageState extends State<FinalParkourPage> {
+class FinalParkourPageState extends State<FinalParkourPage> {
   List<String> lieux = [];
   int etat = 0;
   String? responsemsg;
