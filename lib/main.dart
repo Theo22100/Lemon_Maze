@@ -5,10 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  // Initialiser les variables d'environnement
+  // Initialiser variables d'environnement
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Charger les variables d'environnement
+  // Charger variables d'environnement
   await dotenv.load(fileName: "assets/.env");
 
   // Lancer l'application
@@ -24,22 +24,22 @@ class MyApp extends StatelessWidget {
       title: 'LemonMaze',
       debugShowCheckedModeBanner: false,
       home: FutureBuilder<bool>(
-        // Vérifiez si l'utilisateur est connecté en vérifiant le token dans SharedPreferences
+        // Vérifiez si user connecté en vérif token dans SP
         future: isLoggedIn(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // Affichez une indication de chargement pendant que vous vérifiez l'état de connexion
+            // Affichez indication de chargement
             return const Scaffold(
               body: Center(
                 child: CircularProgressIndicator(),
               ),
             );
           } else {
-            // Si l'utilisateur est connecté, redirige vers la page d'accueil
+            // Si user est connecté redirige vers page home
             if (snapshot.data == true) {
               return const HomePage();
             } else {
-              // Sinon, redirigez vers page de connexion
+              // Sinon page début
               return const Welcome1Page();
             }
           }
@@ -48,11 +48,11 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // Fonction pour vérifier si l'utilisateur est connecté en vérifiant le token dans SharedPreferences
+  // Fonction pour vérif si user est connecté en vérif token SP
   Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-    // Si le token existe, l'utilisateur est connecté
+    // Si token existe, user est connecté
     return token != null;
   }
 }
