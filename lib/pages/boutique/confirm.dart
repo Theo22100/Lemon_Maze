@@ -354,7 +354,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                               textAlign: TextAlign.center,
                               responsemsg,
                               style: const TextStyle(
-                                fontSize: 14,
+                                fontSize: 18,
                                 color: Colors.red,
                                 fontFamily: 'Outfit',
                                 fontWeight: FontWeight.w500,
