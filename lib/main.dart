@@ -23,9 +23,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'LemonMaze',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: FutureBuilder<bool>(
         // Vérifiez si l'utilisateur est connecté en vérifiant le token dans SharedPreferences
         future: isLoggedIn(),
